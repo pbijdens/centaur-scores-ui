@@ -1,0 +1,93 @@
+<nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a [routerLink]="['/']" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <div class="flex h-12 w-12 justify-center items-center rounded-full bg-transparent"><img
+                    src="/assets/centaur.svg" alt="Logo" /></div>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                *ngIf="match">{{match.matchName}}</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+                *ngIf="!match || match.id == -1">Nieuwe wedstrijd</span>
+        </a>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul
+                class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li>
+                    <a [routerLink]="['/']"
+                        class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                        aria-current="page">Terug</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" *ngIf="error">
+    <p class="mb-4 mt-4">{{error}}</p>
+</div>
+
+<div class="bg-white shadow-md rounded px-8 pt-6 pb-2 mb-2" *ngIf="!error && match && id >= 0">
+    <button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Stel
+        in als actieve wedstrijd</button>
+    <button (click)="setActive(false)" *ngIf="match?.isActiveMatch"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Deactiveer</button>
+    <button (click)="delete()"
+        class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Verwijder</button>
+</div>
+
+<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" *ngIf="!error && match">
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="matchCode">
+            Code
+        </label>
+        <input [ngModelOptions]="{standalone: true}"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="matchCode" type="text" placeholder="Geef een korte (unieke) code op voor de wedstrijd"
+            [(ngModel)]="match!.matchCode">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="matchName">
+            Naam van de wedstrijd
+        </label>
+        <input [ngModelOptions]="{standalone: true}"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="matchName" type="text" placeholder="Volledige naam van de wedstrijd" [(ngModel)]="match!.matchName">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="arrowsPerEnd">
+            Pijlen per ronde
+        </label>
+        <input [ngModelOptions]="{standalone: true}"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="arrowsPerEnd" type="number" placeholder="Aantal pijlen dat per ronde wordt geschoten"
+            [(ngModel)]="match!.arrowsPerEnd">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="numberOfEnds">
+            Aantal tellende rondes
+        </label>
+        <input [ngModelOptions]="{standalone: true}"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="numberOfEnds" type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.numberOfEnds">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="lijnenAsString">
+            Lijnen (bijvoorbeeld ABCD)
+        </label>
+        <input [ngModelOptions]="{standalone: true}"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="lijnenAsString" type="text" placeholder="Lijnen (bijvoorbeeld ABCD)"
+            [(ngModel)]="match!.lijnenAsString">
+    </div>
+    <div class="flex items-center justify-between">
+        <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button" (click)="save()">
+            Opslaan
+        </button>
+        <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" (click)="refresh()">
+            Formulier herstellen
+        </a>
+    </div>
+</form>
+
