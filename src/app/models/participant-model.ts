@@ -5,7 +5,8 @@ export interface ParticipantModel {
     lijn: string;
     name: string;
     group: string;
-    subGroup: string;
+    subgroup: string;
+    target: string;
     score: number;
     ends: Array<EndModel>;
 }

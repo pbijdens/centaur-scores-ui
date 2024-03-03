@@ -10,8 +10,9 @@ export interface MatchModel {
     isActiveMatch: boolean;
     scoreValues: any; 
     groups: Array<GroupInfo>;
-    subGroups: Array<GroupInfo>;
+    subgroups: Array<GroupInfo>;
     lijnen: Array<string>;
+    targets: Array<GroupInfo>;
 
     lijnenAsString: string;
 }
