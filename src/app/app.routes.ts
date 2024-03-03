@@ -7,6 +7,6 @@ export const routes: Routes = [
     { path: '', redirectTo: '/matches', pathMatch: 'full'  },
     { path: 'matches', component: MatchesListComponent },
     { path: 'edit/:id', component: MatchEditorComponent },
-    { path: 'result', component: MatchResultViewComponent },
     { path: 'result/:id', component: MatchResultViewComponent },
+    { path: 'result/:id/:sort', component: MatchResultViewComponent },
 ];

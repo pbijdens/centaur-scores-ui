@@ -1,27 +1,54 @@
 # CentaurScoresUi
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.2.
+##
 
-## Development server
+Requirement:
+- Apache2
+- A running 'CentaurScores API' server on port 8062 on the same host that this service runs on.
+  *curently hardcoded, will probably put htis in a settings json file*
+- The API server requires MySQL and .NET 8 runtimes; it has its own installation instructions.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Create a release
 
-## Code scaffolding
+To create a release:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+npm run build-cs
+```
 
-## Build
+Then copy the contents of the dist folder to your apache2 server, e.g. in ```/var/www/centaurscoresui```.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## First install
 
-## Running unit tests
+Assuming you already installed the API server and copied the dist-folder contents into ```/var/www/centaurscoresui```:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Create a file ```/etc/apache2/conf-available/centaurscores.conf``` with these contents:
 
-## Running end-to-end tests
+```conf
+<IfModule alias_module>
+    Alias /cs /var/www/centaurscoresui
+</IfModule>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+<Directory "/var/www/centaurscoresui">
+    FallbackResource ./index.html
+    Options Indexes FollowSymLinks
+    Require all granted
+    AllowOverride All
+</Directory>
 
-## Further help
+<Location "/cs/">
+    Require all granted
+</Location>
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The FallbackResource is needed because of angular routing.
+
+Then run the command:
+
+```
+sudo a2enconf centaurscores
+sudo systemctl restart apache2
+```
+
+You should now be able to reach the UI at http://<your-ip>/cs
+

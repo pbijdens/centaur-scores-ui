@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatchModel } from './models/match-model';
+import { ParticipantModel } from './models/participant-model';
 
 
 @Injectable({
@@ -8,7 +9,10 @@ import { MatchModel } from './models/match-model';
 export class ApiService {
   constructor() { }
 
-  url = 'https://localhost:7247';
+  get url(): String {
+    const result = `${window.location.protocol}//${window.location.hostname}:8062`;
+    return result;
+  }
 
   async getMatches(): Promise<MatchModel[]> {
     const data = await fetch(`${this.url}/match`);
@@ -17,7 +21,12 @@ export class ApiService {
 
   async getMatch(id: number): Promise<MatchModel> {
     const data = await fetch(`${this.url}/match/${id}`);
-    return (await data.json()) ?? [];
+    return (await data.json()) ?? {};
+  }
+
+  async getActiveMatch(): Promise<MatchModel> {
+    const data = await fetch(`${this.url}/match/active`);
+    return (await data.json()) ?? {};
   }
 
   async putMatch(match: MatchModel): Promise<MatchModel> {
@@ -44,6 +53,13 @@ export class ApiService {
   async setActive(match: MatchModel, value: boolean): Promise<void> {
     const data = await fetch(`${this.url}/match/${match.id}/active/${value}`, {
       method: 'PUT'
+    });
+    return (await data.json()) ?? [];
+  }
+
+  async getParticipantsForMatch(matchId: number): Promise<Array<ParticipantModel>> {
+    const data = await fetch(`${this.url}/match/${matchId}/participants`, {
+      method: 'GET'
     });
     return (await data.json()) ?? [];
   }

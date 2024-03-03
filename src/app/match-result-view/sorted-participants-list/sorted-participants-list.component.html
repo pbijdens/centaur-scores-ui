@@ -1,0 +1,19 @@
+<ng-container *ngIf="participants && participants.participants && participants.participants.length">
+    <h2 class="text-xl font-bold mb-2">{{participants.group.label}}</h2>
+    <table class="size-full border-collapse border border-transparent table-auto">
+        <thead>
+            <tr>
+                <th class="border border-slate-600 bg-slate-700 text-white py-2 w-16">#</th>
+                <th class="border border-slate-600 bg-slate-700 text-white">Naam</th>
+                <th class="border border-slate-600 bg-slate-700 text-white w-40">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let participant of participants.participants| sortParticipantsPipe: sortOrder; index as index">
+                <td class="text-xl p-2 w-16 text-right">{{index + 1}}</td>
+                <td class="text-xl p-2">{{participant.name}}</td>
+                <td class="text-xl p-2 w-40 text-right">{{participant.score}}</td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
