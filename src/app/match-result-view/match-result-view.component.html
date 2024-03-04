@@ -16,21 +16,25 @@
 <ng-container *ngIf="match">
     <ng-container [ngSwitch]="selectedGroupByOption.grouping">
         <ng-container *ngSwitchCase="'d'">
-            <div class="bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4"
-                *ngFor="let group of participantsByGroup | keys">
-                <app-sorted-participants-list [match]="match" [participants]="participantsByGroup[group]"
-                    [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
+            <div class="columns-2">
+                <div class="break-inside-avoid bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4"
+                    *ngFor="let group of participantsByGroup | keys">
+                    <app-sorted-participants-list [match]="match" [participants]="participantsByGroup[group]"
+                        [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
+                </div>
             </div>
         </ng-container>
         <ng-container *ngSwitchCase="'k'">
-            <div class="bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4"
-                *ngFor="let group of participantsByGroupSubgroup | keys ">
-                <app-sorted-participants-list [match]="match" [participants]="participantsByGroupSubgroup[group]"
-                    [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
+            <div class="columns-2">
+                <div class="break-inside-avoid bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4"
+                    *ngFor="let group of participantsByGroupSubgroup | keys ">
+                    <app-sorted-participants-list [match]="match" [participants]="participantsByGroupSubgroup[group]"
+                        [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
+                </div>
             </div>
         </ng-container>
         <ng-container *ngSwitchDefault>
-            <div class="bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4">
+            <div class="break-inside-avoid bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4">
                 <app-sorted-participants-list [match]="match" [participants]="participantsUnsorted"
                     [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
             </div>

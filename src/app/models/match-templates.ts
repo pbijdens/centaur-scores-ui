@@ -13,7 +13,7 @@ export const MatchTemplates = [
             groups: [
                 <GroupInfo>{ code: '', label: 'Recurve' },
                 <GroupInfo>{ code: 'C', label: 'Compound' },
-                <GroupInfo>{ code: 'H', label: 'Hout, barebow, longbow' }
+                <GroupInfo>{ code: 'H', label: 'Hout, barebow, instinctive' }
             ],
             subgroups: [
                 <GroupInfo>{ code: '', label: 'Senioren' },
@@ -67,7 +67,7 @@ export const MatchTemplates = [
             groups: [
                 <GroupInfo>{ code: '', label: 'Recurve' },
                 <GroupInfo>{ code: 'C', label: 'Compound' },
-                <GroupInfo>{ code: 'H', label: 'Hout, barebow, longbow' }
+                <GroupInfo>{ code: 'H', label: 'Hout, barebow, instinctive' }
             ],
             subgroups: [
                 <GroupInfo>{ code: '', label: 'Senioren' },
@@ -121,7 +121,7 @@ export const MatchTemplates = [
             groups: [
                 <GroupInfo>{ code: '', label: 'Recurve' },
                 <GroupInfo>{ code: 'C', label: 'Compound' },
-                <GroupInfo>{ code: 'H', label: 'Hout, barebow, longbow' }
+                <GroupInfo>{ code: 'H', label: 'Hout, barebow, instinctive' }
             ],
             subgroups: [
                 <GroupInfo>{ code: '', label: 'Senioren' },
