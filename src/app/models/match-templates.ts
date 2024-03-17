@@ -195,4 +195,50 @@ export const MatchTemplates = [
             }
         }
     },
+
+    {
+        name: 'Funverschieting: Pasen',
+        model: <MatchModel>{
+            arrowsPerEnd: 4,
+            numberOfEnds: 10,
+            isActiveMatch: false,
+            autoProgressAfterEachArrow: true,
+            groups: [
+                <GroupInfo>{ code: '', label: 'Recurve' },
+                <GroupInfo>{ code: 'C', label: 'Compound' },
+                <GroupInfo>{ code: 'H', label: 'Hout/Barebow' }
+            ],
+            subgroups: [
+                <GroupInfo>{ code: '', label: 'Senioren' },
+                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-12)' },
+                <GroupInfo>{ code: 'J', label: 'Junioren (12-18)' },
+                <GroupInfo>{ code: 'M', label: 'Masters (50+)' }],
+            targets: [
+                <GroupInfo>{ code: '', label: 'Funblazoen' },
+            ],
+            id: -1,
+            lijnen: ['A', 'B', 'C', 'D'],
+            lijnenAsString: 'ABCD',
+            matchCode: new Date().toISOString().substring(0, 10),
+            matchName: '',
+            scoreValues: {
+                '': <Array<ScoreButtonDefinition>>[
+                    <ScoreButtonDefinition>{ label: '10', value: 10 },
+                    <ScoreButtonDefinition>{ label: '9', value: 9 },
+                    <ScoreButtonDefinition>{ label: '8', value: 8 },
+                    <ScoreButtonDefinition>{ label: '7', value: 7 },
+                    <ScoreButtonDefinition>{ label: '6', value: 6 },
+                    <ScoreButtonDefinition>{ label: '25', value: 25 },
+                    <ScoreButtonDefinition>{ label: '15', value: 15 },
+                    <ScoreButtonDefinition>{ label: '14', value: 14 },
+                    <ScoreButtonDefinition>{ label: '13', value: 13 },
+                    <ScoreButtonDefinition>{ label: '12', value: 12 },
+                    <ScoreButtonDefinition>{ label: '11', value: 11 },
+                    <ScoreButtonDefinition>{ label: 'Mis', value: 0 }, 
+                    <ScoreButtonDefinition>{ label: 'Del', value: null },
+                ]
+            }
+        }
+    },
+
 ];
