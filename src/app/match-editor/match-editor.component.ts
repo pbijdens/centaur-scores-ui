@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatchTemplates } from '../models/match-templates';
 import { KeysPipe } from '../keys.pipe';
+import { GroupsEditorComponent } from './groups-editor/groups-editor.component';
 
 @Component({
   selector: 'app-match-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, KeysPipe],
+  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent],
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })

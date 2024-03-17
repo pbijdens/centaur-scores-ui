@@ -108,30 +108,11 @@
     </div>
 </form>
 
+<app-groups-editor [match]="match" label="Disciplines" [groups]="match?.groups || []"></app-groups-editor>
+<app-groups-editor [match]="match" label="Klasses" [groups]="match?.subgroups || []"></app-groups-editor>
+<app-groups-editor [match]="match" label="Blazoenen" [groups]="match?.targets || []"></app-groups-editor>
+
 <div class="bg-slate-100 m-4 shadow-md rounded px-8 pt-6 pb-2 mb-2" *ngIf="match">
-    <div class="columns-3">
-        <div class="break-inside-avoid">
-            <h3 class="text-xl font-bold">Disciplines</h3>
-            <ul>
-                <li *ngFor="let x of match.groups">{{x.label}}</li>
-            </ul>
-        </div>
-
-        <div class="break-inside-avoid">
-            <h3 class="mt-4 text-xl font-bold">Klasses</h3>
-            <ul>
-                <li *ngFor="let x of match.subgroups">{{x.label}}</li>
-            </ul>
-        </div>
-
-        <div class="break-inside-avoid">
-            <h3 class="mt-4 text-xl font-bold">Blazoenen</h3>
-            <ul>
-                <li *ngFor="let x of match.targets">{{x.code === '' ? 'standaard' : x.code}}: {{x.label}}</li>
-            </ul>
-        </div>
-    </div>
-
     <h3 class="mt-4 text-xl font-bold">Toetsenborden</h3>
     <div class="columns-3">
         <ng-container *ngFor="let x of match.scoreValues | keys">
