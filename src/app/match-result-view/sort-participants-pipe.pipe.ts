@@ -6,7 +6,7 @@ import { ParticipantModel } from '../models/participant-model';
   standalone: true
 })
 export class SortParticipantsPipePipe implements PipeTransform {
-
+  // sortOrder can be n or s for name and score
   transform(value: Array<ParticipantModel>, sortOrder: string, ...args: unknown[]): Array<ParticipantModel> {
     if (sortOrder === 'n') {
       return value.sort((a, b) => `${a.name}`.localeCompare(`${b.name}`));

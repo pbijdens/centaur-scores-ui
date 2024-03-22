@@ -197,9 +197,9 @@ export const MatchTemplates = [
     },
 
     {
-        name: 'Funverschieting: Pasen',
+        name: 'KHSN Leefdtijdsklasses, 3pijl',
         model: <MatchModel>{
-            arrowsPerEnd: 4,
+            arrowsPerEnd: 3,
             numberOfEnds: 10,
             isActiveMatch: false,
             autoProgressAfterEachArrow: true,
@@ -209,12 +209,19 @@ export const MatchTemplates = [
                 <GroupInfo>{ code: 'H', label: 'Hout/Barebow' }
             ],
             subgroups: [
-                <GroupInfo>{ code: '', label: 'Senioren' },
-                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-12)' },
-                <GroupInfo>{ code: 'J', label: 'Junioren (12-18)' },
-                <GroupInfo>{ code: 'M', label: 'Masters (50+)' }],
+                <GroupInfo>{ code: '', label: 'Senior' },
+                <GroupInfo>{ code: 'O12', label: 'Onder 12' },
+                <GroupInfo>{ code: 'O14', label: 'Onder 14' },
+                <GroupInfo>{ code: 'O18', label: 'Onder 18' },
+                <GroupInfo>{ code: 'O21', label: 'Onder 21' },
+                <GroupInfo>{ code: 'MAS', label: '50+' },
+                <GroupInfo>{ code: 'VET', label: '60+' }
+            ],
+                
             targets: [
-                <GroupInfo>{ code: '', label: 'Funblazoen' },
+                <GroupInfo>{ code: '', label: 'Standaard (1 t/m 10)' },
+                <GroupInfo>{ code: 'DT', label: 'Dutch Target (6 t/m 10)' },
+                <GroupInfo>{ code: 'C', label: 'Compound (6 t/m 10)' },
             ],
             id: -1,
             lijnen: ['A', 'B', 'C', 'D'],
@@ -228,17 +235,38 @@ export const MatchTemplates = [
                     <ScoreButtonDefinition>{ label: '8', value: 8 },
                     <ScoreButtonDefinition>{ label: '7', value: 7 },
                     <ScoreButtonDefinition>{ label: '6', value: 6 },
-                    <ScoreButtonDefinition>{ label: '25', value: 25 },
-                    <ScoreButtonDefinition>{ label: '15', value: 15 },
-                    <ScoreButtonDefinition>{ label: '14', value: 14 },
-                    <ScoreButtonDefinition>{ label: '13', value: 13 },
-                    <ScoreButtonDefinition>{ label: '12', value: 12 },
-                    <ScoreButtonDefinition>{ label: '11', value: 11 },
+                    <ScoreButtonDefinition>{ label: '5', value: 5 },
+                    <ScoreButtonDefinition>{ label: '4', value: 4 },
+                    <ScoreButtonDefinition>{ label: '3', value: 3 },
+                    <ScoreButtonDefinition>{ label: '2', value: 2 },
+                    <ScoreButtonDefinition>{ label: '1', value: 1 },
                     <ScoreButtonDefinition>{ label: 'Mis', value: 0 }, 
                     <ScoreButtonDefinition>{ label: 'Del', value: null },
-                ]
-            }
+                ],
+                'DT': <Array<ScoreButtonDefinition>>[
+                    <ScoreButtonDefinition>{ label: '10', value: 10 },
+                    <ScoreButtonDefinition>{ label: '9', value: 9 },
+                    <ScoreButtonDefinition>{ label: '8', value: 8 },
+                    <ScoreButtonDefinition>{ label: '7', value: 7 },
+                    <ScoreButtonDefinition>{ label: '6', value: 6 },
+                    <ScoreButtonDefinition>{ label: 'Mis', value: 0 }, 
+                    <ScoreButtonDefinition>{ label: 'Del', value: null },
+                ],
+                'C': <Array<ScoreButtonDefinition>>[
+                    <ScoreButtonDefinition>{ label: '10', value: 10 },
+                    <ScoreButtonDefinition>{ label: '9', value: 9 },
+                    <ScoreButtonDefinition>{ label: '8', value: 8 },
+                    <ScoreButtonDefinition>{ label: '7', value: 7 },
+                    <ScoreButtonDefinition>{ label: '6', value: 6 },
+                    <ScoreButtonDefinition>{ label: 'Mis', value: 0 }, 
+                    <ScoreButtonDefinition>{ label: 'Del', value: null },
+                ],
+            },
         }
     },
+
+    
+
+    
 
 ];
