@@ -14,7 +14,7 @@ To create a release:
 npm run build-cs
 ```
 
-Then copy the contents of the dist/ folder to your apache2 server, e.g. in ```/var/www/centaurscoresui```.
+Then copy the contents of the ```dist/centaur-scores-ui/browser/``` folder to your apache2 server, e.g. in ```/var/www/centaurscoresui```.
 
 ## First install
 
@@ -65,7 +65,7 @@ You should now be able to reach the UI at http://<your-ip>/cs
 
 ## Scripts
 
-Use this script to install a new version of ther centaur scores UI
+Use this script to install a new version of this centaur scores UI
 
 ```bash
 #!/bin/bash
@@ -74,7 +74,7 @@ npm run build-cs
 cp -R dist/centaur-scores-ui/browser/* /var/www/centaurscoresui/
 ```
 
-Use this script to install a new version of the backend; run this from the ```centaur-scores-api/CentaurScores``` folder:
+Use this script to install a new version of the backend; run this from the ```centaur-scores-api/CentaurScores``` project-folder:
 
 ```bash
 #!/bin/bash
