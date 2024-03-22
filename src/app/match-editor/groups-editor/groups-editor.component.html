@@ -1,59 +1,50 @@
-<form class="bg-slate-100 m-4 shadow-md rounded px-8 pt-6 pb-8 mb-4" *ngIf="match">
-    <div class="mb-4">
-        <div class="block text-gray-700 text-sm font-bold mb-2">
-            {{label}}
-        </div>
-        <table class="size-full border-collapse border border-transparent table-auto">
-            <thead>
-                <tr>
-                    <th class="border border-slate-600 bg-slate-700 text-white py-2">#</th>
-                    <th class="border border-slate-600 bg-slate-700 text-white py-2">#</th>
-                    <th class="border border-slate-600 bg-slate-700 text-white py-2">#</th>
-                    <th class="border border-slate-600 bg-slate-700 text-white w-40">Code</th>
-                    <th class="border border-slate-600 bg-slate-700 text-white">Naam</th>
-                    <th class="border border-slate-600 bg-slate-700 text-white w-40">Actie</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let group of groups; index as index">
-                    <td class="p-2 w-16 text-right">{{index + 1}}</td>
-                    <td class="p-2 w-8 text-right">
-                        <button (click)="up(index)" *ngIf="index >= 1"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-2 py-1 text-center me-2 m-2">&#x2191;</button>
-                    </td>
-                    <td class="p-2 w-8 text-right">
-                        <button (click)="down(index)" *ngIf="index <= groups.length - 2"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-2 py-1 text-center me-2 m-2">&#x2193;</button>    
-                    </td>
-                    <td class="p-2 w-40">{{group.code}}</td>
-                    <td class="p-2">{{group.label}}</td>
-                    <td>
-                        <button (click)="deleteElement(index)"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 m-2">Verwijderen</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <input [ngModelOptions]="{standalone: true}"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="matchCode" type="text" placeholder="Code"
-                        [(ngModel)]="newCode">                        
-                    </td>
-                    <td>
-                        <input [ngModelOptions]="{standalone: true}"
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        id="matchCode" type="text" placeholder="Naam"
-                        [(ngModel)]="newLabel">                        
-                    </td>
-                    <td>
-                        <button (click)="addElement()"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 m-2">Toevoegen</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<form class="cs-card" *ngIf="match">
+    <div class="cs-heading h1">
+        {{label}}
     </div>
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th class="w-16">#</th>
+                <th class="w-16">Op</th>
+                <th class="w-16">Neer</th>
+                <th class="w-24">Code</th>
+                <th>Naam</th>
+                <th class="w-32">Actie</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let group of groups; index as index">
+                <td class="text-center">{{index + 1}}</td>
+                <td>
+                    <button *ngIf="index >= 1" class="cs-button" type="button" (click)="up(index)">&#x2191;</button>
+                </td>
+                <td>
+                    <button *ngIf="index <= groups.length - 2" class="cs-button" type="button"
+                        (click)="down(index)">&#x2193;</button>
+                </td>
+                <td>{{group.code}}</td>
+                <td>{{group.label}}</td>
+                <td>
+                    <button class="cs-button red w-32" (click)="deleteElement(index)">Verwijderen</button>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchCode" type="text"
+                        placeholder="Code" [(ngModel)]="newCode">
+                </td>
+                <td>
+                    <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchCode" type="text"
+                        placeholder="Naam" [(ngModel)]="newLabel">
+                </td>
+                <td>
+                    <button (click)="addElement()" class="cs-button w-32">Toevoegen</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </form>

@@ -1,0 +1,57 @@
+.cs-card {
+  @apply bg-slate-100 m-1 shadow-md rounded px-4 pt-4 pb-4;
+
+  &.error {
+    @apply bg-red-100;
+  }
+
+  &.results {
+    @apply m-4 p-2;
+  }
+
+  &.results-card {
+    @apply m-0 mb-2 p-2 break-inside-avoid;
+  }
+
+  .results-content {
+    @apply columns-2 mx-4;
+  }
+
+  p {
+    @apply mb-4 mt-4;
+  }
+
+  .cs-input-block {
+    @apply mb-4;
+
+    label {
+      @apply block text-gray-700 text-sm font-bold mb-2;
+    }
+
+    &.results {
+      @apply m-0 p-0;
+
+      label {
+        @apply block text-gray-700 text-2xl font-bold mb-2 p-0;
+      }
+  
+    }
+  }
+}
+
+
+.cs-heading {
+  @apply block text-gray-700 text-lg font-bold mb-2;
+
+  &.h1 {
+    @apply text-2xl;
+  }
+
+  &.h2 {
+    @apply text-xl;
+  }
+
+  &.h3 {
+    @apply text-lg;
+  }
+}

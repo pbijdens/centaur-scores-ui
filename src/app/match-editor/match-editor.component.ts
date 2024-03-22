@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ApiService } from '../api.service';
 import { MatchModel } from '../models/match-model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -15,7 +15,7 @@ import { GroupsEditorComponent } from './groups-editor/groups-editor.component';
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })
-export class MatchEditorComponent implements OnInit {
+export class MatchEditorComponent implements OnInit, OnChanges {
   public match?: MatchModel;
   public id: number = -1;
   public error?: String;
@@ -28,6 +28,9 @@ export class MatchEditorComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.refresh();
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
   }
 
   async refresh() {

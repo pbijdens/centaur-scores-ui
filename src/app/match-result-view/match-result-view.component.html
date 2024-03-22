@@ -1,43 +1,43 @@
-<form class="bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4">
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="matchCode">
-            <h2 class="text-3xl font-bold">Uitslagen voor {{match.matchName}}</h2>
+<div class="cs-results-page">
+    <div class="cs-result-type-selection">
+        <label for="matchCode">
+            <div>Uitslagen voor {{match.matchName}}</div>
         </label>
         <select id="template" title="Kies een type wedstrijd" #matchTemplate
             (change)="sortOrderChanged($event, matchTemplate.value)" [(ngModel)]="selectedGroupByOption"
             [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Kies een type wedstrijd">
+            class="cs-input"
+            placeholder="Kies een type uitslag">
             <option *ngFor="let c of groupByOptions" [ngValue]="c">{{c.label}}</option>
         </select>
     </div>
-</form>
 
-<ng-container *ngIf="match">
-    <ng-container [ngSwitch]="selectedGroupByOption.grouping">
-        <ng-container *ngSwitchCase="'d'">
-            <div class="columns-2">
-                <div class="break-inside-avoid bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4"
-                    *ngFor="let group of participantsByGroup | keys">
-                    <app-sorted-participants-list [match]="match" [participants]="participantsByGroup[group]"
+    <ng-container *ngIf="match">
+        <ng-container [ngSwitch]="selectedGroupByOption.grouping">
+            <ng-container *ngSwitchCase="'d'">
+                <div class="results-content">
+                    <div class="cs-results-card"
+                        *ngFor="let group of participantsByGroup | keys">
+                        <app-sorted-participants-list [match]="match" [participants]="participantsByGroup[group]"
+                            [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'k'">
+                <div class="results-content">
+                    <div class="cs-results-card"
+                        *ngFor="let group of participantsByGroupSubgroup | keys ">
+                        <app-sorted-participants-list [match]="match" [participants]="participantsByGroupSubgroup[group]"
+                            [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+                <div class="cs-results-card">
+                    <app-sorted-participants-list [match]="match" [participants]="participantsUnsorted"
                         [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
                 </div>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'k'">
-            <div class="columns-2">
-                <div class="break-inside-avoid bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4"
-                    *ngFor="let group of participantsByGroupSubgroup | keys ">
-                    <app-sorted-participants-list [match]="match" [participants]="participantsByGroupSubgroup[group]"
-                        [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
-                </div>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-            <div class="break-inside-avoid bg-slate-100 m-4 shadow-md rounded px-2 pt-2 pb-2 mb-4">
-                <app-sorted-participants-list [match]="match" [participants]="participantsUnsorted"
-                    [sortOrder]="selectedGroupByOption.sortOrder"></app-sorted-participants-list>
-            </div>
+            </ng-container>
         </ng-container>
     </ng-container>
-</ng-container>
+</div>

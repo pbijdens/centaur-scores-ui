@@ -1,0 +1,61 @@
+// PAGE HEADER
+nav.cs-page-header {
+  @apply bg-slate-800;
+
+  >div {
+    @apply flex flex-wrap items-center justify-between mx-auto p-2;
+
+    div.navbar-default {
+      @apply w-full block w-auto;
+
+      >ul {
+        @apply flex flex-row;
+        @apply p-0 space-x-0;
+        @apply border-0;
+        @apply font-medium bg-gray-800 border-gray-700;
+        @apply rtl:space-x-reverse;
+      }
+    }
+  }
+
+}
+
+// TOP HEADER
+nav.cs-application-header {
+  @apply bg-gray-900;
+
+  >div {
+    @apply /* max-w-screen-xl */ flex flex-wrap items-center justify-between mx-auto p-2;
+
+    div.navbar-default {
+      @apply w-full block w-auto;
+
+      >ul {
+        @apply flex flex-row;
+        @apply p-0 space-x-0;
+        @apply border-0;
+        @apply font-medium ;
+        @apply rtl:space-x-reverse;
+
+        li {
+          a.top-link {
+            @apply text-slate-200 hover:text-slate-400 cursor-pointer mx-4;
+          }
+        }
+      }
+    }
+
+    a.logo {
+      @apply flex items-center space-x-3 rtl:space-x-reverse m-2;
+
+      >div {
+        @apply flex h-12 w-12 justify-center items-center rounded-full bg-transparent;
+      }
+
+      >span {
+        @apply self-center text-2xl font-semibold whitespace-nowrap dark:text-white;
+      }
+    }
+  }
+
+}

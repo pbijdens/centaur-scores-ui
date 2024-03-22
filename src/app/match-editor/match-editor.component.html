@@ -1,110 +1,102 @@
-<nav class="bg-white border-gray-200 dark:bg-gray-800">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul
-                class="font-medium flex flex-col p-4 md:p-0 mt-4 md:space-x-1 border border-gray-100 rounded-lg bg-gray-50 md:flex-row rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700">
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
                 <li>
-                    <a (click)="refresh()"
-                        class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        aria-current="page">Ververs</a>
+                    <button (click)="refresh()" class="cs-button" aria-current="page">Ververs</button>
+                </li>
+                <li><button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
+                        actieve wedstrijd</button>
                 </li>
                 <li>
-                    <button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Stel
-                        in als actieve wedstrijd</button>
+                    <button (click)="setActive(false)" *ngIf="match?.isActiveMatch" class="cs-button">Deactiveer
+                        wedstrijd</button>
                 </li>
-                <li>
-                    <button (click)="setActive(false)" *ngIf="match?.isActiveMatch"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Deactiveer</button>
+                <li *ngIf="!error && id >= 0 && match">
+                    <a [routerLink]="['/', 'result', id]" class="cs-button" aria-current="page">Uitslagen</a>
                 </li>
-                <li *ngIf="match && id >= 0">
-                    <a [routerLink]="['/', 'result', id]"
-                        class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        aria-current="page">Uitslagen</a>
-                </li>                
             </ul>
         </div>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default" *ngIf="!error && match && id >= 0">
-            <ul
-                class="font-medium flex flex-col p-4 md:p-0 mt-4 border md:flex-row md:space-x-1 rtl:space-x-reverse md:mt-0 md:border-0">
+        <div class="navbar-default" *ngIf="!error">
+            <ul>
+                <li *ngIf="match && id >= 0">
+                    <button (click)="delete()" class="cs-button red">Verwijder</button>
+                </li>
                 <li>
-                    <button (click)="delete()"
-                        class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Verwijder</button>
+                    <button class="cs-button" type="button" (click)="save()">
+                        {{id == -1 ? 'Aanmaken' : 'Wijzigingen opslaan'}}
+                    </button>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="bg-red-100 m-4 shadow-md rounded px-8 pt-6 pb-8 mb-4" *ngIf="error">
-    <p class="mb-4 mt-4">{{error}}</p>
+<div class="cs-card error" *ngIf="error">
+    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
+    <p>{{error}}</p>
 </div>
 
-<form class="bg-slate-100 m-4 shadow-md rounded px-8 pt-6 pb-8 mb-4" *ngIf="!error && (!match || id == -1)">
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="matchCode">
+<form class="cs-card" *ngIf="!error && (!match || id == -1)">
+    <div class="cs-heading h1">Wedstrijd template toepassen</div>
+    <div class="cs-input-block">
+        <label for="matchCode">
             Type wedstrijd
         </label>
         <select id="template" title="Kies een type wedstrijd" #matchTemplate
             (change)="matchTypeChanged($event, matchTemplate.value)" [(ngModel)]="selectedTemplate"
             [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="cs-input-text"
             placeholder="Kies een type wedstrijd">
             <option *ngFor="let c of templates" [ngValue]="c">{{c.name}}</option>
         </select>
     </div>
 </form>
 
-<form class="bg-slate-100 m-4 shadow-md rounded px-8 pt-6 pb-8 mb-4" *ngIf="!error && match">
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="matchCode">
+<form class="cs-card" *ngIf="!error && match">
+    <div class="cs-heading h1">Basisgegevens</div>
+    <div class="cs-input-block">
+        <label for="matchCode">
             Code
         </label>
         <input [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="cs-input-text"
             id="matchCode" type="text" placeholder="Geef een korte (unieke) code op voor de wedstrijd"
             [(ngModel)]="match!.matchCode">
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="matchName">
+    <div class="cs-input-block">
+        <label for="matchName">
             Naam van de wedstrijd
         </label>
         <input [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="cs-input-text"
             id="matchName" type="text" placeholder="Volledige naam van de wedstrijd" [(ngModel)]="match!.matchName">
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="arrowsPerEnd">
+    <div class="cs-input-block">
+        <label for="arrowsPerEnd">
             Pijlen per ronde
         </label>
         <input [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="cs-input-text"
             id="arrowsPerEnd" type="number" placeholder="Aantal pijlen dat per ronde wordt geschoten"
             [(ngModel)]="match!.arrowsPerEnd">
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="numberOfEnds">
+    <div class="cs-input-block">
+        <label for="numberOfEnds">
             Aantal tellende rondes
         </label>
         <input [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="cs-input-text"
             id="numberOfEnds" type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.numberOfEnds">
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="lijnenAsString">
+    <div class="cs-input-block">
+        <label for="lijnenAsString">
             Lijnen (bijvoorbeeld ABCD)
         </label>
         <input [ngModelOptions]="{standalone: true}"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            class="cs-input-text"
             id="lijnenAsString" type="text" placeholder="Lijnen (bijvoorbeeld ABCD)"
             [(ngModel)]="match!.lijnenAsString">
-    </div>
-    <div class="flex items-center justify-between">
-        <button
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-1 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            type="button" (click)="save()">
-            {{id == -1 ? 'Aanmaken' : 'Wijzigingen opslaan'}}
-        </button>
     </div>
 </form>
 
@@ -112,7 +104,7 @@
 <app-groups-editor [match]="match" label="Klasses" [groups]="match?.subgroups || []"></app-groups-editor>
 <app-groups-editor [match]="match" label="Blazoenen" [groups]="match?.targets || []"></app-groups-editor>
 
-<div class="bg-slate-100 m-4 shadow-md rounded px-8 pt-6 pb-2 mb-2" *ngIf="match">
+<div class="cs-card" *ngIf="match">
     <h3 class="mt-4 text-xl font-bold">Toetsenborden</h3>
     <div class="columns-3">
         <ng-container *ngFor="let x of match.scoreValues | keys">
