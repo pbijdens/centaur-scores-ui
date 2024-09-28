@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -31,13 +31,13 @@ jobs:
     - name: Compress Archives and IPAs
       run: |
         cd dist/centaur-scores-ui/browser
-        tar -czf centaurscores-ui-site.tar.gz .
+        tar -czf ../../centaurscores-ui-site.tar.gz .
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: Releases
         path: |
-          dist/centaur-scores-ui/browser/centaurscores-ui-site.tar.gz
+          dist/centaurscores-ui-site.tar.gz
     - name: Extract version from pubspec.yaml
       id: extract_version
       run: |
@@ -60,6 +60,6 @@ jobs:
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "dist/centaur-scores-ui/browser/centaurscores-ui-site.tar.gz"
+        artifacts: "dist/centaurscores-ui-site.tar.gz"
         tag: v${{ env.VERSION }}
         token: ${{ secrets.TOKEN }}            
