@@ -1,6 +1,7 @@
 # Installation steps for the Centaur Scores UI
 
 ## Requirements
+
 - Apache2 with mod rewrite
 - A running 'CentaurScores API' server on port 8062 on the same host that this service runs on.
   *curently hardcoded, will probably put this in a settings json file*
@@ -10,7 +11,7 @@
 
 To create a release:
 
-```
+```sh
 npm run build-cs
 ```
 
@@ -26,13 +27,6 @@ Create a file ```/etc/apache2/conf-available/centaurscores.conf``` with these co
 <IfModule alias_module>
     Alias /cs /var/www/centaurscoresui
 </IfModule>
-
-<Directory "/var/www/centaurscoresuixxx">
-    FallbackResource ./index.html
-    Options Indexes FollowSymLinks
-    Require all granted
-    AllowOverride All
-</Directory>
 
 <Directory "/var/www/centaurscoresui">
 <IfModule mod_rewrite.c>

@@ -1,7 +1,13 @@
-<div class="cs-results-page">
+<ng-template #noMatch>
+    <div class="cs-results-page">
+        <h1>Er is geen actieve wedstrijd of de geselecteerde wedstrijd kan niet gevonden worden.</h1>
+    </div>
+</ng-template>
+
+<div class="cs-results-page" *ngIf="match; else noMatch">
     <div class="cs-result-type-selection">
         <label for="matchCode">
-            <div>Uitslagen voor {{match.matchName}}</div>
+            <div>Uitslagen voor {{match!.matchName}}</div>
         </label>
         <select id="template" title="Kies een type wedstrijd" #matchTemplate
             (change)="sortOrderChanged($event, matchTemplate.value)" [(ngModel)]="selectedGroupByOption"

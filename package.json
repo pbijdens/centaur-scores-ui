@@ -1,9 +1,10 @@
 {
   "name": "centaur-scores-ui",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ssl",
+    "start": "ng serve",
+    "startssl": "ng serve --ssl",
     "build": "ng build",
     "build-cs": "ng build --base-href /cs/",
     "watch": "ng build --watch --configuration development",

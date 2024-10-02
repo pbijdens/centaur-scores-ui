@@ -1,0 +1,8 @@
+<label for="theControl">
+    Type competitie
+</label>
+<select id="ruleset" title="Kies een type wedstrijd" #rulesetSelect
+    (change)="rulsetChanged($event, rulesetSelect.value)" [(ngModel)]="selectedGroup"
+    [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Kies een competitie-type">
+    <option *ngFor="let c of rulesetGroups" [ngValue]="c">{{c.groupName}}</option>
+</select>

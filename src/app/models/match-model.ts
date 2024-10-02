@@ -1,3 +1,4 @@
+import { CompetitionModel } from "./competition-model";
 import { GroupInfo } from "./group-info";
 
 export interface MatchModel {
@@ -13,6 +14,8 @@ export interface MatchModel {
     subgroups: Array<GroupInfo>;
     lijnen: Array<string>;
     targets: Array<GroupInfo>;
+    rulesetCode?: string;
+    competition: CompetitionModel;
 
     lijnenAsString: string;
 }

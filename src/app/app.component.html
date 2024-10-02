@@ -2,13 +2,20 @@
     <div>
         <a [routerLink]="['/']" class="logo">
             <div><img src="assets/centaur.svg" alt="Logo" /></div>
-            <span>Centaur scores</span>
+            <span>{{title}}</span>
         </a>
         <div class="navbar-default">
             <ul>
+
                 <li>
                     <a [routerLink]="['/' ]" class="top-link" aria-current="page">Wedstrijden</a>
                 </li>
+                <li>
+                    <a [routerLink]="['/competitions' ]" class="top-link" aria-current="page">Competities</a>
+                </li>                
+                <li>
+                    <a [routerLink]="['/participantlists' ]" class="top-link" aria-current="page">Lijsten</a>
+                </li>                
                 <li>
                     <a [routerLink]="['/', 'result', -1 ]" class="top-link" aria-current="page">Live uitslagen</a>
                 </li>

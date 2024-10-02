@@ -17,8 +17,9 @@ export const MatchTemplates = [
             ],
             subgroups: [
                 <GroupInfo>{ code: '', label: 'Senioren' },
-                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-12)' },
-                <GroupInfo>{ code: 'J', label: 'Junioren (12-18)' },
+                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-11)' },
+                <GroupInfo>{ code: 'J', label: 'Jonge Jeugd (12-14)' },
+                <GroupInfo>{ code: 'J', label: 'Jeugd (15-18)' },
                 <GroupInfo>{ code: 'M', label: 'Masters (50+)' }],
             targets: [
                 <GroupInfo>{ code: '', label: 'Standaard 40CM (1-10)' },
@@ -71,8 +72,9 @@ export const MatchTemplates = [
             ],
             subgroups: [
                 <GroupInfo>{ code: '', label: 'Senioren' },
-                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-12)' },
-                <GroupInfo>{ code: 'J', label: 'Junioren (12-18)' },
+                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-11)' },
+                <GroupInfo>{ code: 'J', label: 'Jonge Jeugd (12-14)' },
+                <GroupInfo>{ code: 'J', label: 'Jeugd (15-18)' },
                 <GroupInfo>{ code: 'M', label: 'Masters (50+)' }],
             targets: [
                 <GroupInfo>{ code: '', label: 'Standaard 40CM (1-10)' },
@@ -125,8 +127,9 @@ export const MatchTemplates = [
             ],
             subgroups: [
                 <GroupInfo>{ code: '', label: 'Senioren' },
-                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-12)' },
-                <GroupInfo>{ code: 'J', label: 'Junioren (12-18)' },
+                <GroupInfo>{ code: 'A', label: 'Aspiranten (9-11)' },
+                <GroupInfo>{ code: 'J', label: 'Jonge Jeugd (12-14)' },
+                <GroupInfo>{ code: 'J', label: 'Jeugd (15-18)' },
                 <GroupInfo>{ code: 'M', label: 'Masters (50+)' }],
             targets: [
                 <GroupInfo>{ code: '', label: 'Lancaster 6-11' },

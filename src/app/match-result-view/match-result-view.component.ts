@@ -10,6 +10,7 @@ import { GroupingDefinition } from '../models/grouping-definition';
 import { SortedParticipantsListComponent } from './sorted-participants-list/sorted-participants-list.component';
 import { ParticipantGroup } from '../models/participant-group';
 import { GroupInfo } from '../models/group-info';
+import { NavbarService } from '../navbar.service';
 
 @Component({
   selector: 'app-match-result-view',
@@ -33,9 +34,10 @@ export class MatchResultViewComponent implements OnInit, OnDestroy {
   ];
   public selectedGroupByOption = this.groupByOptions[0];
   public intervalId: any;
-  public match: MatchModel = <MatchModel>{};
+  public match: MatchModel | undefined = <MatchModel>{};
 
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router) {
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
+    this.navbarService.setPageTitle('Uitslagen');
     if (this.activatedRoute.snapshot.params['id']) {
       this.id = this.activatedRoute.snapshot.params['id'] as number;
     } else {
@@ -63,15 +65,15 @@ export class MatchResultViewComponent implements OnInit, OnDestroy {
       this.participantsUnsorted.participants = [... this.participants];
       this.participantsByGroup = this.participants.reduce((res: any, curr) => {
         const key = `${curr.group}`;
-        const groupInfo = this.match.groups.find(g => g.code === curr.group) ?? <GroupInfo>{ code: curr.group, label: 'Verwijderd' };
+        const groupInfo = this.match!.groups.find(g => g.code === curr.group) ?? <GroupInfo>{ code: curr.group, label: 'Verwijderd' };
         res[curr.group] ??= new ParticipantGroup(curr.group, groupInfo);
         res[curr.group].participants.push(curr);
         return res;
       }, {});
       this.participantsByGroupSubgroup = this.participants.reduce((res: any, curr) => {
         const key = `${curr.group}:${curr.subgroup}`;
-        const groupInfo = this.match.groups.find(g => g.code === curr.group) ?? <GroupInfo>{ code: curr.group, label: 'Verwijderd' };
-        const subGroupInfo = this.match.subgroups.find(g => g.code === curr.subgroup) ?? <GroupInfo>{ code: curr.subgroup, label: 'Verwijderd' };
+        const groupInfo = this.match!.groups.find(g => g.code === curr.group) ?? <GroupInfo>{ code: curr.group, label: 'Verwijderd' };
+        const subGroupInfo = this.match!.subgroups.find(g => g.code === curr.subgroup) ?? <GroupInfo>{ code: curr.subgroup, label: 'Verwijderd' };
         res[key] ??= new ParticipantGroup(key, <GroupInfo>{code: key, label: `${groupInfo.label} ${subGroupInfo.label}`});
         res[key].participants.push(curr);
         return res;

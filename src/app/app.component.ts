@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { NavbarService } from './navbar.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,14 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
-export class AppComponent {
-  title = 'centaur-scores-ui';
+export class AppComponent implements OnInit {
+  title = 'Centaur scores!';
+
+  constructor(public navbarService: NavbarService) {}
+  
+  ngOnInit(): void {
+    this.navbarService.title$.subscribe(x => {
+      this.title = x;
+    });
+  }
 }

@@ -3,6 +3,7 @@ import { ApiService } from '../api.service';
 import { MatchModel } from '../models/match-model';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NavbarService } from '../navbar.service';
 
 @Component({
   selector: 'app-matches-list',
@@ -14,7 +15,8 @@ import { CommonModule } from '@angular/common';
 export class MatchesListComponent implements OnInit {
   public matches: Array<MatchModel> = [];
 
-  constructor(public apiService: ApiService) {
+  constructor(public apiService: ApiService, public navbarService: NavbarService) {
+    this.navbarService.setPageTitle('Wedstrijden');
   }
 
   async refresh(): Promise<void> {

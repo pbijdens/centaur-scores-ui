@@ -1,0 +1,46 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <li>
+                    <button (click)="newParticipantsList()" class="cs-button" aria-current="page">Nieuwe lijst maken</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="cs-card error" *ngIf="errorMessage">
+    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
+    <p>{{errorMessage}}</p>
+</div>
+
+<form class="cs-card modal" [ngClass]="{'form-open': selectedList, 'form-closed': !selectedList}">
+    <div *ngIf="selectedList">
+        <app-edit-participants-list-metadata [listId]="selectedList.id" (onError)="editListMetadataError($event)"
+        (onClose)="editListMetadataClose()"></app-edit-participants-list-metadata>        
+    </div>
+</form>
+
+
+<div class="cs-card">
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let participantsList of participantsLists" class="hover:bg-slate-300">
+                <td class="cursor-pointer" [routerLink]="['/','participantlists',participantsList.id]">{{participantsList.name}}</td>
+                <td class="w-32">
+                    <div class="flex flex-row">
+                        <!-- <a [routerLink]="['/','participantlists',participantsList.id]" class="cs-button">Openen</a> -->
+                        <button (click)="editParticipantsList(participantsList)" class="cs-button">Eigenschappen</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

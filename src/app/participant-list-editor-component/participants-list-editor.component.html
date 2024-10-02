@@ -1,0 +1,127 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <li>
+                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page">Eigenschappen</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="cs-card error" *ngIf="errorMessage">
+    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
+    <p>{{errorMessage}}</p>
+</div>
+
+<form class="cs-card modal" [ngClass]="{'form-open': metadataEditorModel, 'form-closed': !metadataEditorModel}">
+    <div *ngIf="metadataEditorModel">
+        <app-edit-participants-list-metadata [listId]="metadataEditorModel.id" (onError)="editListMetadataError($event)"
+            (onClose)="editListMetadataClose()"></app-edit-participants-list-metadata>
+    </div>
+</form>
+
+<form class="cs-card modal" [ngClass]="{'form-open': editorOpen, 'form-closed': !editorOpen}">
+    <div>
+        <div class="flex justify-end p-2">
+            <div class="cs-heading h2 flex-grow" *ngIf="id <= 0">Nieuwe deelnemer</div>
+            <div class="cs-heading h2 flex-grow" *ngIf="id > 0">Gegevens aanpassen</div>
+            <button (click)="close()" type="button" class="close-button">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="cs-input-block">
+            <label for="memberName">
+                Naam
+            </label>
+            <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="memberName" type="text"
+                placeholder="Naam van de schutter" [(ngModel)]="participant!.name">
+        </div>
+        <div class="cs-input-block">
+            <label for="classTemplate">
+                Voorkeursdiscipline
+            </label>
+            <select id="classTemplate" title="Kies een discipline" #classTemplate
+                (change)="classChanged($event, classTemplate.value)" [(ngModel)]="selectedClass"
+                [ngModelOptions]="{standalone: true}" class="cs-input-text" placeholder="Kies een discipline">
+                <option *ngFor="let c of classes" [ngValue]="c">{{c.name}}</option>
+            </select>
+        </div>
+        <div class="cs-input-block">
+            <label for="subclassTemplate">
+                Leeftijdsklasse
+            </label>
+            <select id="subclassTemplate" title="Kies een klasse" #subclassTemplate
+                (change)="subclassChanged($event, subclassTemplate.value)" [(ngModel)]="selectedSubclass"
+                [ngModelOptions]="{standalone: true}" class="cs-input-text" placeholder="Kies een klasse">
+                <option *ngFor="let c of subclasses" [ngValue]="c">{{c.name}}</option>
+            </select>
+        </div>
+        <div class="cs-action-block">
+            <div>
+                <div class="navbar-default">
+                    <ul>
+                        <li *ngIf="id > 0">
+                            <button (click)="delete()" class="cs-button red" aria-current="page">Verwijderen</button>
+                        </li>
+                        <li class="flex-grow"></li>
+                        <li *ngIf="id > 0">
+                            <button (click)="save()" class="cs-button green" aria-current="page">Opslaan</button>
+                        </li>
+                        <li *ngIf="id <= 0">
+                            <button (click)="save()" class="cs-button" aria-current="page"
+                                [disabled]="!participant.name"
+                                [ngClass]="{'green': participant.name, 'disabled': !participant.name}">Toevoegen</button>
+                        </li>
+                        <!-- <li>
+                            <button (click)="close()" class="cs-button" aria-current="page">Annuleren</button>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="cs-card">
+    <h1 class="cs-card-header">Deelnemers <span *ngIf="metadata && metadata!.id >= 0">aan {{metadata.name}}</span></h1>
+
+    <div class="cs-card-action-block">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <li>
+                        <button (click)="new()" class="cs-button" aria-current="page">Nieuwe deelnemer
+                            toevoegen</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th class="w-32">Discipline</th>
+                <th class="w-32">Klasse</th>
+                <th class="w-16">Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let part of participants" (click)="select(part)" class="hover:bg-slate-300 cursor-pointer">
+                <td class="">{{part.name}}</td>
+                <td class="w-32">{{part.group}}</td>
+                <td class="w-32">{{part.subgroup}}</td>
+                <td class="w-16"><button (click)="select(part)" class="cs-button">Aanpassen</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

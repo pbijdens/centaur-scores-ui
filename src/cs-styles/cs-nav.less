@@ -59,3 +59,41 @@ nav.cs-application-header {
   }
 
 }
+
+div.cs-action-block {
+@apply self-end items-stretch;
+  >div {
+    @apply flex flex-wrap items-center justify-between mx-auto p-1 ;
+
+    div.navbar-default {
+      @apply w-full block w-auto flex flex-row flex-grow justify-end;
+
+      >ul {
+        @apply flex flex-row justify-end;
+        @apply p-0 space-x-0;
+        @apply border-0;
+        @apply font-medium bg-transparent border-gray-700;
+        /*@apply rtl:space-x-reverse;*/
+      }
+    }
+  }
+}
+
+div.cs-card-action-block {
+  @apply w-full h-12 min-h-12 bg-slate-400;
+    >div {
+      @apply flex flex-wrap items-center justify-between mx-auto p-1 ;
+  
+      div.navbar-default {
+        @apply w-full block w-auto flex flex-row flex-grow justify-start;
+  
+        >ul {
+          @apply flex flex-row justify-end;
+          @apply p-0 space-x-0;
+          @apply border-0;
+          @apply font-medium bg-transparent border-gray-700;
+          /*@apply rtl:space-x-reverse;*/
+        }
+      }
+    }
+  }

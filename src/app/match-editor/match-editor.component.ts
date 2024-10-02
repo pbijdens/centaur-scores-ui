@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatchTemplates } from '../models/match-templates';
 import { KeysPipe } from '../keys.pipe';
 import { GroupsEditorComponent } from './groups-editor/groups-editor.component';
+import { NavbarService } from '../navbar.service';
 
 @Component({
   selector: 'app-match-editor',
@@ -22,8 +23,12 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   public templates = MatchTemplates;
   public selectedTemplate = MatchTemplates[0];
 
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router) {
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
     this.id = this.activatedRoute.snapshot.params['id'] as number;
+    if (this.id == -1)
+      this.navbarService.setPageTitle('Nieuwe wedstrijd');
+    else
+      this.navbarService.setPageTitle('Wedstrijd bewerken');
   }
 
   async ngOnInit(): Promise<void> {
@@ -69,7 +74,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
     await this.refresh(); // TODO: pop up for confirmation, then delete
   }
 
-  async matchTypeChanged(event: any, value: any) { 
+  async matchTypeChanged(event: any, value: any) {
 
     this.match = JSON.parse(JSON.stringify(this.selectedTemplate.model));
     this.match!.lijnenAsString = this.match!.lijnen.join('');
