@@ -1,0 +1,8 @@
+<label for="theControl">
+    Welke regels gelden voor deze wedstrijd?
+</label>
+<select id="ruleset" title="Welke regels gelden voor deze wedstrijd?" #rulesetSelect
+    (change)="rulsetChanged($event, rulesetSelect.value)" [(ngModel)]="selected"
+    [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Welke regels gelden voor deze wedstrijd?">
+    <option *ngFor="let c of rulesets" [ngValue]="c">{{c.name}} ({{c.code}})</option>
+</select>

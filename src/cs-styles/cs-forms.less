@@ -5,10 +5,15 @@
 .form-open {
   @apply visible overflow-y-hidden;
   >div {
-    @apply relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md p-4;
+    @apply relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-2xl p-4;
   }
 }
 
 .form-closed {
   @apply collapse max-h-0;
 }
+
+.cs-modal-body {
+  @apply max-h-96 overflow-y-scroll;
+}
+

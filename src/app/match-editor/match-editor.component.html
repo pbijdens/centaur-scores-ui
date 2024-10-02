@@ -20,7 +20,7 @@
         <div class="navbar-default" *ngIf="!error">
             <ul>
                 <li *ngIf="match && id >= 0">
-                    <button (click)="delete()" class="cs-button red">Verwijder</button>
+                    <button (click)="deleteMatch()" class="cs-button red">Verwijder</button>
                 </li>
                 <li>
                     <button class="cs-button" type="button" (click)="save()">

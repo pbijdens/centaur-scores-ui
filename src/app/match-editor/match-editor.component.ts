@@ -70,7 +70,16 @@ export class MatchEditorComponent implements OnInit, OnChanges {
     await this.refresh();
   }
 
-  async delete(): Promise<void> {
+  async deleteMatch(): Promise<void> {
+    if (this.match) {
+      if (confirm(`Weet je zeker dat je de wedstrijd ${this.match.matchCode} - ${this.match.matchName} met id ${this.match.id} wil verwijderen? Dit verwijdert ook alle scores voor deze wedstrijd. Dit kan niet ongedaan worden gemaakt.`)) {
+        try {
+          await this.apiService.deleteMatch(this.match);
+        } catch (err) {
+          this.error = `Kon de wedstrijd niet verwijderen.`;
+        }
+      }
+    }    
     await this.refresh(); // TODO: pop up for confirmation, then delete
   }
 

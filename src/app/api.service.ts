@@ -56,6 +56,16 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
 
+  async deleteMatch(match: MatchModel): Promise<boolean> {
+    const data = await fetch(`${this.url}/match/${match.id}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+
   async setActive(match: MatchModel, value: boolean): Promise<void> {
     const data = await fetch(`${this.url}/match/${match.id}/active/${value}`, {
       method: 'PUT'

@@ -6,11 +6,13 @@
                     <button (click)="newMatch()" class="cs-button" aria-current="page">Nieuwe wedstrijd</button>
                 </li>
                 <li>
-                    <a *ngIf="competition && competition?.participantsList" [routerLink]="[ '/', 'participantlists', competition.participantsList?.id || -1]" class="cs-button" aria-current="page">Deelnemers</a>
+                    <a *ngIf="competition && competition?.participantsList"
+                        [routerLink]="[ '/', 'participantlists', competition.participantsList?.id || -1]"
+                        class="cs-button" aria-current="page">Deelnemers</a>
                 </li>
                 <li>
                     <button (click)="editCompetitionOpen()" class="cs-button" aria-current="page">Eigenschappen</button>
-                </li>                
+                </li>
             </ul>
         </div>
     </div>
@@ -25,6 +27,13 @@
     <div *ngIf="editCompetition">
         <app-edit-competition-metadata [competitionId]="editCompetition.id" (onError)="editCompetitionError($event)"
             (onClose)="editCompetitionClose()"></app-edit-competition-metadata>
+    </div>
+</form>
+
+<form class="cs-card modal" [ngClass]="{'form-open': match, 'form-closed': !match}">
+    <div *ngIf="match">
+        <app-edit-match-metadata [competitionId]="competitionId" [matchId]="match!.id"
+            (onError)="editMatchError($event)" (onClose)="editMatchClose()"></app-edit-match-metadata>
     </div>
 </form>
 
@@ -46,10 +55,13 @@
                 <td class="w-32">{{match.matchCode}}</td>
                 <td class="flex-grow">{{match.matchName}}</td>
                 <td class="w-40">{{match.rulesetCode}}</td>
-                <td class="w-40"><a [routerLink]="['/','edit',match.id]"
-                    class="cs-button">Wijzigen</a>
-            </td>
-        </tr>
+                <td class="w-40">
+                    <div class="flex flex-row"><button (click)="editMatch(match)"
+                            class="cs-button">Eigenschappen</button>
+                        <button (click)="setActiveMatch(match)" class="cs-button">Activeren</button>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

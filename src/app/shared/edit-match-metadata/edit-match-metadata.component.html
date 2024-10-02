@@ -1,0 +1,157 @@
+<div *ngIf="match">
+    <div class="flex justify-end p-2">
+        <div class="cs-heading h2 flex-grow" *ngIf="match.id <= 0">Nieuwe wedstrijd</div>
+        <div class="cs-heading h2 flex-grow" *ngIf="match.id > 0">Wedstrijd aanpassen</div>
+        <button (click)="close()" type="button" class="close-button">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="cs-input-block" *ngIf="competition">
+        <label for="competitionName">
+            Competitie
+        </label>
+        <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
+            id="competitionName" type="text" placeholder="Naam van de competitie" [(ngModel)]="competition!.name">
+    </div>
+
+    <div class="cs-input-block" *ngIf="competition">
+        <label for="competitionRulesetGroup">
+            Competitieregels
+        </label>
+        <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
+            id="competitionRulesetGroup" type="text" placeholder="Regels" [(ngModel)]="competition!.rulesetGroupName">
+    </div>
+
+    <div class="cs-tab-box">
+        <div class="cs-tab-buttons">
+            <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Algemeen</button>
+            <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Regels</button>
+            <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Disciplines</button>
+            <button (click)="tab=3" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 3, 'inactive': tab != 3}">Klasses</button>
+            <button (click)="tab=4" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 4, 'inactive': tab != 4}">Blazoenen</button>
+            <button (click)="tab=5" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 5, 'inactive': tab != 5}">Toetsenborden</button>
+        </div>
+        <div class="cs-tab-content">
+            <ng-container [ngSwitch]="tab">
+                <div class="cs-modal-body-x" *ngSwitchCase="1">
+
+                    <div class="cs-input-block">
+                        <app-select-ruleset [group]="competition?.rulesetGroupName" [currentCode]="match.rulesetCode"
+                            (rulesetSelected)="setMatchRuleset($event)"></app-select-ruleset>
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="arrowsPerEnd">
+                            Pijlen per ronde
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="arrowsPerEnd"
+                            type="number" placeholder="Aantal pijlen dat per ronde wordt geschoten"
+                            [(ngModel)]="match!.arrowsPerEnd">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="numberOfEnds">
+                            Aantal tellende rondes
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="numberOfEnds"
+                            type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.numberOfEnds">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="lijnenAsString">
+                            Lijnen (bijvoorbeeld ABCD)
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="lijnenAsString"
+                            type="text" placeholder="Lijnen (bijvoorbeeld ABCD)" [(ngModel)]="match!.lijnenAsString">
+                    </div>
+                </div>
+
+                <div class="cs-modal-body-x" *ngSwitchCase="2">
+                    <app-groups-editor [match]="match" label="Disciplines"
+                        [groups]="match.groups || []"></app-groups-editor>
+                </div>
+
+                <div class="cs-modal-body-x" *ngSwitchCase="3">
+                    <app-groups-editor [match]="match" label="Klasses"
+                        [groups]="match.subgroups || []"></app-groups-editor>
+                </div>
+
+                <div class="cs-modal-body-x" *ngSwitchCase="4">
+                    <app-groups-editor [match]="match" label="Blazoenen"
+                        [groups]="match.targets || []"></app-groups-editor>
+                </div>
+
+                <div class="cs-modal-body-x" *ngSwitchCase="5">
+                    <div class="cs-card" *ngIf="match">
+                        <h3 class="mt-4 text-xl font-bold">Toetsenborden</h3>
+                        <div class="columns-3">
+                            <ng-container *ngFor="let x of match.scoreValues | keys">
+                                <div class="break-inside-avoid mb-4">
+                                    <h4 class="text-l font-bold" *ngIf="x === ''">standaard</h4>
+                                    <h4 class="text-l font-bold" *ngIf="x !== ''">{{x}}</h4>
+                                    <ul>
+                                        <li *ngFor="let s of match.scoreValues[x]">
+                                            '{{s.label}}' => '{{s.value}}'
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cs-modal-body-x" *ngSwitchDefault>
+
+                    <div class="cs-input-block">
+                        <label for="matchCode">
+                            Code
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchCode" type="text"
+                            placeholder="Geef een korte (unieke) code op voor de wedstrijd"
+                            [(ngModel)]="match!.matchCode">
+                    </div>
+
+                    <div class="cs-input-block">
+                        <label for="matchName">
+                            Naam van de wedstrijd
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchName" type="text"
+                            placeholder="Volledige naam van de wedstrijd" [(ngModel)]="match!.matchName">
+                    </div>
+
+
+                </div>
+
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="cs-action-block">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <li *ngIf="match.id > 0">
+                        <button (click)="deleteEntity()" class="cs-button red" aria-current="page">Verwijderen</button>
+                    </li>
+                    <li class="flex-grow"></li>
+                    <li *ngIf="match.id > 0">
+                        <button (click)="saveEntity()" class="cs-button green" aria-current="page">Opslaan</button>
+                    </li>
+                    <li *ngIf="match.id <= 0">
+                        <button (click)="saveEntity()" class="cs-button" aria-current="page"
+                            [disabled]="!match.matchCode || !match!.matchName"
+                            [ngClass]="{'green': match.matchCode && match!.matchName, 'disabled': !match.matchCode || !match!.matchName}">Toevoegen</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

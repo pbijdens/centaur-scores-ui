@@ -20,7 +20,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
 
   public selectedCompetition?: CompetitionModel;
 
-  constructor(public apiService: ApiService) {}
+  constructor(public apiService: ApiService) { }
 
   async ngOnInit(): Promise<void> {
   }
@@ -32,7 +32,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
         name: '',
       };
     }
-    else if (this.competitionId >= 0) {      
+    else if (this.competitionId >= 0) {
       this.selectedCompetition = await this.apiService.getCompetition(this.competitionId);
       if (!this.selectedCompetition) {
         this.onError.emit('Competition load failed.');
@@ -45,12 +45,12 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
     if (this.selectedCompetition) {
       if (confirm(`Weet je zeker dat je de competitie ${this.selectedCompetition.name} met id ${this.selectedCompetition.id} wil verwijderen? Dit kan niet ongedaan worden gemaakt.`)) {
         try {
-          await this.apiService.deleteCompetition(this.selectedCompetition);          
+          await this.apiService.deleteCompetition(this.selectedCompetition);
         } catch (err) {
           this.onError.emit(`Kon lijst niet verwijderen.`);
         }
         this.onClose.emit();
-    }
+      }
     }
   }
 
