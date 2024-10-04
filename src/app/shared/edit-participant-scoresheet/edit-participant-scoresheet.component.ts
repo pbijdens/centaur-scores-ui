@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 import { FormsModule } from '@angular/forms';
 import { ParticipantModel } from '../../models/participant-model';
 import { MatchModel } from '../../models/match-model';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 import { SelectFromGroupinfoComponent } from "../select-from-groupinfo/select-from-groupinfo.component";
 import { GroupInfo } from '../../models/group-info';
 import { EditScorecardComponent } from "../edit-scorecard/edit-scorecard.component";

@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { MatchesListComponent } from './matches-list/matches-list.component';
-import { MatchEditorComponent } from './match-editor/match-editor.component';
-import { MatchResultViewComponent } from './match-result-view/match-result-view.component';
-import { CompetitionsComponent } from './competitions-component/competitions.component';
-import { ParticipantsListsComponent } from './participant-lists-component/participants-list.component';
-import { ParticipantsListEditorComponent } from './participant-list-editor-component/participants-list-editor.component';
-import { ManageCompetitionComponent } from './manage-competition/manage-competition.component';
+import { MatchesListComponent } from './pages/matches-list/matches-list.component';
+import { MatchEditorComponent } from './pages/match-editor/match-editor.component';
+import { MatchResultViewComponent } from './pages/match-result-view/match-result-view.component';
+import { CompetitionsComponent } from './pages/competitions-component/competitions.component';
+import { ParticipantsListsComponent } from './pages/participant-lists-component/participants-list.component';
+import { ParticipantsListEditorComponent } from './pages/participant-list-editor-component/participants-list-editor.component';
+import { ManageCompetitionComponent } from './pages/manage-competition/manage-competition.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/matches', pathMatch: 'full'  },

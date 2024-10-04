@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { EndModel } from './models/end-model';
+import { EndModel } from '../models/end-model';
 
 @Pipe({
   name: 'endscore',

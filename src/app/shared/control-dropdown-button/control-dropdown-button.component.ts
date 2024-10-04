@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DropdownMenuDirective } from '../dropdown-menu.directive';
+import { DropdownMenuDirective } from '../../directives/dropdown-menu.directive';
 
 @Component({
   selector: 'app-control-dropdown-button',

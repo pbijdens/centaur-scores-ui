@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ParticipantModel } from '../models/participant-model';
+import { ParticipantModel } from '../../models/participant-model';
 
 @Pipe({
   name: 'sortParticipantsPipe',

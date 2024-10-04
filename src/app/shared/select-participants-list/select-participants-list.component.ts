@@ -3,7 +3,7 @@ import { ParticipantsListModel } from '../../models/participants-list-model';
 import { ParticipantListMetadataModel } from '../../models/participants-list-metadata-model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-select-participants-list',

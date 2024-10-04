@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 import { RulesetModel } from '../../models/ruleset-model';
 
 @Component({

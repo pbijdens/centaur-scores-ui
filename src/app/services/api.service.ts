@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatchModel } from './models/match-model';
-import { ParticipantModel } from './models/participant-model';
-import { CompetitionModel } from './models/competition-model';
-import { ParticipantsListModel } from './models/participants-list-model';
-import { ParticipantsListMember } from './models/participants-list-member';
-import { RulesetModel } from './models/ruleset-model';
+import { MatchModel } from '../models/match-model';
+import { ParticipantModel } from '../models/participant-model';
+import { CompetitionModel } from '../models/competition-model';
+import { ParticipantsListModel } from '../models/participants-list-model';
+import { ParticipantsListMember } from '../models/participants-list-member';
+import { RulesetModel } from '../models/ruleset-model';
 
 
 @Injectable({

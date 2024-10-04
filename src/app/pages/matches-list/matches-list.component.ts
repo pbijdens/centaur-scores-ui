@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
-import { MatchModel } from '../models/match-model';
+import { ApiService } from '../../services/api.service';
+import { MatchModel } from '../../models/match-model';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NavbarService } from '../navbar.service';
-import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
+import { NavbarService } from '../../services/navbar.service';
+import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-matches-list',

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { KeysPipe } from '../../keys.pipe';
+import { KeysPipe } from '../../pipes/keys.pipe';
 import { GroupInfo } from '../../models/group-info';
 import { MatchModel } from '../../models/match-model';
 

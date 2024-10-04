@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CompetitionModel } from '../../models/competition-model';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 import { SelectRulesetGroupComponent } from '../select-ruleset-group/select-ruleset-group.component';
 import { SelectParticipantsListComponent } from '../select-participants-list/select-participants-list.component';
 

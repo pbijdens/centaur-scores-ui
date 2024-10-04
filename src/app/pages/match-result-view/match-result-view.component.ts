@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { KeysPipe } from '../keys.pipe';
-import { ParticipantModel } from '../models/participant-model';
-import { MatchModel } from '../models/match-model';
-import { GroupingDefinition } from '../models/grouping-definition';
+import { KeysPipe } from '../../pipes/keys.pipe';
+import { ParticipantModel } from '../../models/participant-model';
+import { MatchModel } from '../../models/match-model';
+import { GroupingDefinition } from '../../models/grouping-definition';
 import { SortedParticipantsListComponent } from './sorted-participants-list/sorted-participants-list.component';
-import { ParticipantGroup } from '../models/participant-group';
-import { GroupInfo } from '../models/group-info';
-import { NavbarService } from '../navbar.service';
+import { ParticipantGroup } from '../../models/participant-group';
+import { GroupInfo } from '../../models/group-info';
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-match-result-view',

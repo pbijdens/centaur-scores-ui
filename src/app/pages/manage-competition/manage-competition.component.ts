@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ApiService } from '../api.service';
-import { NavbarService } from '../navbar.service';
-import { CompetitionModel } from '../models/competition-model';
-import { MatchMetadataModel } from '../models/match-metadata-model';
-import { EditCompetitionMetadataComponent } from "../shared/edit-competition-metadata/edit-competition-metadata.component";
-import { MatchModel } from '../models/match-model';
-import { EditMatchMetadataComponent } from "../shared/edit-match-metadata/edit-match-metadata.component";
-import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
+import { ApiService } from '../../services/api.service';
+import { NavbarService } from '../../services/navbar.service';
+import { CompetitionModel } from '../../models/competition-model';
+import { MatchMetadataModel } from '../../models/match-metadata-model';
+import { EditCompetitionMetadataComponent } from "../../shared/edit-competition-metadata/edit-competition-metadata.component";
+import { MatchModel } from '../../models/match-model';
+import { EditMatchMetadataComponent } from "../../shared/edit-match-metadata/edit-match-metadata.component";
+import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-manage-competition',

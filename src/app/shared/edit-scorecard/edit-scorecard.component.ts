@@ -3,9 +3,9 @@ import { ParticipantModel } from '../../models/participant-model';
 import { ScoreButtonDefinition } from '../../models/score-button-definition';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CreatearrayPipe } from "../../createarray.pipe";
-import { EndscorePipe } from "../../endscore.pipe";
-import { EndsubtotalPipe } from "../../endsubtotal.pipe";
+import { CreatearrayPipe } from "../../pipes/createarray.pipe";
+import { EndscorePipe } from "../../pipes/endscore.pipe";
+import { EndsubtotalPipe } from "../../pipes/endsubtotal.pipe";
 
 @Component({
   selector: 'app-edit-scorecard',

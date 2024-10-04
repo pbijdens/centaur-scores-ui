@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 import { GroupInfo } from '../../models/group-info';
 @Component({
   selector: 'app-select-from-groupinfo',

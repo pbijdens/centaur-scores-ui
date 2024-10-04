@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ParticipantModel } from '../models/participant-model';
-import { ParticipantsListMember } from '../models/participants-list-member';
+import { ParticipantsListMember } from '../../models/participants-list-member';
 import { FormsModule } from '@angular/forms';
-import { ParticipantsListModel } from '../models/participants-list-model';
-import { EditParticipantsListMetadataComponent } from "../shared/edit-participants-list-metadata/edit-participants-list-metadata.component";
-import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
+import { ParticipantsListModel } from '../../models/participants-list-model';
+import { EditParticipantsListMetadataComponent } from "../../shared/edit-participants-list-metadata/edit-participants-list-metadata.component";
+import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-participants-list-editor',

@@ -3,10 +3,10 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormsModule } from '@angular/forms';
 import { CompetitionModel } from '../../models/competition-model';
 import { MatchModel } from '../../models/match-model';
-import { ApiService } from '../../api.service';
+import { ApiService } from '../../services/api.service';
 import { SelectRulesetComponent } from "../select-ruleset/select-ruleset.component";
-import { GroupsEditorComponent } from "../../match-editor/groups-editor/groups-editor.component";
-import { KeysPipe } from '../../keys.pipe';
+import { GroupsEditorComponent } from "../groups-editor/groups-editor.component";
+import { KeysPipe } from '../../pipes/keys.pipe';
 
 @Component({
   selector: 'app-edit-match-metadata',

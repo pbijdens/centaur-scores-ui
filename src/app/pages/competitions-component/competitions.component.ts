@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../services/api.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CompetitionModel } from '../models/competition-model';
+import { CompetitionModel } from '../../models/competition-model';
 import { FormsModule } from '@angular/forms';
-import { NavbarService } from '../navbar.service';
-import { EditCompetitionMetadataComponent } from '../shared/edit-competition-metadata/edit-competition-metadata.component';
-import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
+import { NavbarService } from '../../services/navbar.service';
+import { EditCompetitionMetadataComponent } from '../../shared/edit-competition-metadata/edit-competition-metadata.component';
+import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-competitions-list',

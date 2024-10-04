@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { KeysPipe } from '../../keys.pipe';
-import { ParticipantModel } from '../../models/participant-model';
-import { MatchModel } from '../../models/match-model';
+import { KeysPipe } from '../../../pipes/keys.pipe';
+import { ParticipantModel } from '../../../models/participant-model';
+import { MatchModel } from '../../../models/match-model';
 import { SortParticipantsPipePipe } from '../sort-participants-pipe.pipe';
-import { ParticipantGroup } from '../../models/participant-group';
+import { ParticipantGroup } from '../../../models/participant-group';
 
 @Component({
   selector: 'app-sorted-participants-list',

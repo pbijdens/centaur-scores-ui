@@ -1,17 +1,17 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ApiService } from '../api.service';
-import { MatchModel } from '../models/match-model';
+import { ApiService } from '../../services/api.service';
+import { MatchModel } from '../../models/match-model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatchTemplates } from '../models/match-templates';
-import { KeysPipe } from '../keys.pipe';
-import { GroupsEditorComponent } from './groups-editor/groups-editor.component';
-import { NavbarService } from '../navbar.service';
-import { EditMatchMetadataComponent } from "../shared/edit-match-metadata/edit-match-metadata.component";
-import { EditParticipantScoresheetComponent } from "../shared/edit-participant-scoresheet/edit-participant-scoresheet.component";
-import { ParticipantModel } from '../models/participant-model';
-import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
+import { MatchTemplates } from '../../models/match-templates';
+import { KeysPipe } from '../../pipes/keys.pipe';
+import { GroupsEditorComponent } from '../../shared/groups-editor/groups-editor.component';
+import { NavbarService } from '../../services/navbar.service';
+import { EditMatchMetadataComponent } from "../../shared/edit-match-metadata/edit-match-metadata.component";
+import { EditParticipantScoresheetComponent } from "../../shared/edit-participant-scoresheet/edit-participant-scoresheet.component";
+import { ParticipantModel } from '../../models/participant-model';
+import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-match-editor',
