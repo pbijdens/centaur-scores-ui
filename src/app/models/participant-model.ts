@@ -9,4 +9,11 @@ export interface ParticipantModel {
     target: string;
     score: number;
     ends: Array<EndModel>;
+    deviceID: string;
+    participantListEntryId?: number;
+
+    // V2 only
+    groupName?: string;
+    subgroupName?: string;
+    targetName?: string;    
 }

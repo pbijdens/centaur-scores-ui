@@ -1,0 +1,101 @@
+<div *ngIf="match && participant">
+    <div class="flex justify-end p-2">
+        <div class="cs-heading h2 flex-grow" *ngIf="participant.id <= 0">Nieuwe scorekaart</div>
+        <div class="cs-heading h2 flex-grow" *ngIf="participant.id > 0">Scorekaart {{participant.name}}</div>
+        <button (click)="close()" type="button" class="close-button">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="cs-input-block" *ngIf="match">
+        <label for="competitionName">
+            Wedstrijd
+        </label>
+        <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
+            id="competitionName" type="text" placeholder="Naam van de competitie" [(ngModel)]="match!.matchName">
+    </div>
+
+    <div class="cs-tab-box" *ngIf="participant && match">
+        <div class="cs-tab-buttons">
+            <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Algemeen</button>
+            <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}" *ngIf="participant.id >= 0">Scores</button>
+        </div>
+        <div class="cs-tab-content">
+            <ng-container [ngSwitch]="tab">
+                <div class="cs-modal-body-x" *ngSwitchCase="1">
+                    <app-edit-scorecard [participant]="participant" [keyboard]="keyboard" [arrowsPerEnd]="match.arrowsPerEnd"></app-edit-scorecard>
+                </div>                
+
+                <div class="cs-modal-body-x" *ngSwitchDefault>
+                    <div class="cs-input-block">
+                        <label for="participantName">
+                            Naam
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="participantName" type="text"
+                            placeholder="Naam van de deelnemer"
+                            [(ngModel)]="participant.name">
+                    </div>
+
+                    <div class="cs-input-block">
+                        <label for="participantLijn">
+                            Lijn
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text disabled" id="participantLijn" type="text"
+                            placeholder="Lijn" [disabled]="true"
+                            [(ngModel)]="participant.lijn">
+                    </div>
+
+                    <div class="cs-input-block">
+                        <label for="participantDeviceID">
+                            Lijn
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text disabled" id="participantDeviceID" type="text"
+                            placeholder="Device ID" [disabled]="true"
+                            [(ngModel)]="participant.deviceID">
+                    </div>
+
+                    <div class="cs-input-block">
+                        <app-select-from-groupinfo [currentValue]="participant.group" (valueSelected)="setParticipantGroup($event)" [values]="match.groups" label="Discipline"></app-select-from-groupinfo>
+                    </div>
+
+                    <div class="cs-input-block">
+                        <app-select-from-groupinfo [currentValue]="participant.subgroup" (valueSelected)="setParticipantSubgroup($event)" [values]="match.subgroups" label="Leeftijdscategorie"></app-select-from-groupinfo>
+                    </div>
+
+                    <div class="cs-input-block">
+                        <app-select-from-groupinfo [currentValue]="participant.target" (valueSelected)="setParticipantTarget($event)" [values]="match.targets" label="Blazoen"></app-select-from-groupinfo>
+                    </div>
+
+                </div>
+
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="cs-action-block">
+        <div>
+            <div class="navbar-default">
+                <ul>
+                    <li *ngIf="participant.id > 0">
+                        <button (click)="deleteEntity()" class="cs-button red" aria-current="page">Verwijderen</button>
+                    </li>
+                    <li class="flex-grow"></li>
+                    <li *ngIf="participant.id > 0">
+                        <button (click)="saveEntity()" class="cs-button green" aria-current="page">Opslaan</button>
+                    </li>
+                    <li *ngIf="participant.id <= 0">
+                        <button (click)="saveEntity()" class="cs-button" aria-current="page"
+                            [disabled]="!participant.name"
+                            [ngClass]="{'green': participant.name, 'disabled': !participant.name}">Toevoegen</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

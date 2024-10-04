@@ -1,0 +1,8 @@
+<label for="theControl">
+    {{label}}
+</label>
+<select id="ruleset" title="Kies een waarde" #theControl
+    (change)="selectionChanged($event, theControl.value)" [(ngModel)]="selectedEntry"
+    [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Kies een lijst">
+    <option *ngFor="let c of values" [ngValue]="c">{{c.label}}</option>
+</select>

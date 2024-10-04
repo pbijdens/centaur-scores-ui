@@ -6,11 +6,12 @@ import { CompetitionModel } from '../models/competition-model';
 import { FormsModule } from '@angular/forms';
 import { NavbarService } from '../navbar.service';
 import { EditCompetitionMetadataComponent } from '../shared/edit-competition-metadata/edit-competition-metadata.component';
+import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-competitions-list',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, ControlDropdownButtonComponent],
   templateUrl: './competitions.component.html',
   styleUrl: './competitions.component.less'
 })

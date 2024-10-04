@@ -52,13 +52,16 @@
         <tbody>
             <tr *ngFor="let match of competition.matches">
                 <td class="w-8 text-center"><span *ngIf="match.isActive">&#x2714;</span></td>
-                <td class="w-32">{{match.matchCode}}</td>
-                <td class="flex-grow">{{match.matchName}}</td>
+                <td class="w-32 cursor-pointer" [routerLink]="['/', 'matches', match.id]">{{match.matchCode}}</td>
+                <td class="flex-grow cursor-pointer" [routerLink]="['/', 'matches', match.id]">{{match.matchName}}</td>
                 <td class="w-40">{{match.rulesetCode}}</td>
                 <td class="w-40">
-                    <div class="flex flex-row"><button (click)="editMatch(match)"
-                            class="cs-button">Eigenschappen</button>
-                        <button (click)="setActiveMatch(match)" class="cs-button">Activeren</button>
+                    <div class="flex flex-row"> <app-control-dropdown-button>
+                            <a [routerLink]="['/', 'matches', match.id]" (click)="setActiveMatch(match)"
+                                class="cs-button">Open wedstrijd</a>
+                            <button (click)="setActiveMatch(match)" class="cs-button">Maak actief</button>
+                            <button (click)="editMatch(match)"
+                                class="cs-button">Eigenschappen</button></app-control-dropdown-button>
                     </div>
                 </td>
             </tr>

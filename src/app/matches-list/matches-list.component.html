@@ -2,11 +2,11 @@
     <div>
         <div class="navbar-default">
             <ul>
-                <li>
+                <!-- <li>
                     <a [routerLink]="['/', 'edit', '-1' ]"
                         class="cs-button"
                         aria-current="page">Nieuwe wedstrijd maken</a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
@@ -25,13 +25,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let match of matches" [routerLink]="['/','edit',match.id]" class="hover:bg-slate-300 cursor-pointer">
+            <tr *ngFor="let match of matches" class="hover:bg-slate-300">
                 <td class="w-16 text-center"><span *ngIf="match.isActiveMatch">&#x2714;</span></td>
-                <td class="w-32">{{match.matchCode}}</td>
-                <td>{{match.matchName}}</td>
-                <td class="w-40">{{match.lijnen.join()}}</td>
-                <td class="w-16"><a [routerLink]="['/','edit',match.id]"
-                    class="cs-button">Open</a>
+                <td class="w-32 cursor-pointer" [routerLink]="['/','matches',match.id]">{{match.matchCode}}</td>
+                <td class="cursor-pointer flex-grow" [routerLink]="['/','matches',match.id]">{{match.matchName}}</td>
+                <td class="w-40 cursor-pointer" [routerLink]="['/','matches',match.id]">{{match.lijnen.join()}}</td>
+                <td class="w-16"><app-control-dropdown-button><a [routerLink]="['/','matches',match.id]" class="cs-button">Open wedstrijd</a></app-control-dropdown-button>
             </td>
         </tr>
         </tbody>

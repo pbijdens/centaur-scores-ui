@@ -43,12 +43,17 @@
                 <td class="w-40">{{(competition.participantsList && competition.participantsList.id > 0) ?
                     competition.participantsList!.name : '-'}}</td>
                 <td class="w-40">{{competition.rulesetGroupName}}</td>
-                <td class="w-64">
+                <td class="w-32">
                     <div class="flex flex-row">
-                        <button (click)="openProperties(competition)" class="cs-button">Eigenschappen</button>
-                        <button *ngIf="competition.participantsList && competition.participantsList.id > 0"
-                            [routerLink]="['/','participantlists', competition.participantsList!.id]"
-                            class="cs-button">Deelnemers</button>
+                        <app-control-dropdown-button>
+                            <a [routerLink]="['/','competitions',competition.id]" class="cs-button">Wedstrijden</a>
+                            <a [routerLink]="['/','competitions',competition.id]" class="cs-button">Uitslagen</a>
+                            <button *ngIf="competition.participantsList && competition.participantsList.id > 0"
+                                [routerLink]="['/','participantlists', competition.participantsList!.id]"
+                                class="cs-button">Deelnemers</button>
+                            <button (click)="openProperties(competition)"
+                                class="cs-button">Eigenschappen</button>
+                        </app-control-dropdown-button>
                     </div>
                 </td>
             </tr>

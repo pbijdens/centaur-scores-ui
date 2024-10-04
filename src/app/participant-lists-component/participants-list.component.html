@@ -35,10 +35,10 @@
             <tr *ngFor="let participantsList of participantsLists" class="hover:bg-slate-300">
                 <td class="cursor-pointer" [routerLink]="['/','participantlists',participantsList.id]">{{participantsList.name}}</td>
                 <td class="w-32">
-                    <div class="flex flex-row">
-                        <!-- <a [routerLink]="['/','participantlists',participantsList.id]" class="cs-button">Openen</a> -->
+                    <div class="flex flex-row"><app-control-dropdown-button>
+                        <a [routerLink]="['/','participantlists',participantsList.id]" class="cs-button">Lijst openen</a>
                         <button (click)="editParticipantsList(participantsList)" class="cs-button">Eigenschappen</button>
-                    </div>
+                    </app-control-dropdown-button></div>
                 </td>
             </tr>
         </tbody>

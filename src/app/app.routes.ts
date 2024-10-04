@@ -10,12 +10,12 @@ import { ManageCompetitionComponent } from './manage-competition/manage-competit
 export const routes: Routes = [
     { path: '', redirectTo: '/matches', pathMatch: 'full'  },
     { path: 'matches', component: MatchesListComponent },
+    { path: 'matches/:id', component: MatchEditorComponent },
     { path: 'competitions', component: CompetitionsComponent },
     { path: 'competitions/:competitionId', component: ManageCompetitionComponent },
     { path: 'participantlists', component: ParticipantsListsComponent },
     { path: 'participantlists/:listId', component: ParticipantsListEditorComponent },
     { path: 'participantlists/:listId/members/:id', component: ParticipantsListEditorComponent },
-    { path: 'edit/:id', component: MatchEditorComponent },
     { path: 'result/:id', component: MatchResultViewComponent },
     { path: 'result/:id/:sort', component: MatchResultViewComponent },
 ];

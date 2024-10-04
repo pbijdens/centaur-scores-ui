@@ -8,20 +8,27 @@ import { MatchTemplates } from '../models/match-templates';
 import { KeysPipe } from '../keys.pipe';
 import { GroupsEditorComponent } from './groups-editor/groups-editor.component';
 import { NavbarService } from '../navbar.service';
+import { EditMatchMetadataComponent } from "../shared/edit-match-metadata/edit-match-metadata.component";
+import { EditParticipantScoresheetComponent } from "../shared/edit-participant-scoresheet/edit-participant-scoresheet.component";
+import { ParticipantModel } from '../models/participant-model';
+import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-match-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent],
+  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent],
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })
 export class MatchEditorComponent implements OnInit, OnChanges {
   public match?: MatchModel;
+  public matchForProperties?: MatchModel;
   public id: number = -1;
   public error?: String;
-  public templates = MatchTemplates;
   public selectedTemplate = MatchTemplates[0];
+  public competitionId = -1;
+  public participantForProperties?: ParticipantModel;
+  public participants: ParticipantModel[] = [];
 
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
     this.id = this.activatedRoute.snapshot.params['id'] as number;
@@ -36,56 +43,67 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (!this.participants || !this.participants.length) {
+      await this.refresh();
+    }
   }
 
   async refresh() {
     if (this.id >= 0) {
       try {
         this.match = await this.apiService.getMatch(this.id);
+        this.match!.lijnenAsString = this.match!.lijnen.join('');
+        if (this.match.competition) {
+          this.competitionId = this.match.competition.id;
+        }
+        this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode}`);
+
+        this.participants = await this.apiService.getParticipantsForMatch(this.match.id);
       }
       catch (error) {
         this.error = `Kon wedstrijd met id ${this.id} niet laden: ${error}`;
       }
     } else {
-      this.match = JSON.parse(JSON.stringify(this.selectedTemplate.model));
-    }
-    this.match!.lijnenAsString = this.match!.lijnen.join('');
-  }
-
-  async save() {
-    this.match!.lijnen = this.match!.lijnenAsString.split('');
-    if (-1 == this.id) {
-      const newMatch = await this.apiService.postMatch(this.match!);
-      // this.router.navigate(['/', 'edit', `${newMatch?.id ?? -1}`])
-      this.router.navigate(['/']);
-    } else {
-      const newMatch = await this.apiService.putMatch(this.match!);
-      this.router.navigate(['/']);
-      //await this.refresh();
+      this.match = undefined;
     }
   }
 
-  async setActive(value: boolean): Promise<void> {
-    const newMatch = await this.apiService.setActive(this.match!, value);
+  async newMatch(): Promise<void> {
+    this.matchForProperties = <MatchModel>{ id: -1 };
+  }
+
+  async openProperties(): Promise<void> {
+    this.matchForProperties = JSON.parse(JSON.stringify(this.match));
+  }
+
+  async editMatchClose(): Promise<void> {
+    delete this.matchForProperties;
     await this.refresh();
   }
 
-  async deleteMatch(): Promise<void> {
-    if (this.match) {
-      if (confirm(`Weet je zeker dat je de wedstrijd ${this.match.matchCode} - ${this.match.matchName} met id ${this.match.id} wil verwijderen? Dit verwijdert ook alle scores voor deze wedstrijd. Dit kan niet ongedaan worden gemaakt.`)) {
-        try {
-          await this.apiService.deleteMatch(this.match);
-        } catch (err) {
-          this.error = `Kon de wedstrijd niet verwijderen.`;
-        }
-      }
-    }    
-    await this.refresh(); // TODO: pop up for confirmation, then delete
+  async editMatchError(message: string): Promise<void> {
+    this.error = message;
   }
 
-  async matchTypeChanged(event: any, value: any) {
+  async setActive(value: boolean): Promise<void> {
+    await this.apiService.setActive(this.match!, value);
+    await this.refresh();
+  }
 
-    this.match = JSON.parse(JSON.stringify(this.selectedTemplate.model));
-    this.match!.lijnenAsString = this.match!.lijnen.join('');
+  async editParticipantError(message: string): Promise<void> {
+    this.error = message;
+  }
+
+  async editParticipantClose() : Promise<void> {
+    delete this.participantForProperties;
+    await this.refresh();
+  }
+
+  async newParticipant(): Promise<void> {
+    this.participantForProperties = <ParticipantModel>{ id: -1 };
+  }
+
+  async editParticipant(p : ParticipantModel): Promise<void> {
+    this.participantForProperties = JSON.parse(JSON.stringify(p));
   }
 }

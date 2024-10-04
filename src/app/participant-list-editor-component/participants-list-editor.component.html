@@ -115,11 +115,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let part of participants" (click)="select(part)" class="hover:bg-slate-300 cursor-pointer">
-                <td class="">{{part.name}}</td>
-                <td class="w-32">{{part.group}}</td>
-                <td class="w-32">{{part.subgroup}}</td>
-                <td class="w-16"><button (click)="select(part)" class="cs-button">Aanpassen</button>
+            <tr *ngFor="let part of participants" class="hover:bg-slate-300 cursor-pointer">
+                <td class="flex-grow" (click)="select(part)">{{part.name}}</td>
+                <td class="w-32" (click)="select(part)">{{part.group}}</td>
+                <td class="w-32" (click)="select(part)">{{part.subgroup}}</td>
+                <td class="w-16"><app-control-dropdown-button><button (click)="select(part)" class="cs-button">Eigenschappen</button></app-control-dropdown-button>
                 </td>
             </tr>
         </tbody>

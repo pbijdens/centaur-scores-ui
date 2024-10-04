@@ -214,4 +214,41 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${id}`);
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
+
+  async getParticipantForMatch(matchId: number, participantId: number): Promise<ParticipantModel | undefined> {
+    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`);    
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+  }
+
+  async deleteParticipantForMatch(matchId: number, participantId: number): Promise<number> {
+    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];  
+  }
+
+  async updateMatchParticipant(matchId: number, participant: ParticipantModel): Promise<ParticipantModel> {
+    const data = await fetch(`${this.url}/match/${matchId}/participants/${participant.id}/scoresheet`, {
+      method: 'PUT',
+      body: JSON.stringify(participant),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+
+  async createParticipantForMatch(matchId: number, participant: ParticipantModel): Promise<CompetitionModel> {
+    const data = await fetch(`${this.url}/match/${matchId}/participants/scoresheet`, {
+      method: 'POST',
+      body: JSON.stringify(participant),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
 }

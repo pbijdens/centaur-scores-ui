@@ -9,11 +9,12 @@ import { MatchMetadataModel } from '../models/match-metadata-model';
 import { EditCompetitionMetadataComponent } from "../shared/edit-competition-metadata/edit-competition-metadata.component";
 import { MatchModel } from '../models/match-model';
 import { EditMatchMetadataComponent } from "../shared/edit-match-metadata/edit-match-metadata.component";
+import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-manage-competition',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, EditMatchMetadataComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, EditMatchMetadataComponent, ControlDropdownButtonComponent],
   templateUrl: './manage-competition.component.html',
   styleUrl: './manage-competition.component.less'
 })

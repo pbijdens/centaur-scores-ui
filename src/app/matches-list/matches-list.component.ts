@@ -4,11 +4,12 @@ import { MatchModel } from '../models/match-model';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavbarService } from '../navbar.service';
+import { ControlDropdownButtonComponent } from "../shared/control-dropdown-button/control-dropdown-button.component";
 
 @Component({
   selector: 'app-matches-list',
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule, CommonModule, ControlDropdownButtonComponent],
   templateUrl: './matches-list.component.html',
   styleUrl: './matches-list.component.less'
 })
@@ -16,7 +17,7 @@ export class MatchesListComponent implements OnInit {
   public matches: Array<MatchModel> = [];
 
   constructor(public apiService: ApiService, public navbarService: NavbarService) {
-    this.navbarService.setPageTitle('Wedstrijden');
+    this.navbarService.setPageTitle('Alle wedstrijden');
   }
 
   async refresh(): Promise<void> {

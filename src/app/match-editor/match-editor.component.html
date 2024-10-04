@@ -2,30 +2,25 @@
     <div>
         <div class="navbar-default">
             <ul>
-                <li>
-                    <button (click)="refresh()" class="cs-button" aria-current="page">Ververs</button>
+                <li *ngIf="!error && id >= 0 && match">
+                    <a [routerLink]="['/', 'result', id]" class="cs-button" aria-current="page">Uitslagen</a>
                 </li>
+                <!-- <li>
+                    <button (click)="openProperties()" *ngIf="match" class="cs-button">Eigenschappen</button>
+                </li> -->
+                <li>
+                    <button (click)="newParticipant()" *ngIf="match" class="cs-button">Deelnemer toevoegen</button>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-default" *ngIf="!error">
+            <ul>
                 <li><button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
                         actieve wedstrijd</button>
                 </li>
                 <li>
                     <button (click)="setActive(false)" *ngIf="match?.isActiveMatch" class="cs-button">Deactiveer
                         wedstrijd</button>
-                </li>
-                <li *ngIf="!error && id >= 0 && match">
-                    <a [routerLink]="['/', 'result', id]" class="cs-button" aria-current="page">Uitslagen</a>
-                </li>
-            </ul>
-        </div>
-        <div class="navbar-default" *ngIf="!error">
-            <ul>
-                <li *ngIf="match && id >= 0">
-                    <button (click)="deleteMatch()" class="cs-button red">Verwijder</button>
-                </li>
-                <li>
-                    <button class="cs-button" type="button" (click)="save()">
-                        {{id == -1 ? 'Aanmaken' : 'Wijzigingen opslaan'}}
-                    </button>
                 </li>
             </ul>
         </div>
@@ -37,86 +32,46 @@
     <p>{{error}}</p>
 </div>
 
-<form class="cs-card" *ngIf="!error && (!match || id == -1)">
-    <div class="cs-heading h1">Wedstrijd template toepassen</div>
-    <div class="cs-input-block">
-        <label for="matchCode">
-            Type wedstrijd
-        </label>
-        <select id="template" title="Kies een type wedstrijd" #matchTemplate
-            (change)="matchTypeChanged($event, matchTemplate.value)" [(ngModel)]="selectedTemplate"
-            [ngModelOptions]="{standalone: true}"
-            class="cs-input-text"
-            placeholder="Kies een type wedstrijd">
-            <option *ngFor="let c of templates" [ngValue]="c">{{c.name}}</option>
-        </select>
+<form class="cs-card modal" [ngClass]="{'form-open': matchForProperties, 'form-closed': !matchForProperties}">
+    <div *ngIf="matchForProperties">
+        <app-edit-match-metadata [competitionId]="competitionId" [matchId]="matchForProperties!.id"
+            (onError)="editMatchError($event)" (onClose)="editMatchClose()"></app-edit-match-metadata>
     </div>
 </form>
 
-<form class="cs-card" *ngIf="!error && match">
-    <div class="cs-heading h1">Basisgegevens</div>
-    <div class="cs-input-block">
-        <label for="matchCode">
-            Code
-        </label>
-        <input [ngModelOptions]="{standalone: true}"
-            class="cs-input-text"
-            id="matchCode" type="text" placeholder="Geef een korte (unieke) code op voor de wedstrijd"
-            [(ngModel)]="match!.matchCode">
-    </div>
-    <div class="cs-input-block">
-        <label for="matchName">
-            Naam van de wedstrijd
-        </label>
-        <input [ngModelOptions]="{standalone: true}"
-            class="cs-input-text"
-            id="matchName" type="text" placeholder="Volledige naam van de wedstrijd" [(ngModel)]="match!.matchName">
-    </div>
-    <div class="cs-input-block">
-        <label for="arrowsPerEnd">
-            Pijlen per ronde
-        </label>
-        <input [ngModelOptions]="{standalone: true}"
-            class="cs-input-text"
-            id="arrowsPerEnd" type="number" placeholder="Aantal pijlen dat per ronde wordt geschoten"
-            [(ngModel)]="match!.arrowsPerEnd">
-    </div>
-    <div class="cs-input-block">
-        <label for="numberOfEnds">
-            Aantal tellende rondes
-        </label>
-        <input [ngModelOptions]="{standalone: true}"
-            class="cs-input-text"
-            id="numberOfEnds" type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.numberOfEnds">
-    </div>
-    <div class="cs-input-block">
-        <label for="lijnenAsString">
-            Lijnen (bijvoorbeeld ABCD)
-        </label>
-        <input [ngModelOptions]="{standalone: true}"
-            class="cs-input-text"
-            id="lijnenAsString" type="text" placeholder="Lijnen (bijvoorbeeld ABCD)"
-            [(ngModel)]="match!.lijnenAsString">
+<form class="cs-card modal" [ngClass]="{'form-open': participantForProperties, 'form-closed': !participantForProperties}">
+    <div *ngIf="participantForProperties && match">
+        <app-edit-participant-scoresheet [matchId]="match.id" [participantId]="participantForProperties.id"
+            (onError)="editParticipantError($event)" (onClose)="editParticipantClose()"></app-edit-participant-scoresheet>
     </div>
 </form>
 
-<app-groups-editor [match]="match" label="Disciplines" [groups]="match?.groups || []"></app-groups-editor>
-<app-groups-editor [match]="match" label="Klasses" [groups]="match?.subgroups || []"></app-groups-editor>
-<app-groups-editor [match]="match" label="Blazoenen" [groups]="match?.targets || []"></app-groups-editor>
+<div class="cs-card" *ngIf="participants">
+    <div class="cs-heading h1">Deelnemers</div>
 
-<div class="cs-card" *ngIf="match">
-    <h3 class="mt-4 text-xl font-bold">Toetsenborden</h3>
-    <div class="columns-3">
-        <ng-container *ngFor="let x of match.scoreValues | keys">
-            <div class="break-inside-avoid mb-4">
-                <h4 class="text-l font-bold" *ngIf="x === ''">standaard</h4>
-                <h4 class="text-l font-bold" *ngIf="x !== ''">{{x}}</h4>
-                <ul>
-                    <li *ngFor="let s of match.scoreValues[x]">
-                        '{{s.label}}' => '{{s.value}}'
-                    </li>
-                </ul>
-            </div>
-        </ng-container>
-    </div>
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th class="flex-grow">Naam</th>
+                <th class="w-48">Discipline</th>
+                <th class="w-48">Klasse</th>
+                <th class="w-48">Device</th>
+                <th class="w-16">Lijn</th>
+                <th class="w-16 text-right">Score</th>
+                <th class="w-48">Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let participant of participants" class="hover:bg-slate-300">
+                <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
+                <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.groupName}}</td>
+                <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.subgroupName}}</td>
+                <td class="w-48 cursor-pointer text-xs" (click)="editParticipant(participant)">{{participant.deviceID}}</td>
+                <td class="w-16 cursor-pointer" (click)="editParticipant(participant)">{{participant.lijn}}</td>
+                <td class="w-16 text-right cursor-pointer" (click)="editParticipant(participant)">{{participant.score}}</td>
+                <td class="w-32"><app-control-dropdown-button><button (click)="editParticipant(participant)" class="cs-button">Eigenschappen</button></app-control-dropdown-button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>

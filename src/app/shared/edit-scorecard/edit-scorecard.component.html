@@ -1,0 +1,43 @@
+<div>
+    <table class="cs-table scorecard">
+        <thead>
+            <th class="text-center w-16">#</th>
+            <th *ngFor="let n of arrowsPerEnd | createarray" class="text-center w-12">
+                {{n}}
+            </th>
+            <th class="text-center w-16">Score</th>
+            <th class="text-center w-16">Subtotaal</th>
+        </thead>
+        <ng-container *ngFor="let end of participant.ends; index as endIndex">
+            <tr [ngClass]="{'active-end': selectedEnd == endIndex}" class="cs-end-row">
+                <td class="text-center w-16">{{endIndex + 1}}</td>
+                <td class="text-center w-12" *ngFor="let arrow of end.arrows; index as arrowIndex"
+                    (click)="setIndex(endIndex, arrowIndex)"
+                    [ngClass]="{'active-arrow': selectedEnd == endIndex && selectedArrow == arrowIndex}">
+                    <div [attr.class]="'cs-arrow cs-arrow-score cs-arrow-'+ arrow">{{arrow === 0 ? '-' : arrow}}</div>
+                </td>
+                <td class="text-right w-16 pr-1">{{end | endscore}}</td>
+                <td class="text-right w-16 pr-1">{{participant.ends | endsubtotal: endIndex+1}}</td>
+            </tr>
+            <tr *ngIf="selectedEnd == endIndex" class="cs-kb-row">
+                <td [attr.colspan]="arrowsPerEnd + 3">
+                    <div class="cs-kb">
+                        <div *ngFor="let key of keyboard" [attr.class]="'cs-kb-key cs-kb-key-'+ key.value"
+                            (click)="pressKey(key)">
+                            {{key.label}}
+                        </div>
+                        <div class="flex-grow"></div>
+                        <div [attr.class]="'cs-kb-key cs-kb-key-close'" (click)="setIndex(-1, -1)">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-container>
+    </table>
+</div>
