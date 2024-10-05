@@ -1,0 +1,24 @@
+<table class="cs-results-table liveview">
+    <thead>
+        <tr>
+            <th class="w-12">#</th>
+            <th>Naam</th>
+            <th class="w-20">Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let entry of entries">
+            <td class="text-right">{{entry.position}}.</td>
+            <td class="">
+                <div>{{entry.participantInfo}}</div>
+                <div class="text-xs italic text-slate-600"
+                    *ngIf="entry.scoreInfo[0].info">{{entry.scoreInfo[0].info}}
+                </div>
+                <div class="text-xs italic text-slate-600"
+                    *ngIf="entry.tiebreakerInfo">{{entry.tiebreakerInfo}}
+                </div>
+            </td>
+            <td class="text-right">{{entry.score}}</td>
+        </tr>
+    </tbody>
+</table>

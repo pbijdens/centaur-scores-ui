@@ -3,13 +3,18 @@
         <div class="navbar-default">
             <ul>
                 <li>
-                    <button (click)="newMatch()" class="cs-button" aria-current="page">Nieuwe wedstrijd</button>
+                    <button (click)="newMatch()" class="cs-button" aria-current="page">Wedstrijd toevoegen</button>
+                </li>
+                <li *ngIf="competition && competition.id >= 0">
+                    <button [routerLink]="['/', 'competitions', competition.id, 'results']" class="cs-button">Competitie
+                        resultaten</button>
                 </li>
                 <li>
                     <a *ngIf="competition && competition?.participantsList"
                         [routerLink]="[ '/', 'participantlists', competition.participantsList?.id || -1]"
-                        class="cs-button" aria-current="page">Deelnemers</a>
+                        class="cs-button" aria-current="page">Deelnemerslijst beheren</a>
                 </li>
+
                 <li>
                     <button (click)="editCompetitionOpen()" class="cs-button" aria-current="page">Eigenschappen</button>
                 </li>
@@ -57,8 +62,9 @@
                 <td class="w-40">{{match.rulesetCode}}</td>
                 <td class="w-40">
                     <div class="flex flex-row"> <app-control-dropdown-button>
-                            <a [routerLink]="['/', 'matches', match.id]" (click)="setActiveMatch(match)"
-                                class="cs-button">Open wedstrijd</a>
+                            <button [routerLink]="['/', 'matches', match.id]" class="cs-button">Open wedstrijd</button>
+                            <button [routerLink]="['/', 'matches', match.id, 'results']" class="cs-button">Wedstrijd
+                                resultaten</button>
                             <button (click)="setActiveMatch(match)" class="cs-button">Maak actief</button>
                             <button (click)="editMatch(match)"
                                 class="cs-button">Eigenschappen</button></app-control-dropdown-button>

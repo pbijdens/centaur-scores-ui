@@ -45,24 +45,39 @@ a {
 
 .cs-tab-box {
   @apply w-full border-solid border-slate-200 border-l-2 border-r-2 border-b-2 p-0;
+  @media print {
+    @apply w-full border-0 p-0;
+  }
 
   .cs-tab-buttons {
     @apply max-h-16 flex flex-row p-0 bg-slate-200 w-full m-0;
+    @media print {
+      @apply bg-transparent;
+    }
 
     .cs-tab-button {
-      @apply px-2 py-1 ~"me-0.5" m-0;
+      @apply px-2 py-1~"me-0.5" m-0;
       @apply bg-blue-700 hover:bg-blue-800;
       @apply text-white font-medium rounded-sm text-sm text-center;
       @apply focus:outline-none focus:ring-1 focus:ring-blue-300;
       @apply cursor-pointer;
       @apply rounded-t-md;
-    
+      @media print {
+        @apply hidden;
+      }
+  
       &.active {
         @apply bg-blue-700 hover:bg-blue-800;
+        @media print {
+          @apply hidden;
+        }        
       }
-    
+
       &.inactive {
         @apply bg-slate-700 hover:bg-slate-800;
+        @media print {
+          @apply hidden;
+        }        
       }
     }
   }

@@ -17,7 +17,6 @@ nav.cs-page-header {
       }
     }
   }
-
 }
 
 // TOP HEADER
@@ -57,7 +56,21 @@ nav.cs-application-header {
       }
     }
   }
+}
 
+@media print {
+  nav.cs-application-header {
+    @apply bg-transparent;
+    @apply text-black;
+
+    .navbar-title {
+      @apply text-black text-2xl;
+    }
+
+    .navbar-default {
+      @apply collapse max-h-0;
+    }
+  }
 }
 
 div.cs-action-block {

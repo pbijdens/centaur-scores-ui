@@ -9,14 +9,6 @@
     @apply m-4 p-2;
   }
 
-  &.results-card {
-    @apply m-0 mb-2 p-2 break-inside-avoid;
-  }
-
-  .results-content {
-    @apply columns-2 mx-4;
-  }
-
   p {
     @apply mb-4 mt-4;
   }
@@ -66,4 +58,21 @@
 
 .cs-card-header {
   @apply w-full block p-4 text-xl font-bold bg-slate-300 text-center;
+}
+
+
+.cs-progress-bar {
+  @apply m-0;
+
+  >div {
+    @apply w-full bg-gray-200 rounded-full dark:bg-slate-300;
+
+    >div {
+      @apply bg-green-700 text-xs font-medium text-white text-center ~"p-0.5" leading-none rounded-full;
+    }
+  }
+
+  @media print {
+    display: none;
+  }
 }

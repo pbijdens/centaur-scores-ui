@@ -30,7 +30,7 @@
                 <td class="w-32 cursor-pointer" [routerLink]="['/','matches',match.id]">{{match.matchCode}}</td>
                 <td class="cursor-pointer flex-grow" [routerLink]="['/','matches',match.id]">{{match.matchName}}</td>
                 <td class="w-40 cursor-pointer" [routerLink]="['/','matches',match.id]">{{match.lijnen.join()}}</td>
-                <td class="w-16"><app-control-dropdown-button><a [routerLink]="['/','matches',match.id]" class="cs-button">Open wedstrijd</a></app-control-dropdown-button>
+                <td class="w-16"><app-control-dropdown-button><button [routerLink]="['/','matches',match.id]" class="cs-button">Open wedstrijd</button><button [routerLink]="['/','matches',match.id,'results']" class="cs-button">Wedstrijd uitslagen</button></app-control-dropdown-button>
             </td>
         </tr>
         </tbody>

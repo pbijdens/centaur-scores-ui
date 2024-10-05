@@ -5,6 +5,8 @@ import { CompetitionModel } from '../models/competition-model';
 import { ParticipantsListModel } from '../models/participants-list-model';
 import { ParticipantsListMember } from '../models/participants-list-member';
 import { RulesetModel } from '../models/ruleset-model';
+import { MatchResultModel } from '../models/match-result-model';
+import { CompetitionResultModel } from '../models/competition-result-model';
 
 
 @Injectable({
@@ -250,5 +252,15 @@ export class ApiService {
       },
     });
     return (await data.json()) ?? [];
+  }
+
+  async getSingleMatchResults(id: number): Promise<MatchResultModel | undefined> {
+    const data = await fetch(`${this.url}/match/${id}/results`);
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;    
+  }
+
+  async getCompetitionResults(id: number): Promise<CompetitionResultModel | undefined> {
+    const data = await fetch(`${this.url}/competitions/${id}/results`);
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;    
   }
 }

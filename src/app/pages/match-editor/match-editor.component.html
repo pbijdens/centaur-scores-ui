@@ -3,7 +3,7 @@
         <div class="navbar-default">
             <ul>
                 <li *ngIf="!error && id >= 0 && match">
-                    <a [routerLink]="['/', 'result', id]" class="cs-button" aria-current="page">Uitslagen</a>
+                    <a [routerLink]="['/', 'matches', id, 'results']" class="cs-button" aria-current="page">Uitslagen</a>
                 </li>
                 <!-- <li>
                     <button (click)="openProperties()" *ngIf="match" class="cs-button">Eigenschappen</button>

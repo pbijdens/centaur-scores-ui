@@ -2,13 +2,13 @@
     <div>
         <a [routerLink]="['/']" class="logo">
             <div><img src="assets/centaur.svg" alt="Logo" /></div>
-            <span>{{title}}</span>
+            <span class="navbar-title">{{title}}</span>
         </a>
         <div class="navbar-default">
             <ul>
 
                 <li>
-                    <a [routerLink]="['/' ]" class="top-link" aria-current="page">Wedstrijden</a>
+                    <a [routerLink]="['/matches' ]" class="top-link" aria-current="page">Wedstrijden</a>
                 </li>
                 <li>
                     <a [routerLink]="['/competitions' ]" class="top-link" aria-current="page">Competities</a>
@@ -17,7 +17,7 @@
                     <a [routerLink]="['/participantlists' ]" class="top-link" aria-current="page">Lijsten</a>
                 </li>                
                 <li>
-                    <a [routerLink]="['/', 'result', -1 ]" class="top-link" aria-current="page">Live uitslagen</a>
+                    <a [routerLink]="['/', 'matches', -1, 'results' ]" class="top-link" aria-current="page">Live uitslagen</a>
                 </li>
             </ul>
         </div>

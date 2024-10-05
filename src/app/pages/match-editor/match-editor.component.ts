@@ -56,7 +56,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
         if (this.match.competition) {
           this.competitionId = this.match.competition.id;
         }
-        this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode}`);
+        this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})`);
 
         this.participants = await this.apiService.getParticipantsForMatch(this.match.id);
       }

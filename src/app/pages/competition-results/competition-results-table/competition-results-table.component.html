@@ -1,0 +1,35 @@
+<table class="cs-results-table">
+    <thead>
+        <tr>
+            <th class="w-12"></th>
+            <th></th>
+            <ng-container *ngFor="let ruleset of results.matches | keys">
+                <th [attr.colspan]="results.matches[ruleset].matchCodes.length + 1" class="text-xs text-center">{{ruleset}}</th>
+            </ng-container>
+            <th></th>
+        </tr>                                            
+        <tr>
+            <th class="w-12">#</th>
+            <th>Naam</th>
+            <ng-container *ngFor="let ruleset of results.matches | keys">
+                <th class="text-xs" *ngFor="let matchCode of results.matches[ruleset].matchCodes">{{matchCode}}</th>
+                <th class="text-xs">Subtotaal</th>
+            </ng-container>
+            
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let entry of entries">
+            <td class="text-right">{{entry.position}}.</td>
+            <td class="flex-grow">
+                <div>{{entry.participantInfo}}</div>
+            </td>
+            <ng-container *ngFor="let ruleset of entry.perRuleset| keys">
+                <td *ngFor="let score of entry.perRuleset[ruleset].scores" class="text-xs text-center" [ngClass]="{'line-through': score && score.isDiscarded}">{{score == null ? '-' : score.score}}</td>
+                <td class="text-xs text-center">{{entry.perRuleset[ruleset].totalScore}}</td>
+            </ng-container>                                                
+            <td class="text-right">{{entry.totalScore}}</td>
+        </tr>
+    </tbody>
+</table>

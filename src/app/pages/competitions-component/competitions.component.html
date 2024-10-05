@@ -46,8 +46,8 @@
                 <td class="w-32">
                     <div class="flex flex-row">
                         <app-control-dropdown-button>
-                            <a [routerLink]="['/','competitions',competition.id]" class="cs-button">Wedstrijden</a>
-                            <a [routerLink]="['/','competitions',competition.id]" class="cs-button">Uitslagen</a>
+                            <button [routerLink]="['/','competitions',competition.id]" class="cs-button">Wedstrijden</button>
+                            <button [routerLink]="['/','competitions',competition.id, 'results']" class="cs-button">Competitie uitslagen</button>
                             <button *ngIf="competition.participantsList && competition.participantsList.id > 0"
                                 [routerLink]="['/','participantlists', competition.participantsList!.id]"
                                 class="cs-button">Deelnemers</button>

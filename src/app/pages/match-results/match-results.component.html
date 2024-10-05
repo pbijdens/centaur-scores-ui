@@ -1,0 +1,61 @@
+<ng-container *ngIf="results && match; else loading">
+    <div class="cs-results-page mt-2">
+        <div class="cs-tab-box">
+            <div class="cs-tab-buttons">
+                <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                    [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Ongeklasseerd</button>
+                <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                    [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Op discipline</button>
+                <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                    [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Op discipline en leeftijd</button>
+            </div>
+            <div class="cs-tab-content">
+                <div class="cs-progress-bar">
+                    <div>
+                        <div [attr.style]="'width: ' + (100 * refreshTimeoutCache)/refreshTimeout + '%'"></div>
+                    </div>
+                </div>
+
+                <ng-container [ngSwitch]="tab">
+                    <div class="cs-modal-body-x" *ngSwitchCase="0">
+                        <div class="results-content">
+                            <div class="cs-results-card">
+                                <ng-container>
+                                    <div class="cs-heading h2">Ongeklasseerd</div>
+                                    <app-match-results-table [match]="match" [results]="results" [entries]="results.ungrouped"></app-match-results-table>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cs-modal-body-x" *ngSwitchCase="1">
+                        <div class="results-content">
+                            <div class="cs-results-card" *ngFor="let discipline of results.byClass | keys">
+                                <ng-container>
+                                    <div class="cs-heading h2">{{discipline | getGroupName: results.groups}}</div>
+                                    <app-match-results-table [match]="match" [results]="results" [entries]="results.byClass[discipline]"></app-match-results-table>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cs-modal-body-x" *ngSwitchCase="2">
+                        <div class="results-content">
+                            <div class="cs-results-card" *ngFor="let discipline of results.bySubclass | keys">
+                                <ng-container *ngFor="let subclass of results.bySubclass[discipline] | keys">
+                                    <div class="cs-heading h2">{{discipline | getGroupName: results.groups}} - {{subclass |
+                                        getGroupName: results.subgroups}}</div>
+                                    <app-match-results-table [match]="match" [results]="results" [entries]="results.bySubclass[discipline][subclass]"></app-match-results-table>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #loading>
+    <div class="cs-card">
+        <div class="cs-heading h1">Wacht op resultaten...</div>
+    </div>
+</ng-template>
