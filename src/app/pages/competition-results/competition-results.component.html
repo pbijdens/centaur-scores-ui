@@ -18,7 +18,7 @@
                 </div>
 
                 <ng-container [ngSwitch]="tab">
-                    <div class="cs-modal-body-x" *ngSwitchCase="0">
+                    <div class="cs-tab-body-x" *ngSwitchCase="0">
                         <div class="results-content">
                             <div class="cs-results-card">
                                 <ng-container>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="cs-modal-body-x" *ngSwitchCase="1">
+                    <div class="cs-tab-body-x" *ngSwitchCase="1">
                         <div class="results-content">
                             <div class="cs-results-card" *ngFor="let discipline of results.byClass | keys">
                                 <ng-container>
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="cs-modal-body-x" *ngSwitchCase="2">
+                    <div class="cs-tab-body-x" *ngSwitchCase="2">
                         <div class="results-content">
                             <div class="cs-results-card" *ngFor="let discipline of results.bySubclass | keys">
                                 <ng-container *ngFor="let subclass of results.bySubclass[discipline] | keys">

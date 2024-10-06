@@ -1,5 +1,5 @@
-<div *ngIf="selectedCompetition">
-    <div class="flex justify-end p-2">
+<ng-container *ngIf="selectedCompetition">
+    <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="selectedCompetition.id <= 0">Nieuwe competitie</div>
         <div class="cs-heading h2 flex-grow" *ngIf="selectedCompetition.id > 0">Competitie aanpassen</div>
         <button (click)="close()" type="button" class="close-button">
@@ -43,15 +43,15 @@
 
     <div class="cs-action-block">
         <div>
-            <div class="navbar-default">
+            <div class="cs-action-bar">
                 <ul>
                     <li *ngIf="selectedCompetition.id > 0">
-                        <button (click)="deleteCompetition()" class="cs-button red"
+                        <button (click)="deleteCompetition()" class="cs-button danger"
                             aria-current="page">Verwijderen</button>
                     </li>
                     <li class="flex-grow"></li>
                     <li *ngIf="selectedCompetition.id > 0">
-                        <button (click)="saveCompetition()" class="cs-button green"
+                        <button (click)="saveCompetition()" class="cs-button default"
                             aria-current="page">Opslaan</button>
                     </li>
                     <li *ngIf="selectedCompetition.id <= 0">
@@ -63,4 +63,4 @@
             </div>
         </div>
     </div>
-</div>
+</ng-container>

@@ -1,7 +1,7 @@
 .cs-input {
   @apply w-full py-2 px-3;
   @apply shadow appearance-none;
-  @apply border rounded text-gray-700 leading-tight focus:outline-dashed;
+  @apply border rounded leading-tight focus:outline-dashed;
 }
 
 .cs-input-text {
@@ -17,84 +17,50 @@ a {
 
 .cs-button {
   @apply px-4 py-1 me-2 m-2;
-  @apply bg-blue-700 hover:bg-blue-800;
-  @apply text-white font-medium rounded-full text-sm text-center;
-  @apply focus:outline-none focus:ring-4 focus:ring-blue-300;
+  @apply bg-accenta text-accentafg border-transparent hover:border-accentb border hover:text-accentafg-800;
+  @apply font-medium rounded-full text-sm text-center;
+  @apply focus:outline-none focus:ring-1 focus:ring-accenta-700;
   @apply cursor-pointer;
 
-  &.red {
+  &.danger {
     @apply bg-red-700 hover:bg-red-800;
   }
 
-  &.green {
-    @apply bg-green-700 hover:bg-green-800;
-  }
-
-  &.orange {
-    @apply bg-orange-700 hover:bg-orange-800;
-  }
-
-  &.gray {
-    @apply bg-slate-700 hover:bg-slate-800;
+  &.default {
+    @apply ring-2 ring-accentb;
   }
 
   &.disabled {
-    @apply bg-gray-300 hover:bg-gray-300;
+    @apply bg-slate-300 hover:bg-slate-300 text-slate-500;
   }
 }
 
-.cs-tab-box {
-  @apply w-full border-solid border-slate-200 border-l-2 border-r-2 border-b-2 p-0;
-  @media print {
-    @apply w-full border-0 p-0;
+.cs-dropdown-control {
+  .cs-dropdown-button {
+    @apply flex flex-row;
   }
 
-  .cs-tab-buttons {
-    @apply max-h-16 flex flex-row p-0 bg-slate-200 w-full m-0;
-    @media print {
-      @apply bg-transparent;
+  .dropdown-menu {
+    @apply min-w-64 max-w-64 z-10 origin-top-right absolute right-0 top-8 rounded mt-0 shadow-lg border-0;
+
+    .cs-button {
+      @apply w-full;
     }
 
-    .cs-tab-button {
-      @apply px-2 py-1~"me-0.5" m-0;
-      @apply bg-blue-700 hover:bg-blue-800;
-      @apply text-white font-medium rounded-sm text-sm text-center;
-      @apply focus:outline-none focus:ring-1 focus:ring-blue-300;
-      @apply cursor-pointer;
-      @apply rounded-t-md;
-      @media print {
-        @apply hidden;
-      }
-  
-      &.active {
-        @apply bg-blue-700 hover:bg-blue-800;
-        @media print {
-          @apply hidden;
-        }        
-      }
+    .dropdown-menu-visual {
+      @apply bg-accentb overflow-overlay p-1;
 
-      &.inactive {
-        @apply bg-slate-700 hover:bg-slate-800;
-        @media print {
-          @apply hidden;
-        }        
+      .cs-button {
+        @apply m-0~"mt-0.5" rounded-lg;
       }
     }
-  }
-
-  .cs-tab-content {
-    @apply p-2;
-  }
-}
-
-.dropdown-menu {
-  @apply min-w-64 z-10 origin-top-right absolute right-0 top-8 rounded mt-0 shadow-lg border-gray-800;
-
-  .cs-button {
-    @apply w-64;
   }
 }
 
 .overflow-overlay {
   overflow: overlay;
+}
+
+.dropdown-row {
+  @apply w-4;
 }

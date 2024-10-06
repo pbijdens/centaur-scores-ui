@@ -1,14 +1,6 @@
 .cs-results-page {
   @apply p-2;
 
-  .cs-result-type-selection {
-    @apply m-0 p-0 mb-2;
-
-    label {
-      @apply block text-gray-700 text-2xl font-bold mb-2 p-0;
-    }
-  }
-
   .cs-results-card {
     @apply m-0 mb-2 p-0 break-inside-avoid;
   }
@@ -21,19 +13,27 @@
 .cs-results-page-competition {
   @apply p-2;
 
-  .cs-result-type-selection {
-    @apply m-0 p-0 mb-2;
-
-    label {
-      @apply block text-gray-700 text-2xl font-bold mb-2 p-0;
-    }
-  }
-
   .cs-results-card {
     @apply m-0 mb-2 p-0 break-inside-avoid;
   }
 
   .results-content {
     @apply columns-1 mx-0;
+  }
+}
+
+.cs-progress-bar {
+  @apply m-0;
+
+  >div {
+    @apply w-full bg-accenta rounded-full;
+
+    >div {
+      @apply bg-accentb text-accentbfg text-xs font-medium text-center ~"p-0.5" leading-none rounded-full;
+    }
+  }
+
+  @media print {
+    display: none;
   }
 }

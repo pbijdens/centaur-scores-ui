@@ -6,17 +6,18 @@
                     <button (click)="newMatch()" class="cs-button" aria-current="page">Wedstrijd toevoegen</button>
                 </li>
                 <li *ngIf="competition && competition.id >= 0">
-                    <button [routerLink]="['/', 'competitions', competition.id, 'results']" class="cs-button">Competitie
-                        resultaten</button>
+                    <button [routerLink]="['/', 'competitions', competition.id, 'results']" class="cs-button">Bekijk
+                        uitslagen</button>
                 </li>
                 <li>
                     <a *ngIf="competition && competition?.participantsList"
                         [routerLink]="[ '/', 'participantlists', competition.participantsList?.id || -1]"
-                        class="cs-button" aria-current="page">Deelnemerslijst beheren</a>
+                        class="cs-button" aria-current="page">Deelnemerslijst</a>
                 </li>
 
                 <li>
-                    <button (click)="editCompetitionOpen()" class="cs-button" aria-current="page">Eigenschappen</button>
+                    <button (click)="editCompetitionOpen()" class="cs-button" aria-current="page">Competitie
+                        aanpassen</button>
                 </li>
             </ul>
         </div>
@@ -28,14 +29,15 @@
     <p>{{errorMessage}}</p>
 </div>
 
-<form class="cs-card modal" [ngClass]="{'form-open': editCompetition, 'form-closed': !editCompetition}">
+<form class="cs-modal-dialog"
+    [ngClass]="{'modal-dialog-open': editCompetition, 'modal-dialog-closed': !editCompetition}">
     <div *ngIf="editCompetition">
         <app-edit-competition-metadata [competitionId]="editCompetition.id" (onError)="editCompetitionError($event)"
             (onClose)="editCompetitionClose()"></app-edit-competition-metadata>
     </div>
 </form>
 
-<form class="cs-card modal" [ngClass]="{'form-open': match, 'form-closed': !match}">
+<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': match, 'modal-dialog-closed': !match}">
     <div *ngIf="match">
         <app-edit-match-metadata [competitionId]="competitionId" [matchId]="match!.id"
             (onError)="editMatchError($event)" (onClose)="editMatchClose()"></app-edit-match-metadata>
@@ -43,7 +45,6 @@
 </form>
 
 <div class="cs-card" *ngIf="competition">
-    <h1 class="cs-card-header">Wedstrijden voor {{competition.name}}</h1>
     <table class="cs-table">
         <thead>
             <tr>
@@ -60,15 +61,15 @@
                 <td class="w-32 cursor-pointer" [routerLink]="['/', 'matches', match.id]">{{match.matchCode}}</td>
                 <td class="flex-grow cursor-pointer" [routerLink]="['/', 'matches', match.id]">{{match.matchName}}</td>
                 <td class="w-40">{{match.rulesetCode}}</td>
-                <td class="w-40">
-                    <div class="flex flex-row"> <app-control-dropdown-button>
-                            <button [routerLink]="['/', 'matches', match.id]" class="cs-button">Open wedstrijd</button>
-                            <button [routerLink]="['/', 'matches', match.id, 'results']" class="cs-button">Wedstrijd
-                                resultaten</button>
-                            <button (click)="setActiveMatch(match)" class="cs-button">Maak actief</button>
-                            <button (click)="editMatch(match)"
-                                class="cs-button">Eigenschappen</button></app-control-dropdown-button>
-                    </div>
+                <td class="dropdown-row">
+                    <app-control-dropdown-button>
+                        <button [routerLink]="['/', 'matches', match.id]" class="cs-button">Ga naar wedstrijd</button>
+                        <button [routerLink]="['/', 'matches', match.id, 'results']" class="cs-button">Bekijk
+                            resultaten</button>
+                        <button (click)="setActiveMatch(match)" class="cs-button">Maak wedstrijd actief</button>
+                        <button (click)="editMatch(match)" class="cs-button">Wedstrijd
+                            aanpassen</button>
+                    </app-control-dropdown-button>
                 </td>
             </tr>
         </tbody>

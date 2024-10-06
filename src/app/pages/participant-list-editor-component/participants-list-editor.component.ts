@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ParticipantsListModel } from '../../models/participants-list-model';
 import { EditParticipantsListMetadataComponent } from "../../shared/edit-participants-list-metadata/edit-participants-list-metadata.component";
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-participants-list-editor',
@@ -33,7 +34,7 @@ export class ParticipantsListEditorComponent implements OnInit {
 
   public metadataEditorModel?: ParticipantsListModel;
 
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router) {
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
     this.listId = this.activatedRoute.snapshot.params['listId'] as number || -1;
     this.id = this.activatedRoute.snapshot.params['id'] as number || -1;
   }
@@ -41,6 +42,9 @@ export class ParticipantsListEditorComponent implements OnInit {
   async refresh(): Promise<void> {
     try {
       this.metadata = await this.apiService.getParticipantsList(this.listId);
+      if (this.metadata) {
+        this.navbarService.setPageTitle(`Lijst: ${this.metadata?.name}`)
+      }
       this.participants = await this.apiService.getParticipantsListMembers(this.listId);
       if (this.id > 0) {
         this.participant = await this.apiService.getParticipantsListMember(this.listId, this.id);

@@ -25,14 +25,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let match of matches" class="hover:bg-slate-300">
+            <tr *ngFor="let match of matches">
                 <td class="w-16 text-center"><span *ngIf="match.isActiveMatch">&#x2714;</span></td>
                 <td class="w-32 cursor-pointer" [routerLink]="['/','matches',match.id]">{{match.matchCode}}</td>
                 <td class="cursor-pointer flex-grow" [routerLink]="['/','matches',match.id]">{{match.matchName}}</td>
                 <td class="w-40 cursor-pointer" [routerLink]="['/','matches',match.id]">{{match.lijnen.join()}}</td>
-                <td class="w-16"><app-control-dropdown-button><button [routerLink]="['/','matches',match.id]" class="cs-button">Open wedstrijd</button><button [routerLink]="['/','matches',match.id,'results']" class="cs-button">Wedstrijd uitslagen</button></app-control-dropdown-button>
-            </td>
-        </tr>
+                <td class="dropdown-row">
+                    <app-control-dropdown-button>
+                        <button [routerLink]="['/','matches',match.id]" class="cs-button">Open
+                            wedstrijd</button>
+                        <button [routerLink]="['/','matches',match.id,'results']" class="cs-button">Wedstrijd
+                            uitslagen</button>
+                    </app-control-dropdown-button>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

@@ -1,0 +1,50 @@
+.cs-tab-box {
+  @apply w-full border-collapse m-0 p-0 ;
+
+  @media print {
+    @apply w-full border-0 p-0;
+  }
+
+  .cs-tab-content {
+    @apply p-2 bg-tabcardbg text-tabcardfg;
+  }
+
+  .cs-tab-buttons {
+    @apply max-h-16 flex flex-row p-0 bg-transparent w-full m-0;
+
+    @media print {
+      @apply bg-transparent;
+    }
+
+    .cs-tab-button {
+      @apply px-2 py-1~"me-0.5" m-0;
+      @apply focus:outline-none focus:ring-0 focus:ring-transparent;
+      @apply bg-tabdisabled text-tabdisabledfg hover:bg-accenta-600 hover:text-accentafg;
+      @apply cursor-pointer;
+      @apply rounded-t-md;
+
+      @media print {
+        @apply hidden;
+      }
+
+      &.active {
+        @apply bg-accenta text-accentafg hover:bg-accenta-700 hover:text-accentafg;
+
+        @media print {
+          @apply hidden;
+        }
+      }
+
+      &.inactive {
+        @media print {
+          @apply hidden;
+        }
+      }
+    }
+  }
+
+}
+
+.cs-tab-body {
+  @apply max-h-96 overflow-y-scroll;
+}

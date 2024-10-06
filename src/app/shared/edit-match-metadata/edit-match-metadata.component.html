@@ -1,5 +1,5 @@
-<div *ngIf="match">
-    <div class="flex justify-end p-2">
+<ng-container *ngIf="match">
+    <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="match.id <= 0">Nieuwe wedstrijd</div>
         <div class="cs-heading h2 flex-grow" *ngIf="match.id > 0">Wedstrijd aanpassen</div>
         <button (click)="close()" type="button" class="close-button">
@@ -44,7 +44,7 @@
         </div>
         <div class="cs-tab-content">
             <ng-container [ngSwitch]="tab">
-                <div class="cs-modal-body-x" *ngSwitchCase="1">
+                <div class="cs-tab-body-x" *ngSwitchCase="1">
 
                     <div class="cs-input-block">
                         <app-select-ruleset [group]="competition?.rulesetGroupName" [currentCode]="match.rulesetCode"
@@ -74,22 +74,22 @@
                     </div>
                 </div>
 
-                <div class="cs-modal-body-x" *ngSwitchCase="2">
+                <div class="cs-tab-body-x" *ngSwitchCase="2">
                     <app-groups-editor [match]="match" label="Disciplines"
                         [groups]="match.groups || []"></app-groups-editor>
                 </div>
 
-                <div class="cs-modal-body-x" *ngSwitchCase="3">
+                <div class="cs-tab-body-x" *ngSwitchCase="3">
                     <app-groups-editor [match]="match" label="Klasses"
                         [groups]="match.subgroups || []"></app-groups-editor>
                 </div>
 
-                <div class="cs-modal-body-x" *ngSwitchCase="4">
+                <div class="cs-tab-body-x" *ngSwitchCase="4">
                     <app-groups-editor [match]="match" label="Blazoenen"
                         [groups]="match.targets || []"></app-groups-editor>
                 </div>
 
-                <div class="cs-modal-body-x" *ngSwitchCase="5">
+                <div class="cs-tab-body-x" *ngSwitchCase="5">
                     <div class="cs-card" *ngIf="match">
                         <h3 class="mt-4 text-xl font-bold">Toetsenborden</h3>
                         <div class="columns-3">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <div class="cs-modal-body-x" *ngSwitchDefault>
+                <div class="cs-tab-body-x" *ngSwitchDefault>
 
                     <div class="cs-input-block">
                         <label for="matchCode">
@@ -136,14 +136,14 @@
 
     <div class="cs-action-block">
         <div>
-            <div class="navbar-default">
+            <div class="cs-action-bar">
                 <ul>
                     <li *ngIf="match.id > 0">
-                        <button (click)="deleteEntity()" class="cs-button red" aria-current="page">Verwijderen</button>
+                        <button (click)="deleteEntity()" class="cs-button danger" aria-current="page">Verwijderen</button>
                     </li>
                     <li class="flex-grow"></li>
                     <li *ngIf="match.id > 0">
-                        <button (click)="saveEntity()" class="cs-button green" aria-current="page">Opslaan</button>
+                        <button (click)="saveEntity()" class="cs-button default" aria-current="page">Opslaan</button>
                     </li>
                     <li *ngIf="match.id <= 0">
                         <button (click)="saveEntity()" class="cs-button" aria-current="page"
@@ -154,4 +154,4 @@
             </div>
         </div>
     </div>
-</div>
+</ng-container>

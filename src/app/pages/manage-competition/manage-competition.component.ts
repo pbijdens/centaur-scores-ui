@@ -38,6 +38,9 @@ export class ManageCompetitionComponent implements OnInit {
 
   async refresh(): Promise<void> {
     this.competition = await this.apiService.getCompetition(this.competitionId);
+    if (this.competition) {
+      this.navbarService.setPageTitle(`${this.competition.name}`);
+    }
     if (!this.competition) {
       this.errorMessage = `De competitie met ID ${this.competitionId} kan niet geladen worden`;
     }

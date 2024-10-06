@@ -1,0 +1,78 @@
+.cs-modal-dialog {
+    @apply bg-modalbg text-modalfg m-0 p-0;
+    @apply fixed z-50 inset-0 bg-backdrop bg-opacity-60 overflow-y-auto h-full w-full p-0;
+
+    // p {
+    //     @apply mb-4 mt-4;
+    // }
+
+    .cs-input-block {
+        @apply mb-4;
+
+        label {
+            @apply block text-sm font-bold mb-2 text-labelfg;
+        }
+    }
+
+    .modal-dialog-header {
+        @apply flex justify-end p-0 pt-1;
+
+        &.cs-heading {
+            @apply p-0;
+        }
+    }
+}
+
+.modal-dialog-open {
+    @apply visible overflow-y-hidden;
+
+    >div {
+        @apply relative top-8 mx-auto shadow-xl bg-modalbg max-w-2xl p-0;
+
+        div {
+            @apply px-2;
+
+            &.modal-dialog-header {
+                @apply px-0 mb-2 bg-accenta text-accentafg;
+
+                .close-button {
+                    @apply text-accentafg bg-transparent hover:text-accentafg-500 text-sm p-1.5 ml-auto inline-flex items-center;
+                }
+            }
+        }
+    }
+}
+
+.modal-dialog-closed {
+    @apply collapse max-h-0;
+}
+
+div.cs-action-block {
+    @apply self-end items-stretch px-0 bg-accentb;
+
+    >div {
+        //@apply flex flex-wrap items-center justify-between mx-auto p-1;
+        @apply m-0 p-0 w-full px-0;
+
+        div.cs-action-bar {
+            //@apply w-full block w-auto flex flex-row flex-grow justify-end;
+            @apply m-0 p-0 w-full;
+
+            >ul {
+                @apply flex flex-row justify-end w-full;
+                @apply p-0 space-x-0 m-0;
+                @apply border-0;
+                @apply font-medium;
+
+                li {
+                    @apply m-0 p-0;
+
+                    .cs-button {
+                        @apply m-0 my-2;
+                    }
+                }
+            }
+        }
+    }
+}
+

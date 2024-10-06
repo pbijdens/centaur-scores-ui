@@ -3,13 +3,14 @@
         <div class="navbar-default">
             <ul>
                 <li *ngIf="!error && id >= 0 && match">
-                    <a [routerLink]="['/', 'matches', id, 'results']" class="cs-button" aria-current="page">Uitslagen</a>
+                    <a [routerLink]="['/', 'matches', id, 'results']" class="cs-button" aria-current="page">Bekijk
+                        uitslagen</a>
                 </li>
-                <!-- <li>
-                    <button (click)="openProperties()" *ngIf="match" class="cs-button">Eigenschappen</button>
-                </li> -->
                 <li>
-                    <button (click)="newParticipant()" *ngIf="match" class="cs-button">Deelnemer toevoegen</button>
+                    <button (click)="newParticipant()" *ngIf="match" class="cs-button">Schutter toevoegen</button>
+                </li>
+                <li>
+                    <button (click)="openProperties()" *ngIf="match" class="cs-button">Wedstrijd aanpassen</button>
                 </li>
             </ul>
         </div>
@@ -19,7 +20,7 @@
                         actieve wedstrijd</button>
                 </li>
                 <li>
-                    <button (click)="setActive(false)" *ngIf="match?.isActiveMatch" class="cs-button">Deactiveer
+                    <button (click)="setActive(false)" *ngIf="match?.isActiveMatch" class="cs-button danger">Deactiveer
                         wedstrijd</button>
                 </li>
             </ul>
@@ -32,17 +33,20 @@
     <p>{{error}}</p>
 </div>
 
-<form class="cs-card modal" [ngClass]="{'form-open': matchForProperties, 'form-closed': !matchForProperties}">
+<form class="cs-modal-dialog"
+    [ngClass]="{'modal-dialog-open': matchForProperties, 'modal-dialog-closed': !matchForProperties}">
     <div *ngIf="matchForProperties">
         <app-edit-match-metadata [competitionId]="competitionId" [matchId]="matchForProperties!.id"
             (onError)="editMatchError($event)" (onClose)="editMatchClose()"></app-edit-match-metadata>
     </div>
 </form>
 
-<form class="cs-card modal" [ngClass]="{'form-open': participantForProperties, 'form-closed': !participantForProperties}">
+<form class="cs-modal-dialog"
+    [ngClass]="{'modal-dialog-open': participantForProperties, 'modal-dialog-closed': !participantForProperties}">
     <div *ngIf="participantForProperties && match">
         <app-edit-participant-scoresheet [matchId]="match.id" [participantId]="participantForProperties.id"
-            (onError)="editParticipantError($event)" (onClose)="editParticipantClose()"></app-edit-participant-scoresheet>
+            (onError)="editParticipantError($event)"
+            (onClose)="editParticipantClose()"></app-edit-participant-scoresheet>
     </div>
 </form>
 
@@ -62,16 +66,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let participant of participants" class="hover:bg-slate-300">
+            <tr *ngFor="let participant of participants">
                 <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.groupName}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.subgroupName}}</td>
-                <td class="w-48 cursor-pointer text-xs" (click)="editParticipant(participant)">{{participant.deviceID}}</td>
+                <td class="w-48 cursor-pointer text-xs" (click)="editParticipant(participant)">{{participant.deviceID}}
+                </td>
                 <td class="w-16 cursor-pointer" (click)="editParticipant(participant)">{{participant.lijn}}</td>
-                <td class="w-16 text-right cursor-pointer" (click)="editParticipant(participant)">{{participant.score}}</td>
-                <td class="w-32"><app-control-dropdown-button><button (click)="editParticipant(participant)" class="cs-button">Eigenschappen</button></app-control-dropdown-button>
-            </td>
-        </tr>
+                <td class="w-16 text-right cursor-pointer" (click)="editParticipant(participant)">{{participant.score}}
+                </td>
+                <td class="dropdown-row">
+                    <app-control-dropdown-button>
+                        <button (click)="editParticipant(participant)" class="cs-button">Gegevens of score
+                            aanpassen</button>
+                    </app-control-dropdown-button>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

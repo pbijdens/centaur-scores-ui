@@ -3,7 +3,12 @@
         <div class="navbar-default">
             <ul>
                 <li>
-                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page">Eigenschappen</button>
+                    <button (click)="new()" class="cs-button" aria-current="page">Nieuwe schutter
+                        toevoegen</button>
+                </li>
+                <li>
+                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page">Lijst
+                        aanpassen</button>
                 </li>
             </ul>
         </div>
@@ -15,16 +20,17 @@
     <p>{{errorMessage}}</p>
 </div>
 
-<form class="cs-card modal" [ngClass]="{'form-open': metadataEditorModel, 'form-closed': !metadataEditorModel}">
+<form class="cs-modal-dialog"
+    [ngClass]="{'modal-dialog-open': metadataEditorModel, 'modal-dialog-closed': !metadataEditorModel}">
     <div *ngIf="metadataEditorModel">
         <app-edit-participants-list-metadata [listId]="metadataEditorModel.id" (onError)="editListMetadataError($event)"
             (onClose)="editListMetadataClose()"></app-edit-participants-list-metadata>
     </div>
 </form>
 
-<form class="cs-card modal" [ngClass]="{'form-open': editorOpen, 'form-closed': !editorOpen}">
+<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': editorOpen, 'modal-dialog-closed': !editorOpen}">
     <div>
-        <div class="flex justify-end p-2">
+        <div class="modal-dialog-header">
             <div class="cs-heading h2 flex-grow" *ngIf="id <= 0">Nieuwe deelnemer</div>
             <div class="cs-heading h2 flex-grow" *ngIf="id > 0">Gegevens aanpassen</div>
             <button (click)="close()" type="button" class="close-button">
@@ -65,14 +71,14 @@
         </div>
         <div class="cs-action-block">
             <div>
-                <div class="navbar-default">
+                <div class="cs-action-bar">
                     <ul>
                         <li *ngIf="id > 0">
-                            <button (click)="delete()" class="cs-button red" aria-current="page">Verwijderen</button>
+                            <button (click)="delete()" class="cs-button danger" aria-current="page">Verwijderen</button>
                         </li>
                         <li class="flex-grow"></li>
                         <li *ngIf="id > 0">
-                            <button (click)="save()" class="cs-button green" aria-current="page">Opslaan</button>
+                            <button (click)="save()" class="cs-button default" aria-current="page">Opslaan</button>
                         </li>
                         <li *ngIf="id <= 0">
                             <button (click)="save()" class="cs-button" aria-current="page"
@@ -90,21 +96,6 @@
 </form>
 
 <div class="cs-card">
-    <h1 class="cs-card-header">Deelnemers <span *ngIf="metadata && metadata!.id >= 0">aan {{metadata.name}}</span></h1>
-
-    <div class="cs-card-action-block">
-        <div>
-            <div class="navbar-default">
-                <ul>
-                    <li>
-                        <button (click)="new()" class="cs-button" aria-current="page">Nieuwe deelnemer
-                            toevoegen</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
     <table class="cs-table">
         <thead>
             <tr>
@@ -115,11 +106,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let part of participants" class="hover:bg-slate-300 cursor-pointer">
-                <td class="flex-grow" (click)="select(part)">{{part.name}}</td>
-                <td class="w-32" (click)="select(part)">{{part.group}}</td>
-                <td class="w-32" (click)="select(part)">{{part.subgroup}}</td>
-                <td class="w-16"><app-control-dropdown-button><button (click)="select(part)" class="cs-button">Eigenschappen</button></app-control-dropdown-button>
+            <tr *ngFor="let part of participants">
+                <td class="flex-grow" (click)="select(part)" class="cursor-pointer">{{part.name}}</td>
+                <td class="w-32" (click)="select(part)" class="cursor-pointer">{{part.group}}</td>
+                <td class="w-32" (click)="select(part)" class="cursor-pointer">{{part.subgroup}}</td>
+                <td class="dropdown-row">
+                    <app-control-dropdown-button>
+                        <button (click)="select(part)" class="cs-button">Gegevens
+                            aanpassen</button>
+                    </app-control-dropdown-button>
                 </td>
             </tr>
         </tbody>

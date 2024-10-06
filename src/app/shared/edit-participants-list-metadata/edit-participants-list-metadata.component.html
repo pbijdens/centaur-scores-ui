@@ -1,5 +1,5 @@
-<div *ngIf="list">
-    <div class="flex justify-end p-2">
+<ng-container *ngIf="list">
+    <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="list.id <= 0">Nieuwe lijst</div>
         <div class="cs-heading h2 flex-grow" *ngIf="list.id > 0">Lijst aanpassen</div>
         <button (click)="close()" type="button" class="close-button">
@@ -20,15 +20,15 @@
     </div>
     <div class="cs-action-block">
         <div>
-            <div class="navbar-default">
+            <div class="cs-action-bar">
                 <ul>
                     <li *ngIf="list.id > 0">
-                        <button (click)="deleteModel()" class="cs-button red"
+                        <button (click)="deleteModel()" class="cs-button danger"
                             aria-current="page">Verwijderen</button>
                     </li>
                     <li class="flex-grow"></li>
                     <li *ngIf="list.id > 0">
-                        <button (click)="saveModel()" class="cs-button green" aria-current="page">Opslaan</button>
+                        <button (click)="saveModel()" class="cs-button default" aria-current="page">Opslaan</button>
                     </li>
                     <li *ngIf="list.id <= 0">
                         <button (click)="saveModel()" class="cs-button" aria-current="page"
@@ -39,4 +39,4 @@
             </div>
         </div>
     </div>
-</div>
+</ng-container>

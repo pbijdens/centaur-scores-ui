@@ -1,5 +1,5 @@
-<div *ngIf="match && participant">
-    <div class="flex justify-end p-2">
+<ng-container *ngIf="match && participant">
+    <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="participant.id <= 0">Nieuwe scorekaart</div>
         <div class="cs-heading h2 flex-grow" *ngIf="participant.id > 0">Scorekaart {{participant.name}}</div>
         <button (click)="close()" type="button" class="close-button">
@@ -11,13 +11,13 @@
         </button>
     </div>
 
-    <div class="cs-input-block" *ngIf="match">
+    <!-- <div class="cs-input-block" *ngIf="match">
         <label for="competitionName">
             Wedstrijd
         </label>
         <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
             id="competitionName" type="text" placeholder="Naam van de competitie" [(ngModel)]="match!.matchName">
-    </div>
+    </div> -->
 
     <div class="cs-tab-box" *ngIf="participant && match">
         <div class="cs-tab-buttons">
@@ -28,11 +28,11 @@
         </div>
         <div class="cs-tab-content">
             <ng-container [ngSwitch]="tab">
-                <div class="cs-modal-body-x" *ngSwitchCase="1">
+                <div class="cs-tab-body-x" *ngSwitchCase="1">
                     <app-edit-scorecard [participant]="participant" [keyboard]="keyboard" [arrowsPerEnd]="match.arrowsPerEnd"></app-edit-scorecard>
                 </div>                
 
-                <div class="cs-modal-body-x" *ngSwitchDefault>
+                <div class="cs-tab-body-x" *ngSwitchDefault>
                     <div class="cs-input-block">
                         <label for="participantName">
                             Naam
@@ -53,10 +53,10 @@
 
                     <div class="cs-input-block">
                         <label for="participantDeviceID">
-                            Lijn
+                            Apparaat ID
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text disabled" id="participantDeviceID" type="text"
-                            placeholder="Device ID" [disabled]="true"
+                            placeholder="Apparaat ID" [disabled]="true"
                             [(ngModel)]="participant.deviceID">
                     </div>
 
@@ -80,14 +80,14 @@
 
     <div class="cs-action-block">
         <div>
-            <div class="navbar-default">
+            <div class="cs-action-bar">
                 <ul>
                     <li *ngIf="participant.id > 0">
-                        <button (click)="deleteEntity()" class="cs-button red" aria-current="page">Verwijderen</button>
+                        <button (click)="deleteEntity()" class="cs-button danger" aria-current="page">Verwijderen</button>
                     </li>
                     <li class="flex-grow"></li>
                     <li *ngIf="participant.id > 0">
-                        <button (click)="saveEntity()" class="cs-button green" aria-current="page">Opslaan</button>
+                        <button (click)="saveEntity()" class="cs-button default" aria-current="page">Opslaan</button>
                     </li>
                     <li *ngIf="participant.id <= 0">
                         <button (click)="saveEntity()" class="cs-button" aria-current="page"
@@ -98,4 +98,4 @@
             </div>
         </div>
     </div>
-</div>
+</ng-container>
