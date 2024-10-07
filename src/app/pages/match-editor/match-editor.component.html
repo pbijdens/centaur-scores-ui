@@ -50,12 +50,22 @@
     </div>
 </form>
 
+<form class="cs-modal-dialog"
+    [ngClass]="{'modal-dialog-open': participantForLinking, 'modal-dialog-closed': !participantForLinking}">
+    <div *ngIf="participantForLinking && match">
+        <app-edit-participant-link [matchId]="match.id" [participantId]="participantForLinking.id"
+            (onError)="editParticipantError($event)"
+            (onClose)="linkParticipantClose()"></app-edit-participant-link>
+    </div>
+</form>
+
 <div class="cs-card" *ngIf="participants">
     <div class="cs-heading h1">Deelnemers</div>
 
     <table class="cs-table">
         <thead>
             <tr>
+                <th class="w-16">Ok</th>
                 <th class="flex-grow">Naam</th>
                 <th class="w-48">Discipline</th>
                 <th class="w-48">Klasse</th>
@@ -67,6 +77,10 @@
         </thead>
         <tbody>
             <tr *ngFor="let participant of participants">
+                <td class="w-16 text-center"><span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton">&#x2714;</span></td>
+                <ng-template #linkButton>
+                    <button class="cs-button" (click)="linkParticipant(participant)">Link</button>
+                </ng-template>                
                 <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.groupName}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.subgroupName}}</td>
@@ -79,6 +93,7 @@
                     <app-control-dropdown-button>
                         <button (click)="editParticipant(participant)" class="cs-button">Gegevens of score
                             aanpassen</button>
+                        <button (click)="linkParticipant(participant)" class="cs-button">Koppelen aan deelnemerslijst</button>
                     </app-control-dropdown-button>
                 </td>
             </tr>

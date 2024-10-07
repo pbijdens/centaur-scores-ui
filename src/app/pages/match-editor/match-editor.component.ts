@@ -12,11 +12,12 @@ import { EditMatchMetadataComponent } from "../../shared/edit-match-metadata/edi
 import { EditParticipantScoresheetComponent } from "../../shared/edit-participant-scoresheet/edit-participant-scoresheet.component";
 import { ParticipantModel } from '../../models/participant-model';
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
+import { EditParticipantLinkComponent } from "../../shared/edit-participant-link/edit-participant-link.component";
 
 @Component({
   selector: 'app-match-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent],
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })
@@ -28,6 +29,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   public selectedTemplate = MatchTemplates[0];
   public competitionId = -1;
   public participantForProperties?: ParticipantModel;
+  public participantForLinking?: ParticipantModel;
   public participants: ParticipantModel[] = [];
 
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
@@ -106,4 +108,14 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   async editParticipant(p : ParticipantModel): Promise<void> {
     this.participantForProperties = JSON.parse(JSON.stringify(p));
   }
+
+  async linkParticipant(p : ParticipantModel): Promise<void> {
+    this.participantForLinking = JSON.parse(JSON.stringify(p));
+  }
+
+  async linkParticipantClose() : Promise<void> {
+    delete this.participantForLinking;
+    await this.refresh();
+  }
+
 }
