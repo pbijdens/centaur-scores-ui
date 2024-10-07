@@ -2,8 +2,9 @@
     <div>
         <div class="navbar-default">
             <ul>
+                <app-control-up-button></app-control-up-button>
                 <li *ngIf="!error && id >= 0 && match">
-                    <a [routerLink]="['/', 'matches', id, 'results']" class="cs-button" aria-current="page">Bekijk
+                    <a [routerLink]="['results']" class="cs-button" aria-current="page">Bekijk
                         uitslagen</a>
                 </li>
                 <li>
@@ -72,14 +73,14 @@
                 <th class="w-48">Device</th>
                 <th class="w-16">Lijn</th>
                 <th class="w-16 text-right">Score</th>
-                <th class="w-48">Acties</th>
+                <th>Acties</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let participant of participants">
-                <td class="w-16 text-center"><span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton">&#x2714;</span></td>
+                <td class="w-16 text-center"><span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton"><button class="cs-button ok" (click)="linkParticipant(participant)">&#x2714;</button></span></td>
                 <ng-template #linkButton>
-                    <button class="cs-button" (click)="linkParticipant(participant)">Link</button>
+                    <button class="cs-button warning" (click)="linkParticipant(participant)">&#x26A0;</button>
                 </ng-template>                
                 <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.groupName}}</td>

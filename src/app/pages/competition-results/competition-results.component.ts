@@ -9,11 +9,12 @@ import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarService } from '../../services/navbar.service';
 import { CompetitionResultsTableComponent } from "./competition-results-table/competition-results-table.component";
+import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 
 @Component({
   selector: 'app-competition-results',
   standalone: true,
-  imports: [CommonModule, KeysPipe, GetGroupNamePipe, CompetitionResultsTableComponent],
+  imports: [CommonModule, KeysPipe, GetGroupNamePipe, CompetitionResultsTableComponent, ControlUpButtonComponent],
   templateUrl: './competition-results.component.html',
   styleUrl: './competition-results.component.less'
 })

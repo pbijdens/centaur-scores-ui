@@ -1,6 +1,7 @@
 <nav class="cs-page-header">
     <div>
         <div class="navbar-default">
+            <app-control-up-button></app-control-up-button>
             <ul>
                 <li>
                     <button (click)="newCompetition()" class="cs-button" aria-current="page">Nieuwe competitie</button>
@@ -37,7 +38,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let competition of competitions">
-                <td class="flex-grow  cursor-pointer" [routerLink]="['/','competitions',competition.id]">
+                <td class="flex-grow  cursor-pointer" [routerLink]="[competition.id]">
                     {{competition.name}}</td>
                 <td class="w-24">{{competition.startDate}}</td>
                 <td class="w-24">{{competition.endDate}}</td>
@@ -46,12 +47,12 @@
                 <td class="w-40">{{competition.rulesetGroupName}}</td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
-                        <button [routerLink]="['/','competitions',competition.id]"
+                        <button [routerLink]="[competition.id]"
                             class="cs-button">Wedstrijden</button>
-                        <button [routerLink]="['/','competitions',competition.id, 'results']" class="cs-button">Bekijk
+                        <button [routerLink]="[competition.id, 'results']" class="cs-button">Bekijk
                             uitslagen</button>
                         <button *ngIf="competition.participantsList && competition.participantsList.id > 0"
-                            [routerLink]="['/','participantlists', competition.participantsList!.id]"
+                            [routerLink]="[competition.id, 'participantlists', competition.participantsList!.id]"
                             class="cs-button">Deelnemerslijst</button>
                         <button (click)="openProperties(competition)" class="cs-button">Competitie aanpassen</button>
                     </app-control-dropdown-button>

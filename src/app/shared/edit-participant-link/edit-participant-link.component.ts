@@ -104,12 +104,9 @@ export class EditParticipantLinkComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.participant = await this.apiService.getParticipantForMatch(this.matchId, this.participantId);
     if (this.participant) {
-      console.log('this.participant', this.participant);
       this.match = await this.apiService.getMatch(this.matchId);
       if (this.match) {
-        console.log('this.match', this.match);
         if (this.match.competition?.id >= 0) {
-          console.log('this.match.competition', this.match.competition);
           this.competition = await this.apiService.getCompetition(this.match.competition.id);
           if (this.competition && this.competition.participantsList && this.competition.participantsList.id >= 0) {
             this.competition.participantsList = await this.apiService.getParticipantsList(this.competition.participantsList.id);

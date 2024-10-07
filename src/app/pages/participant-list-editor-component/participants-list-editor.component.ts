@@ -8,11 +8,12 @@ import { ParticipantsListModel } from '../../models/participants-list-model';
 import { EditParticipantsListMetadataComponent } from "../../shared/edit-participants-list-metadata/edit-participants-list-metadata.component";
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { NavbarService } from '../../services/navbar.service';
+import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 
 @Component({
   selector: 'app-participants-list-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent],
   templateUrl: './participants-list-editor.component.html',
   styleUrl: './participants-list-editor.component.less'
 })

@@ -7,11 +7,12 @@ import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-bu
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 
 @Component({
   selector: 'app-participants-list',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent],
   templateUrl: './participants-list.component.html',
   styleUrl: './participants-list.component.less'
 })

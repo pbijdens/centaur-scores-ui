@@ -119,7 +119,5 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
       }
       this.match!.lijnenAsString = this.match!.lijnen.join('');
     }
-
-    console.log('Updated the ruleset', this.match || []);
   }
 }

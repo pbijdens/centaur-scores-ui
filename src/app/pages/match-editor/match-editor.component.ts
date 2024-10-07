@@ -13,11 +13,13 @@ import { EditParticipantScoresheetComponent } from "../../shared/edit-participan
 import { ParticipantModel } from '../../models/participant-model';
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { EditParticipantLinkComponent } from "../../shared/edit-participant-link/edit-participant-link.component";
+import { CompetitionModel } from '../../models/competition-model';
+import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 
 @Component({
   selector: 'app-match-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent],
+  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent, ControlUpButtonComponent],
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })
@@ -28,6 +30,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   public error?: String;
   public selectedTemplate = MatchTemplates[0];
   public competitionId = -1;
+  public competition: CompetitionModel | undefined;
   public participantForProperties?: ParticipantModel;
   public participantForLinking?: ParticipantModel;
   public participants: ParticipantModel[] = [];
@@ -57,6 +60,9 @@ export class MatchEditorComponent implements OnInit, OnChanges {
         this.match!.lijnenAsString = this.match!.lijnen.join('');
         if (this.match.competition) {
           this.competitionId = this.match.competition.id;
+          if (this.competitionId >= 0) {
+            this.competition = await this.apiService.getCompetition(this.match.competition.id);
+          }
         }
         this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})`);
 

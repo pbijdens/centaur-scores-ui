@@ -1,3 +1,12 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+            </ul>
+        </div>
+    </div>
+</nav>
 <ng-container *ngIf="results && match; else loading">
     <div class="cs-results-page mt-2">
         <div class="cs-tab-box">
@@ -22,7 +31,8 @@
                             <div class="cs-results-card">
                                 <ng-container>
                                     <div class="cs-heading h2">Ongeklasseerd</div>
-                                    <app-match-results-table [match]="match" [results]="results" [entries]="results.ungrouped"></app-match-results-table>
+                                    <app-match-results-table [match]="match" [results]="results"
+                                        [entries]="results.ungrouped"></app-match-results-table>
                                 </ng-container>
                             </div>
                         </div>
@@ -32,7 +42,8 @@
                             <div class="cs-results-card" *ngFor="let discipline of results.byClass | keys">
                                 <ng-container>
                                     <div class="cs-heading h2">{{discipline | getGroupName: results.groups}}</div>
-                                    <app-match-results-table [match]="match" [results]="results" [entries]="results.byClass[discipline]"></app-match-results-table>
+                                    <app-match-results-table [match]="match" [results]="results"
+                                        [entries]="results.byClass[discipline]"></app-match-results-table>
                                 </ng-container>
                             </div>
                         </div>
@@ -41,9 +52,11 @@
                         <div class="results-content">
                             <div class="cs-results-card" *ngFor="let discipline of results.bySubclass | keys">
                                 <ng-container *ngFor="let subclass of results.bySubclass[discipline] | keys">
-                                    <div class="cs-heading h2">{{discipline | getGroupName: results.groups}} - {{subclass |
+                                    <div class="cs-heading h2">{{discipline | getGroupName: results.groups}} -
+                                        {{subclass |
                                         getGroupName: results.subgroups}}</div>
-                                    <app-match-results-table [match]="match" [results]="results" [entries]="results.bySubclass[discipline][subclass]"></app-match-results-table>
+                                    <app-match-results-table [match]="match" [results]="results"
+                                        [entries]="results.bySubclass[discipline][subclass]"></app-match-results-table>
                                 </ng-container>
                             </div>
                         </div>

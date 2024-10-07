@@ -8,11 +8,12 @@ import { MatchModel } from '../../models/match-model';
 import { KeysPipe } from "../../pipes/keys.pipe";
 import { GetGroupNamePipe } from '../../pipes/getgroupname.pipe';
 import { MatchResultsTableComponent } from "./match-results-table/match-results-table.component";
+import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 
 @Component({
   selector: 'app-match-results',
   standalone: true,
-  imports: [CommonModule, KeysPipe, GetGroupNamePipe, MatchResultsTableComponent],
+  imports: [CommonModule, KeysPipe, GetGroupNamePipe, MatchResultsTableComponent, ControlUpButtonComponent],
   templateUrl: './match-results.component.html',
   styleUrl: './match-results.component.less'
 })

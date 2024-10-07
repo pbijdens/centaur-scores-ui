@@ -16,14 +16,26 @@ a {
 }
 
 .cs-button {
-  @apply px-4 py-1 me-2 m-2;
+  @apply px-4 py-1 me-1 m-2;
   @apply bg-accenta text-accentafg border-transparent hover:border-accentb border hover:text-accentafg-800;
   @apply font-medium rounded-full text-sm text-center;
   @apply focus:outline-none focus:ring-1 focus:ring-accenta-700;
   @apply cursor-pointer;
 
+  &.warning {
+    @apply bg-white hover:bg-slate-100 text-black;
+  }
+
+  &.ok {
+    @apply bg-cardbg hover:bg-cardbg text-cardfg;
+  }
+
   &.danger {
     @apply bg-red-700 hover:bg-red-800;
+  }
+
+  &.up {
+    @apply bg-accenta-800 hover:bg-accenta-700 text-accentafg;
   }
 
   &.default {

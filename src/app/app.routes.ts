@@ -15,9 +15,14 @@ export const routes: Routes = [
     { path: 'matches/:id/results', component: MatchResultsComponent },
     { path: 'competitions', component: CompetitionsComponent },
     { path: 'competitions/:competitionId', component: ManageCompetitionComponent },
+    { path: 'competitions/:competitionId/matches', redirectTo: '/competitions/:competitionId', pathMatch: 'full' },
+    { path: 'competitions/:competitionId/matches/:id', component: MatchEditorComponent },
+    { path: 'competitions/:competitionId/matches/:id/results', component: MatchResultsComponent },
+    { path: 'competitions/:competitionId/participantlists', redirectTo: '/competitions/:competitionId', pathMatch: 'full' },
+    { path: 'competitions/:competitionId/participantlists/:listId', component: ParticipantsListEditorComponent },
     { path: 'competitions/:competitionId/results', component: CompetitionResultsComponent },
     { path: 'participantlists', component: ParticipantsListsComponent },
-    { path: 'participantlists/:listId', component: ParticipantsListEditorComponent },
-    { path: 'participantlists/:listId/members/:id', component: ParticipantsListEditorComponent },
+    { path: 'participantlists/:listId', component: ParticipantsListEditorComponent }
 ];
+
 

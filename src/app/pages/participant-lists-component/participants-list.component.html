@@ -2,6 +2,7 @@
     <div>
         <div class="navbar-default">
             <ul>
+                <app-control-up-button></app-control-up-button>
                 <li>
                     <button (click)="newParticipantsList()" class="cs-button" aria-current="page">Nieuwe lijst
                         maken</button>
@@ -34,11 +35,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let participantsList of participantsLists">
-                <td class="cursor-pointer" [routerLink]="['/','participantlists',participantsList.id]">
+                <td class="cursor-pointer" [routerLink]="[participantsList.id]">
                     {{participantsList.name}}</td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
-                        <button [routerLink]="['/','participantlists',participantsList.id]" class="cs-button">Lijst
+                        <button [routerLink]="[participantsList.id]" class="cs-button">Lijst
                             openen</button>
                         <button (click)="editParticipantsList(participantsList)" class="cs-button">Lijst
                             aanpassen</button>
