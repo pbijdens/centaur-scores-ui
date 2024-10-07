@@ -4,7 +4,7 @@
             <th class="w-12"></th>
             <th></th>
             <ng-container *ngFor="let ruleset of results.matches | keys">
-                <th [attr.colspan]="results.matches[ruleset].matchCodes.length + 1" class="text-xs text-center">{{ruleset}}</th>
+                <th class="text-2xs" [attr.colspan]="results.matches[ruleset].matchCodes.length + 1" class="text-xs text-center">{{ruleset}}</th>
             </ng-container>
             <th></th>
         </tr>                                            
