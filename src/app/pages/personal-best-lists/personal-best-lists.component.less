@@ -1,0 +1,40 @@
+.cs-page-header {
+    @media print {
+        display: none;
+    }
+}
+
+.cs-results-page {
+    @media print {
+        page-break-after: always;
+    }
+}
+
+@media print {
+    .cs-heading {
+      @apply block text-lg font-bold mb-2;
+    
+      &.h1 {
+        font-size: 13pt !important;
+        font-weight: bold;
+      }
+    
+      &.h2 {
+        font-size: 12pt !important;
+        font-weight: bold;
+      }
+    
+      &.h3 {
+        font-size: 11pt !important;
+        font-weight: bold;
+      }
+    }
+  
+    th {
+      font-size: 10pt !important;
+    }
+  
+    td {
+      font-size: 10pt !important;
+    }  
+  }

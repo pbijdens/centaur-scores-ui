@@ -54,3 +54,10 @@
 .cs-results-subscript {
   @apply text-xs italic;
 }
+
+@media print {
+  table tr {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+  }
+}

@@ -5,4 +5,5 @@ export interface PersonalBestListModel {
     name: string;
     competitionFormat: string;
     entries: PersonalBestListEntryModel[];
+    entriesByDiscipline: { [key: string]: PersonalBestListEntryModel[] };
 }
