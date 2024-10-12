@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entry-model';
 import { ParticipantsListMember } from '../../models/participants-list-member';
+import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
 
 @Component({
   selector: 'app-edit-personal-best-entry',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, InputMemberFromListComponent],
   templateUrl: './edit-personal-best-entry.component.html',
   styleUrl: './edit-personal-best-entry.component.less'
 })
@@ -108,6 +109,12 @@ export class EditPersonalBestEntryComponent {
   }
 
   async participantChanged(event: any, value: any) {
+  }
+
+  async participantSelected(event: ParticipantsListMember) {
+    if (this.entry) {
+      this.entry.participant = event;
+    }
   }
 }
 

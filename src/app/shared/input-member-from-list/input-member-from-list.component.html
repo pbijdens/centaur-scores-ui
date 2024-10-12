@@ -1,0 +1,5 @@
+<select title="Kies een schutter" #memberListControl
+    (change)="participantChanged($event, memberListControl.value)" [(ngModel)]="currentSelection"
+    [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Kies een deelnemer">
+    <option *ngFor="let c of memberListMembers" [ngValue]="c">{{c.name}}</option>
+</select>

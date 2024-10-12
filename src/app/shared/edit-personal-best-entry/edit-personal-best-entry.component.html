@@ -15,11 +15,7 @@
         <label for="a01">
             Schutter
         </label>
-        <select id="a01" title="Kies een schutter" #memberListControl
-            (change)="participantChanged($event, memberListControl.value)" [(ngModel)]="entry.participant"
-            [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Kies een deelnemer">
-            <option *ngFor="let c of memberlist" [ngValue]="c">{{c.name}}</option>
-        </select>            
+        <app-input-member-from-list id="a01" [listId]="listId" [participantId]="entry.participant.id" (selected)="participantSelected($event)"></app-input-member-from-list>          
     </div>
 
     <div class="cs-input-block">
