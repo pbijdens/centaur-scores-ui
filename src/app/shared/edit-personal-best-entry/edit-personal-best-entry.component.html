@@ -15,7 +15,7 @@
         <label for="a01">
             Schutter
         </label>
-        <app-input-member-from-list id="a01" [listId]="listId" [participantId]="entry.participant.id" (selected)="participantSelected($event)"></app-input-member-from-list>          
+        <app-input-member-from-list id="a01" [listId]="listId" [participantId]="entry.participant.id || -1" (selected)="participantSelected($event)"></app-input-member-from-list>          
     </div>
 
     <div class="cs-input-block">

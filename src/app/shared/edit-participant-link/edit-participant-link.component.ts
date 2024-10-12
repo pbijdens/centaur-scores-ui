@@ -7,11 +7,12 @@ import { ParticipantsListMember } from '../../models/participants-list-member';
 import { ParticipantModel } from '../../models/participant-model';
 import { MatchModel } from '../../models/match-model';
 import { CompetitionModel } from '../../models/competition-model';
+import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
 
 @Component({
   selector: 'app-edit-participant-link',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, InputMemberFromListComponent],
   templateUrl: './edit-participant-link.component.html',
   styleUrl: './edit-participant-link.component.less'
 })
@@ -26,7 +27,10 @@ export class EditParticipantLinkComponent implements OnInit {
   public participant?: ParticipantModel;
   public participantsList?: ParticipantsListModel;
   public matches: ParticipantsListMember[] = [];
-  public members: ParticipantsListMember[] = [];
+  public members: ParticipantsListMember[] = []; // not diosplayed directly anymore
+
+  public selectedParticipandId = -1;
+  public selectedParticipant?: ParticipantsListMember;
 
   constructor(public apiService: ApiService) { }
 
@@ -82,23 +86,24 @@ export class EditParticipantLinkComponent implements OnInit {
   }
 
 
-  isSimilar(name: string, input: string) {
+  isSimilar(name: string, input: string): number {
+    let retval = 0;
     name = name.toLocaleLowerCase().replaceAll('[^\s\p{L}]', '');
     input = input.toLocaleLowerCase().replaceAll('[^\s\p{L}]', '');
     const percent = this.similar_text(name, input) / (this.max(name.length, input.length) / 100.0);
-    if (percent > 50) return true;
+    retval = Math.max(retval, percent);    
 
     const normalizedName = name.replaceAll(/[^a-z]/gi, '');
     const normalizedInput = input.replaceAll(/[^a-z]/gi, '');
     const percentn = this.similar_text(normalizedName, normalizedInput) / (this.max(normalizedName.length, normalizedInput.length) / 100.0);
-    if (percentn > 50) return true;
+    retval = Math.max(retval, percentn);
 
     const firstnameinput = input.replace(/^(\S*)\s.*$/i, (_, g) => g).toLocaleLowerCase();
     const firstnamename = name.replace(/^(\S*)\s.*$/i, (_, g) => g).toLocaleLowerCase();
     const percentfn = this.similar_text(firstnamename, firstnameinput) / (this.max(firstnamename.length, firstnameinput.length) / 100.0);
-    if (percentfn > 50) return true;
+    retval = Math.max(retval, percentfn);
 
-    return false;
+    return retval;
   }
 
   async ngOnInit(): Promise<void> {
@@ -112,10 +117,16 @@ export class EditParticipantLinkComponent implements OnInit {
             this.competition.participantsList = await this.apiService.getParticipantsList(this.competition.participantsList.id);
             this.members = await this.apiService.getParticipantsListMembers(this.competition.participantsList!.id);
             if (this.members) {
-              this.matches = this.members.filter(m => {
-                return this.isSimilar(m.name, this.participant?.name || '');
-              });
+              const tpname = this.participant?.name || '';
+              this.members.forEach(a => a.similarity = this.isSimilar(a.name, tpname));
+              console.log(this.members);
+              let matches = this.members.sort((a,b) => b.similarity - a.similarity);
+              matches = matches.filter(m => m.similarity > 50).slice(0, 5);
+              this.matches = matches;              
             }
+
+            this.selectedParticipandId = this.participant.participantListEntryId || -1;
+            this.selectedParticipant = this.members.find(x => x.id === this.selectedParticipandId);
           }
         }
       }
@@ -137,6 +148,11 @@ export class EditParticipantLinkComponent implements OnInit {
       await this.apiService.updateMatchParticipant(this.matchId, this.participant);
     }
     this.onClose.emit();
+  }
+
+  // When a participant is selected in the dropdown
+  participantSelected($event: ParticipantsListMember) {
+    this.selectedParticipant = $event;
   }
 
 }

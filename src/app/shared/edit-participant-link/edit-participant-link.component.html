@@ -12,21 +12,24 @@
 
     <div class="cs-card">
         <div class="cs-heading h3 flex-grow">Best passende namen:</div>
-        
-        <div class="cs-member-box cs-member-buttons">
+
+        <div class="cs-member-box cs-member-buttons" *ngIf="matches && matches.length; else noMatches">
             <div *ngFor="let match of matches">
                 <button (click)="selectMember(match)" class="cs-button">{{match.name}}</button>
             </div>
         </div>
+        <ng-template #noMatches>
+            <div>Kon geen soortgelijke namen in de lijst vinden.</div>
+        </ng-template>
     </div>
 
     <div class="cs-card">
-        <div class="cs-heading h3 flex-grow">Alle namen:</div>
-        
-        <div class="cs-full-member-box cs-member-buttons">
-            <div *ngFor="let member of members">
-                <button (click)="selectMember(member)" class="cs-button">{{member.name}}</button>
-            </div>
+        <div class="cs-heading h3 flex-grow">Of kies uit de volledige lijst:</div>
+
+        <div class="cs-input-block" *ngIf="this.competition && this.competition.participantsList">
+            <app-input-member-from-list id="a01" [listId]="this.competition.participantsList.id"
+                [participantId]="selectedParticipandId"
+                (selected)="participantSelected($event)"></app-input-member-from-list>
         </div>
     </div>
 
@@ -35,7 +38,8 @@
             <div class="cs-action-bar">
                 <ul>
                     <li>
-                        <button (click)="save()" class="cs-button default" aria-current="page">Opslaan</button>
+                        <button *ngIf="selectedParticipant" (click)="selectMember(selectedParticipant)" class="cs-button default" aria-current="page">Opslaan</button>
+                        <button *ngIf="!selectedParticipant" (click)="close()" class="cs-button default" aria-current="page">Sluiten</button>
                     </li>
                 </ul>
             </div>

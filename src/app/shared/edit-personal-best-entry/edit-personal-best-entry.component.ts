@@ -113,7 +113,11 @@ export class EditPersonalBestEntryComponent {
 
   async participantSelected(event: ParticipantsListMember) {
     if (this.entry) {
+      if (event) {
       this.entry.participant = event;
+      } else {
+        //whatever?
+      }
     }
   }
 }

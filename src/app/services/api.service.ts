@@ -94,7 +94,7 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
 
-  async getParticipantsListMember(listId: number, id: number): Promise<ParticipantModel> {
+  async getParticipantsListMember(listId: number, id: number): Promise<ParticipantsListMember> {
     const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`);
     return (await data.json()) ?? [];
   }

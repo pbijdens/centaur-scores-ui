@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ParticipantsListModel } from '../../models/participants-list-model';
+import { NgSelectConfig, NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-input-member-from-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgSelectModule],
   templateUrl: './input-member-from-list.component.html',
   styleUrl: './input-member-from-list.component.less'
 })
@@ -21,7 +22,15 @@ export class InputMemberFromListComponent implements OnInit, OnChanges {
   public memberListMembers: ParticipantsListMember[] = [];
   public currentSelection?: ParticipantsListMember;
 
-  constructor(public apiService: ApiService) {
+  constructor(public apiService: ApiService, private config: NgSelectConfig) {
+    this.config.notFoundText = 'Niet gevonden';
+    this.config.appendTo = 'body';
+    // set the bindValue to global config when you use the same 
+    // bindValue in most of the place. 
+    // You can also override bindValue for the specified template 
+    // by defining `bindValue` as property
+    // Eg : <ng-select bindValue="some-new-value"></ng-select>
+    // this.config.bindValue = 'value';    
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
@@ -52,7 +61,7 @@ export class InputMemberFromListComponent implements OnInit, OnChanges {
     }
   }
 
-  participantChanged($event: Event, arg1: string) {
+  participantChanged($event: Event) {
     console.log(this.currentSelection);
     this.selected.emit(this.currentSelection);
   }

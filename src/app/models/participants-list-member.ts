@@ -3,4 +3,6 @@ export interface ParticipantsListMember {
     name: string;
     group: string;
     subgroup: string;
+    // calculated
+    similarity: number;
 }
