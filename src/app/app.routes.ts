@@ -7,6 +7,9 @@ import { ParticipantsListEditorComponent } from './pages/participant-list-editor
 import { ManageCompetitionComponent } from './pages/manage-competition/manage-competition.component';
 import { CompetitionResultsComponent } from './pages/competition-results/competition-results.component';
 import { MatchResultsComponent } from './pages/match-results/match-results.component';
+import { PersonalBestListsComponent } from './pages/personal-best-lists/personal-best-lists.component';
+import { PersonalBestListEditorComponent } from './pages/personal-best-list-editor/personal-best-list-editor.component';
+import { PersonalBestSuggestionsComponent } from './pages/personal-best-suggestions/personal-best-suggestions.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/competitions', pathMatch: 'full'  },
@@ -22,7 +25,10 @@ export const routes: Routes = [
     { path: 'competitions/:competitionId/participantlists/:listId', component: ParticipantsListEditorComponent },
     { path: 'competitions/:competitionId/results', component: CompetitionResultsComponent },
     { path: 'participantlists', component: ParticipantsListsComponent },
-    { path: 'participantlists/:listId', component: ParticipantsListEditorComponent }
+    { path: 'participantlists/:listId', component: ParticipantsListEditorComponent },
+    { path: 'participantlists/:listId/pbl', component: PersonalBestListsComponent },
+    { path: 'participantlists/:listId/pbl/:pblId', component: PersonalBestListEditorComponent },
+    { path: 'participantlists/:listId/personalbest', component: PersonalBestSuggestionsComponent },
 ];
 
 

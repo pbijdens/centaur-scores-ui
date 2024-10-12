@@ -10,4 +10,5 @@ export interface RulesetModel {
     requiredSubclasses: GroupInfo[];
     requiredTargets: GroupInfo[];
     requiredScoreValues: {}; // Dictionary<string, ScoreButtonDefinition[]>
+    competitionFormat: string;
 }

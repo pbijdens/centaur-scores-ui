@@ -1,0 +1,64 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="cs-card error" *ngIf="errorMessage">
+    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
+    <p>{{errorMessage}}</p>
+</div>
+
+<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': showRecord, 'modal-dialog-closed': !showRecord}">
+    <div *ngIf="showRecord">
+        <div>{{showRecord.participant.name}}</div>
+        <!-- <app-edit-personal-best-list-metadata [listId]="listId" [pbListId]="pbListId" (onError)="editListMetadataError($event)"
+            (onClose)="editListMetadataClose()"></app-edit-personal-best-list-metadata> -->
+    </div>
+</form>
+
+<div class="cs-card">
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th class="flex-grow">Schutter</th>
+                <th class="flex-grow">Oud record</th>
+                <th class="flex-grow">Nieuw record</th>
+                <th class="flex-grow">Discipline</th>
+                <th class="flex-grow">Datum</th>
+                <th class="flex-grow">Informatie</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let suggestion of suggestions">
+                <td class="flex-grow">{{suggestion.participant.name}}</td>
+                <td class="flex-grow">{{suggestion.previousScore}}</td>
+                <td class="flex-grow">{{suggestion.score}}</td>
+                <td class="flex-grow">{{suggestion.discipline}}</td>
+                <td class="flex-grow">{{suggestion.achieved}}</td>
+                <td class="w-96">
+                    <div class="flex flex-row flex-wrap">
+                        <div class="entry"><span class="slabel">Record lijst:</span> <span
+                                class="svalue">{{suggestion.listId | getPbListName:personalBestLists}}</span></div>
+                        <div class="entry"><span class="slabel">Wedstrijd:</span> <span
+                                class="svalue">{{suggestion.match.matchCode}} - {{suggestion.match.matchName}}</span>
+                        </div>
+                        <div class="entry"><span class="slabel">Competitie:</span> <span
+                                class="svalue">{{suggestion.competition.name}}
+                                ({{suggestion.competition.startDate}}-{{suggestion.competition.endDate}})</span></div>
+                    </div>
+                </td>
+                <td class="dropdown-row">
+                    <app-control-dropdown-button>
+                        <button (click)="select(suggestion)" class="cs-button">Opnemen in lijst</button>
+                    </app-control-dropdown-button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

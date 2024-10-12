@@ -22,6 +22,5 @@ export class ControlUpButtonComponent {
       newRoute = [];
     }
     this.route = newRoute.length == 1 ? [] : newRoute;
-    console.log('Parent route', this.route);
   }
 }

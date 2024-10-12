@@ -7,13 +7,15 @@ import { ParticipantsListMember } from '../models/participants-list-member';
 import { RulesetModel } from '../models/ruleset-model';
 import { MatchResultModel } from '../models/match-result-model';
 import { CompetitionResultModel } from '../models/competition-result-model';
+import { PersonalBestListModel } from '../models/personal-best-list-model';
+import { PersonalBestListEntryModel } from '../models/personal-lest-list-entry-model';
+import { NewPersonalBestModel } from '../models/new-personal-best-model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-
   constructor() { }
 
   get url(): String {
@@ -33,7 +35,7 @@ export class ApiService {
 
   async getActiveMatch(): Promise<MatchModel | undefined> {
     const data = await fetch(`${this.url}/match/active`);
-    if (data.status == 200) return (await data.json()) ?? {}; 
+    if (data.status == 200) return (await data.json()) ?? {};
     else return undefined;
   }
 
@@ -155,7 +157,7 @@ export class ApiService {
         "Content-Type": "application/json",
       },
     });
-    return (await data.json()) ?? [];  
+    return (await data.json()) ?? [];
   }
 
   async updateParticipantsList(list: ParticipantsListModel): Promise<ParticipantModel> {
@@ -188,7 +190,7 @@ export class ApiService {
         "Content-Type": "application/json",
       },
     });
-    return (await data.json()) ?? [];  
+    return (await data.json()) ?? [];
   }
 
   async updateCompetition(competition: CompetitionModel): Promise<ParticipantModel> {
@@ -204,7 +206,7 @@ export class ApiService {
 
   async getRulesets(): Promise<RulesetModel[]> {
     const data = await fetch(`${this.url}/rulesets`);
-    return (await data.json()) ?? [];    
+    return (await data.json()) ?? [];
   }
 
   async getCompetition(id: number): Promise<CompetitionModel | undefined> {
@@ -218,7 +220,7 @@ export class ApiService {
   }
 
   async getParticipantForMatch(matchId: number, participantId: number): Promise<ParticipantModel | undefined> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`);    
+    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`);
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
@@ -229,7 +231,7 @@ export class ApiService {
         "Content-Type": "application/json",
       },
     });
-    return (await data.json()) ?? [];  
+    return (await data.json()) ?? [];
   }
 
   async updateMatchParticipant(matchId: number, participant: ParticipantModel): Promise<ParticipantModel> {
@@ -256,11 +258,94 @@ export class ApiService {
 
   async getSingleMatchResults(id: number): Promise<MatchResultModel | undefined> {
     const data = await fetch(`${this.url}/match/${id}/results`);
-    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;    
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
   async getCompetitionResults(id: number): Promise<CompetitionResultModel | undefined> {
     const data = await fetch(`${this.url}/competitions/${id}/results`);
-    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;    
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
+
+  async updatePersonalBestList(listId: number, list: PersonalBestListModel) {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(list),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+  async createPersonalBestList(listId: number, list: PersonalBestListModel) {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl`, {
+      method: 'POST',
+      body: JSON.stringify(list),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+
+  async deletePersonalBestList(listId: number, pbListId: number) {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+
+  async getPersonalBestList(listId: number, pbListId: number): Promise<PersonalBestListModel> {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`);
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+  }
+
+  async getPersonalBestLists(listId: number): Promise<PersonalBestListModel[]> {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl`);
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+  }
+
+  async updatePersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(entry),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];  }
+
+  async createPersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members`, {
+      method: 'POST',
+      body: JSON.stringify(entry),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+
+  async deletePersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return (await data.json()) ?? [];
+  }
+
+  async getPersonalBestListEntry(listId: number, pbListId: number, entryId: number): Promise<PersonalBestListEntryModel | undefined> {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}/members/${entryId}`);
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+  }
+
+  async getPersonalBestSuggestions(listId: number): Promise<NewPersonalBestModel[]> {
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/suggestions`);
+    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+  }
+
 }
