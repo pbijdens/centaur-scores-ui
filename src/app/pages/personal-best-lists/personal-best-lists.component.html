@@ -75,33 +75,68 @@
         </div>
     </nav>
 
-    <ng-container *ngFor="let category of personalBestLists">
-        <div class="cs-results-page mt-2" *ngIf="(category.entriesByDiscipline | keys).length">
-            <ng-container *ngFor="let discipline of category.entriesByDiscipline | keys">
-                <div class="results-content">
-                    <div class="cs-results-card">
-                        <div class="cs-heading h1 my-4">{{discipline}} {{category.name}}</div>
-                        <table class="cs-table">
-                            <thead>
-                                <tr>
-                                    <th class="text-left">Naam</th>
-                                    <th class="text-left">Datum</th>
-                                    <th class="text-right">Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let entry of category.entriesByDiscipline[discipline]">
-                                    <td class="flex-grow w-full text-left">{{entry.participant.name}}</td>
-                                    <td class="max-w-24 min-w-24 w-24 text-left">{{entry.achieved}}</td>
-                                    <td class="max-w-16 min-w-16 w-16 text-right">{{entry.score}}</td>
-                                </tr>                                                                                                                                                                                                                                                                                                                                                           
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </ng-container>
 
+
+    <ng-container *ngFor="let discipline of indexByDisciplineThenArcher | keys">
+        <div class="cs-results-page" *ngIf="indexByDisciplineThenArcher[discipline].length">
+            <div class="cs-results-card-pbl">
+                <table class="cs-table">
+                    <thead>
+                        <tr>
+                            <th [attr.colspan]="personalBestLists.length + 1" class="text-center header">{{discipline}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Naam</th>
+                            @for (pbl of personalBestLists; track pbl) {
+                            <th class="w-24">{{pbl.name}}</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (entry of indexByDisciplineThenArcher[discipline]; track entry) {
+                        <tr>
+                            <td>{{entry.participant.name}}</td>
+                            @for (score of entry.scores; track score) {
+                            <td class="w-24 text-center leading-3"><span *ngIf="score.when">{{score.score}}<br /><i
+                                        class="text-xs">{{score.when}}</i></span></td>
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </ng-container>
+
+    <div class="cs-results-page">
+        <div class="cs-results-card-pbl">
+            <table class="cs-table">
+                <!-- <thead>
+                    <tr>
+                        <th class="text-left">Discipline</th>
+                        <th class="text-left">Datum</th>
+                        <th class="text-right">Score</th>
+                        <th class="text-left px-4">Naam</th>
+                    </tr>
+                </thead> -->
+                <tbody>
+                    <ng-container *ngFor="let category of personalBestLists">
+                        <tr>
+                            <td colspan="5" class="text-center header h-8">Clubrecords {{category.name}}</td>
+                        </tr>
+                        <ng-container *ngFor="let discipline of category.entriesByDiscipline | keys">
+                            <tr *ngFor="let entry of category.entriesByDiscipline[discipline] | onlytopscore">
+                                <td class="w-32  text-left">{{discipline}}</td>
+                                <td class="max-w-24 min-w-24 w-24 text-left">{{entry.achieved}}</td>
+                                <td class="max-w-16 min-w-16 w-16 text-right">{{entry.score}}</td>
+                                <td class="h-7 flex-grow text-left"><div class="px-4">{{entry.participant.name}}</div></td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </ng-template>

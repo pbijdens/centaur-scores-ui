@@ -22,7 +22,7 @@
         <label for="startDate">
             Aanvangsdatum
         </label>
-        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [displayDate]="selectedCompetition.startDate || '2024-01-01'"
+        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day"
             [(ngModel)]="selectedCompetition.startDate" placeholder="Kies een datum..."
             [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
     </div>
@@ -30,7 +30,7 @@
         <label for="endDate">
             Einddatum
         </label>
-        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [displayDate]="selectedCompetition.endDate || '2024-01-01'"
+        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day"
             [(ngModel)]="selectedCompetition.endDate" placeholder="Kies een datum..."
             [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
     </div>

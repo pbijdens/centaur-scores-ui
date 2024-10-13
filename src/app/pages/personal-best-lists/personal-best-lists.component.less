@@ -8,6 +8,24 @@
     @media print {
         page-break-after: always;
     }
+
+    th {
+
+      &.header {
+        @apply text-accentbfg bg-accentb;
+      }
+    }
+
+    td {
+      @apply leading-3;
+      i {
+        color: #555;
+      }
+
+      &.header {
+        @apply text-accentbfg-200 bg-accentb;
+      }
+    }      
 }
 
 @media print {
@@ -32,9 +50,22 @@
   
     th {
       font-size: 10pt !important;
+
+      &.header {
+        @apply text-accentbfg bg-accentb;
+      }
     }
   
     td {
-      font-size: 10pt !important;
+
+      font-size: 9pt !important;
+
+      i {
+        font-size: 8pt !important;
+      }
     }  
+
+    .cs-results-card-pbl {
+      @apply m-0 mb-2 p-0 w-full;
+    }
   }
