@@ -8,11 +8,14 @@ import { SelectFromGroupinfoComponent } from "../select-from-groupinfo/select-fr
 import { GroupInfo } from '../../models/group-info';
 import { EditScorecardComponent } from "../edit-scorecard/edit-scorecard.component";
 import { ScoreButtonDefinition } from '../../models/score-button-definition';
+import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
+import { InputParticipantNameForMatch } from "../input-participantname-for-match/input-participantname-for-match.component";
+import { ParticipantsListMember } from '../../models/participants-list-member';
 
 @Component({
   selector: 'app-edit-participant-scoresheet',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectFromGroupinfoComponent, EditScorecardComponent],
+  imports: [CommonModule, FormsModule, SelectFromGroupinfoComponent, EditScorecardComponent, InputMemberFromListComponent, InputParticipantNameForMatch],
   templateUrl: './edit-participant-scoresheet.component.html',
   styleUrl: './edit-participant-scoresheet.component.less'
 })
@@ -108,4 +111,23 @@ export class EditParticipantScoresheetComponent {
       this.participant.target = group?.code || '';
     }
   }
+
+  async selectedParticipant(event: ParticipantsListMember | InputTagModel): Promise<void> {
+    if ((event as ParticipantsListMember).name && this.participant) {
+      this.participant.name = (event as ParticipantsListMember).name;
+      if ((event as ParticipantsListMember).id) {
+        this.participant.participantListEntryId = (event as ParticipantsListMember).id
+      }
+      else {
+        delete this.participant.participantListEntryId;  
+      };
+    } else if ((event as InputTagModel) && (event as InputTagModel).label && this.participant) {
+      this.participant.name = (event as InputTagModel).label;
+      delete this.participant.participantListEntryId;
+    }
+  }
+}
+
+export interface InputTagModel {
+  label: string;
 }

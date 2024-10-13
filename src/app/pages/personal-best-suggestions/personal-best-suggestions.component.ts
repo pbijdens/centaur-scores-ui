@@ -60,7 +60,6 @@ export class PersonalBestSuggestionsComponent {
         participant: pb.participant,
         score: pb.score
       };
-      console.log(model);
       const pbl = await this.apiService.getPersonalBestList(this.listId, pb.listId);
       if (!model.id || model.id < 0) {
         await this.apiService.createPersonalBestListEntry(this.listId, pbl, model);

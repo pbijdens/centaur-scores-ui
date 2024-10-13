@@ -119,7 +119,6 @@ export class EditParticipantLinkComponent implements OnInit {
             if (this.members) {
               const tpname = this.participant?.name || '';
               this.members.forEach(a => a.similarity = this.isSimilar(a.name, tpname));
-              console.log(this.members);
               let matches = this.members.sort((a,b) => b.similarity - a.similarity);
               matches = matches.filter(m => m.similarity > 50).slice(0, 5);
               this.matches = matches;              

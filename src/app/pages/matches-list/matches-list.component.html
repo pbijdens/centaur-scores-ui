@@ -14,9 +14,9 @@
         <thead>
             <tr>
                 <th>Actief?</th>
-                <th>Code</th>
+                <th>Datum</th>
                 <th>Naam</th>
-                <th>Lijnen</th>
+                <th>Competitie</th>
                 <th>Acties</th>
             </tr>
         </thead>
@@ -25,7 +25,7 @@
                 <td class="w-16 text-center"><span *ngIf="match.isActiveMatch">&#x2714;</span></td>
                 <td class="w-32 cursor-pointer" [routerLink]="[match.id]">{{match.matchCode}}</td>
                 <td class="cursor-pointer flex-grow" [routerLink]="[match.id]">{{match.matchName}}</td>
-                <td class="w-40 cursor-pointer" [routerLink]="[match.id]">{{match.lijnen.join()}}</td>
+                <td class="cursor-pointer w-64 overflow-x-hidden" [routerLink]="[match.id]">{{match.competition.name}}</td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
                         <button [routerLink]="[match.id]" class="cs-button">Open
