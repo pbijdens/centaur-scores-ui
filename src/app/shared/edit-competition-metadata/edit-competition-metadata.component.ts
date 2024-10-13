@@ -5,11 +5,12 @@ import { CompetitionModel } from '../../models/competition-model';
 import { ApiService } from '../../services/api.service';
 import { SelectRulesetGroupComponent } from '../select-ruleset-group/select-ruleset-group.component';
 import { SelectParticipantsListComponent } from '../select-participants-list/select-participants-list.component';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @Component({
   selector: 'app-edit-competition-metadata',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectParticipantsListComponent, SelectRulesetGroupComponent],
+  imports: [CommonModule, FormsModule, SelectParticipantsListComponent, SelectRulesetGroupComponent, DpDatePickerModule],
   templateUrl: './edit-competition-metadata.component.html',
   styleUrl: './edit-competition-metadata.component.less'
 })
@@ -27,9 +28,13 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (this.competitionId === -1) {
+      const codeStart = `${new Date().getUTCFullYear()}-01-01`;
+      const codeEnd = `${new Date().getUTCFullYear()}-12-31`;
       this.selectedCompetition = <CompetitionModel>{
         id: -1,
         name: '',
+        startDate: codeStart,
+        endDate: codeEnd
       };
     }
     else if (this.competitionId >= 0) {

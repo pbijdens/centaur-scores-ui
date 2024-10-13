@@ -7,11 +7,12 @@ import { ApiService } from '../../services/api.service';
 import { SelectRulesetComponent } from "../select-ruleset/select-ruleset.component";
 import { GroupsEditorComponent } from "../groups-editor/groups-editor.component";
 import { KeysPipe } from '../../pipes/keys.pipe';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @Component({
   selector: 'app-edit-match-metadata',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectRulesetComponent, GroupsEditorComponent, KeysPipe],
+  imports: [CommonModule, FormsModule, SelectRulesetComponent, GroupsEditorComponent, KeysPipe, DpDatePickerModule],
   templateUrl: './edit-match-metadata.component.html',
   styleUrl: './edit-match-metadata.component.less'
 })
@@ -55,7 +56,8 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
       this.match = await this.apiService.getMatch(this.matchId);
       this.match!.lijnenAsString = this.match!.lijnen.join('');
     } else {
-      this.match = <MatchModel>{ id: -1, lijnenAsString: 'ABCD', lijnen: ['A','B','C','D'] };
+      const code = `${new Date().getUTCFullYear()}-01-01`;
+      this.match = <MatchModel>{ id: -1, lijnenAsString: 'ABCD', lijnen: ['A','B','C','D'], matchCode: code };
       if (this.competition) {
         this.match.competition = this.competition;
       }

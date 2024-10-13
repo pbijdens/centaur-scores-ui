@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "dayjs"
+            ],            
             "outputPath": "dist/centaur-scores-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -36,7 +39,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "scripts": []
           },
@@ -45,8 +49,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",

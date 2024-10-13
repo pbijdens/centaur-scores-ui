@@ -22,23 +22,25 @@
         <label for="startDate">
             Aanvangsdatum
         </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="startDate" type="text"
-            placeholder="YYYY-MM-DD" [(ngModel)]="selectedCompetition.startDate">
+        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [displayDate]="selectedCompetition.startDate || '2024-01-01'"
+            [(ngModel)]="selectedCompetition.startDate" placeholder="Kies een datum..."
+            [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
     </div>
     <div class="cs-input-block">
         <label for="endDate">
             Einddatum
         </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="endDate" type="text"
-            placeholder="YYYY-MM-DD" [(ngModel)]="selectedCompetition.endDate">
+        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [displayDate]="selectedCompetition.endDate || '2024-01-01'"
+            [(ngModel)]="selectedCompetition.endDate" placeholder="Kies een datum..."
+            [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
     </div>
     <div class="cs-input-block">
-        <app-select-ruleset-group
-            [currentGroup]="selectedCompetition.rulesetGroupName" (groupSelected)="setRuleset($event)"></app-select-ruleset-group>
+        <app-select-ruleset-group [currentGroup]="selectedCompetition.rulesetGroupName"
+            (groupSelected)="setRuleset($event)"></app-select-ruleset-group>
     </div>
     <div class="cs-input-block">
-        <app-select-participants-list
-            [currentList]="selectedCompetition.participantsList" (listSelected)="setParticipantsList($event)"></app-select-participants-list>
+        <app-select-participants-list [currentList]="selectedCompetition.participantsList"
+            (listSelected)="setParticipantsList($event)"></app-select-participants-list>
     </div>
 
     <div class="cs-action-block">

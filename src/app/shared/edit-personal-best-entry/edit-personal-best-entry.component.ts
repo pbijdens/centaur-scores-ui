@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entry-model';
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
+import { DpDatePickerModule, ISelectionEvent } from 'ng2-date-picker';
 
 @Component({
   selector: 'app-edit-personal-best-entry',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputMemberFromListComponent],
+  imports: [CommonModule, FormsModule, InputMemberFromListComponent, DpDatePickerModule],
   templateUrl: './edit-personal-best-entry.component.html',
   styleUrl: './edit-personal-best-entry.component.less'
 })
@@ -54,8 +55,9 @@ export class EditPersonalBestEntryComponent {
           entry.participant = this.memberlist.find(x => entry.participant && x.id === entry.participant.id) as ParticipantsListMember;
         }
       } else {
+        const code = `${new Date().getUTCFullYear()}-01-01`;
         this.entry = <PersonalBestListEntryModel>{
-          achieved: '',
+          achieved: code,
           discipline: '',
           notes: '',
           participant: {},
@@ -114,11 +116,16 @@ export class EditPersonalBestEntryComponent {
   async participantSelected(event: ParticipantsListMember) {
     if (this.entry) {
       if (event) {
-      this.entry.participant = event;
+        this.entry.participant = event;
       } else {
         //whatever?
       }
     }
   }
+
+  async achievedDateSelected($event: ISelectionEvent): Promise<void> {
+    console.log($event);
+  }
+
 }
 

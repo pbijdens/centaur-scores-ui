@@ -15,15 +15,15 @@
         <label for="a01">
             Schutter
         </label>
-        <app-input-member-from-list id="a01" [listId]="listId" [participantId]="entry.participant.id || -1" (selected)="participantSelected($event)"></app-input-member-from-list>          
+        <app-input-member-from-list id="a01" [listId]="listId" [participantId]="entry.participant.id || -1"
+            (selected)="participantSelected($event)"></app-input-member-from-list>
     </div>
 
     <div class="cs-input-block">
         <label for="ruleset">
             Discipline
         </label>
-        <select id="ruleset" title="Kies een discipline" #rulesetSelect
-            [(ngModel)]="entry.discipline"
+        <select id="ruleset" title="Kies een discipline" #rulesetSelect [(ngModel)]="entry.discipline"
             [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Kies een discipline">
             <option *ngFor="let c of disciplines" [ngValue]="c">{{c}}</option>
         </select>
@@ -33,13 +33,15 @@
         <label for="a02">
             Behaald op (YYYY-MM-DD)
         </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a02" type="text"
-            placeholder="Behaald op" [(ngModel)]="entry.achieved">
+        <!-- <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a02" type="text"
+            placeholder="Behaald op" [(ngModel)]="entry.achieved"> -->
+        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [displayDate]="entry.achieved" [(ngModel)]="entry.achieved"
+            placeholder="Kies een datum..." [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
     </div>
 
     <div class="cs-input-block">
         <label for="a03">
-            Opomerkingen
+            Opmerkingen
         </label>
         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a03" type="text"
             placeholder="Opmerkingen" [(ngModel)]="entry.notes">
@@ -50,7 +52,7 @@
             Score
         </label>
         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a04" type="text"
-            placeholder="Naam van de lijst" [(ngModel)]="entry.score"> 
+            placeholder="Naam van de lijst" [(ngModel)]="entry.score">
     </div>
 
     <div class="cs-action-block">

@@ -46,10 +46,7 @@
             <ng-container [ngSwitch]="tab">
                 <div class="cs-tab-body-x" *ngSwitchCase="1">
 
-                    <div class="cs-input-block">
-                        <app-select-ruleset [group]="competition?.rulesetGroupName" [currentCode]="match.rulesetCode"
-                            (rulesetSelected)="setMatchRuleset($event)"></app-select-ruleset>
-                    </div>
+
                     <div class="cs-input-block">
                         <label for="arrowsPerEnd">
                             Pijlen per ronde
@@ -112,11 +109,11 @@
 
                     <div class="cs-input-block">
                         <label for="matchCode">
-                            Code
+                            Datum
                         </label>
-                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchCode" type="text"
-                            placeholder="Geef een korte (unieke) code op voor de wedstrijd"
-                            [(ngModel)]="match!.matchCode">
+                        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [displayDate]="match!.matchCode"
+                            [(ngModel)]="match!.matchCode" placeholder="Kies een datum..."
+                            [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
                     </div>
 
                     <div class="cs-input-block">
@@ -127,6 +124,10 @@
                             placeholder="Volledige naam van de wedstrijd" [(ngModel)]="match!.matchName">
                     </div>
 
+                    <div class="cs-input-block">
+                        <app-select-ruleset [group]="competition?.rulesetGroupName" [currentCode]="match.rulesetCode"
+                            (rulesetSelected)="setMatchRuleset($event)"></app-select-ruleset>
+                    </div>
 
                 </div>
 
@@ -139,7 +140,8 @@
             <div class="cs-action-bar">
                 <ul>
                     <li *ngIf="match.id > 0">
-                        <button (click)="deleteEntity()" class="cs-button danger" aria-current="page">Verwijderen</button>
+                        <button (click)="deleteEntity()" class="cs-button danger"
+                            aria-current="page">Verwijderen</button>
                     </li>
                     <li class="flex-grow"></li>
                     <li *ngIf="match.id > 0">
