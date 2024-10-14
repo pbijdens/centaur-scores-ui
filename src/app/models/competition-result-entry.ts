@@ -4,5 +4,6 @@ export interface CompetitionResultEntry{
     participantInfo: string;
     position: number;
     totalScore: number;
+    perArrowAverage: number;
     perRuleset: { [key: string]: CompetitionRulesetResultEntry };
 }

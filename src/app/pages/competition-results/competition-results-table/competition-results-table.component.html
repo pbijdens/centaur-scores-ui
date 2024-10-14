@@ -7,6 +7,7 @@
                 <th class="text-2xs" [attr.colspan]="results.matches[ruleset].matchCodes.length + 1" class="text-xs text-center">{{ruleset}}</th>
             </ng-container>
             <th></th>
+            <th></th>
         </tr>                                            
         <tr>
             <th class="w-12">#</th>
@@ -17,6 +18,7 @@
             </ng-container>
             
             <th>Score</th>
+            <th class="w-8">Gem</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +32,7 @@
                 <td class="text-xs text-center">{{entry.perRuleset[ruleset].totalScore}}</td>
             </ng-container>                                                
             <td class="text-right">{{entry.totalScore}}</td>
+            <td class="w-8"><span class="mini text-xs">({{entry.perArrowAverage| number: '1.2-2'}})</span></td>
         </tr>
     </tbody>
 </table>

@@ -7,18 +7,22 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let entry of entries">
-            <td class="text-right">{{entry.position}}.</td>
-            <td class="">
-                <div>{{entry.participantInfo}}</div>
-                <div class="cs-results-subscript"
-                    *ngIf="entry.scoreInfo[0].info">{{entry.scoreInfo[0].info}}
-                </div>
-                <div class="cs-results-subscript"
-                    *ngIf="entry.tiebreakerInfo">{{entry.tiebreakerInfo}}
-                </div>
-            </td>
-            <td class="text-right">{{entry.score}}</td>
-        </tr>
+        <ng-container *ngFor="let entry of entries">
+            <tr [ngClass]="{'personalbest': entry.isPR}">
+                <td class="text-right">{{entry.position}}.</td>
+                <td class="">
+                    <div>{{entry.participantInfo}}</div>
+                    <div class="cs-results-subscript" *ngIf="entry.scoreInfo[0].info">{{entry.scoreInfo[0].info}}
+                    </div>
+                    <div class="cs-results-subscript" *ngIf="entry.tiebreakerInfo">{{entry.tiebreakerInfo}}
+                    </div>
+                    <div class="cs-results-subscript" *ngIf="entry.isPR">Nieuw persoonlijk record (nu:
+                        {{entry.prScore}})
+                    </div>
+                </td>
+                <td class="text-right">{{entry.score}} <span class="mini text-xs">({{entry.perArrowAverage| number:
+                        '1.2-2'}})</span></td>
+            </tr>
+        </ng-container>
     </tbody>
 </table>

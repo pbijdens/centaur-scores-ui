@@ -5,5 +5,9 @@ export interface MatchResultEntry {
     participantInfo: string;
     scoreInfo: ScoreInfoEntry[];
     score: number;
+    perArrowAverage: number;
+    prPerArrowAverage: number;
+    prScore: number;
+    isPR: boolean;
     tiebreakerInfo: string;
 }
