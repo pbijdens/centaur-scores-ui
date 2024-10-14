@@ -11,8 +11,9 @@
                     <button [routerLink]="['pbl']" class="cs-button" aria-current="page">PR lijsten</button>
                 </li>
                 <li>
-                    <button [routerLink]="['personalbest']" class="cs-button" aria-current="page">Nieuwe PRs berekenen</button>
-                </li>                 
+                    <button [routerLink]="['personalbest']" class="cs-button" aria-current="page">Nieuwe PRs
+                        berekenen</button>
+                </li>
                 <li>
                     <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page">Lijst
                         aanpassen</button>
@@ -75,6 +76,19 @@
                 [ngModelOptions]="{standalone: true}" class="cs-input-text" placeholder="Kies een klasse">
                 <option *ngFor="let c of subclasses" [ngValue]="c">{{c.name}}</option>
             </select>
+        </div>
+        <div class="cs-input-block">
+            <div class="cs-heading h3">Persoonlijke records</div>
+            <table class="cs-table">
+                @for (entry of participant!.personalBests; track entry) {
+                <tr>
+                    <td>{{entry.achieved}}</td>
+                    <td>{{entry.listName}}</td>
+                    <td>{{entry.discipline}}</td>
+                    <td>{{entry.score}}</td>
+                </tr>
+                }
+            </table>
         </div>
         <div class="cs-action-block">
             <div>

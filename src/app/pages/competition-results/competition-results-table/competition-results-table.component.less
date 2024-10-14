@@ -1,6 +1,9 @@
 @media print {
     th {
-        font-size: 8pt !important;
+        &.title {
+            font-size: 10pt !important;    
+        }
+        font-size: 6pt !important;
     }
     
     td {
@@ -8,6 +11,23 @@
 
         .mini {
             font-size: 6pt !important;
+        }
+    }
+}
+
+@media screen {
+    th {
+        &.title {
+            @apply text-lg;
+        }
+        @apply text-xs;
+    }
+    
+    td {
+        @apply text-sm;
+
+        .mini {
+            @apply text-xs;
         }
     }
 }

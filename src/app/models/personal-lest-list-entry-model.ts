@@ -7,4 +7,5 @@ export interface PersonalBestListEntryModel {
     achieved: string;
     notes: string;
     discipline: string;
+    listName: string; // optional
 }

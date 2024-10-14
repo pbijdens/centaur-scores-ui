@@ -4,19 +4,22 @@
             <th class="w-12"></th>
             <th></th>
             <ng-container *ngFor="let ruleset of results.matches | keys">
-                <th class="text-2xs" [attr.colspan]="results.matches[ruleset].matchCodes.length + 1" class="text-xs text-center">{{ruleset}}</th>
+                <th [attr.colspan]="results.matches[ruleset].matchCodes.length + 1" class="text-center title">
+                    {{ruleset}}</th>
             </ng-container>
             <th></th>
             <th></th>
-        </tr>                                            
+        </tr>
         <tr>
-            <th class="w-12">#</th>
-            <th>Naam</th>
+            <th>#</th>
+            <th class="text-left">Naam</th>
             <ng-container *ngFor="let ruleset of results.matches | keys">
-                <th class="text-xs" *ngFor="let matchCode of results.matches[ruleset].matchCodes">{{matchCode}}</th>
-                <th class="text-xs">Subtotaal</th>
+                @for (matchCode of results.matches[ruleset].matchCodes; track matchCode) {
+                <th>{{matchCode}}</th>
+                }
+                <th>Totaal</th>
             </ng-container>
-            
+
             <th>Score</th>
             <th class="w-8">Gem</th>
         </tr>
@@ -28,9 +31,12 @@
                 <div>{{entry.participantInfo}}</div>
             </td>
             <ng-container *ngFor="let ruleset of entry.perRuleset| keys">
-                <td *ngFor="let score of entry.perRuleset[ruleset].scores" class="text-xs text-center" [ngClass]="{'line-through': score && score.isDiscarded}">{{score == null ? '-' : score.score}}</td>
+                @for (score of entry.perRuleset[ruleset].scores; track score) {
+                <td class="text-xs text-center" [ngClass]="{'line-through': score && score.isDiscarded}">{{score == null
+                    ? '-' : score.score}}</td>
+                }
                 <td class="text-xs text-center">{{entry.perRuleset[ruleset].totalScore}}</td>
-            </ng-container>                                                
+            </ng-container>
             <td class="text-right">{{entry.totalScore}}</td>
             <td class="w-8"><span class="mini text-xs">({{entry.perArrowAverage| number: '1.2-2'}})</span></td>
         </tr>

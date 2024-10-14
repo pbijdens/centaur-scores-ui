@@ -18,7 +18,7 @@ import { ControlUpButtonComponent } from "../../shared/control-up-button/control
   styleUrl: './participants-list-editor.component.less'
 })
 export class ParticipantsListEditorComponent implements OnInit {
-  public participant: ParticipantsListMember = { id: -1, name: '', group: '', subgroup: '', similarity: 0 };
+  public participant: ParticipantsListMember = { id: -1, name: '', group: '', subgroup: '', similarity: 0, personalBests: [], isDeactivated: false };
   public participants: ParticipantsListMember[] = [];
   public metadata?: ParticipantsListModel;
   public listId: number = -1;
