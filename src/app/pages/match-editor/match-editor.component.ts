@@ -15,6 +15,7 @@ import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-bu
 import { EditParticipantLinkComponent } from "../../shared/edit-participant-link/edit-participant-link.component";
 import { CompetitionModel } from '../../models/competition-model';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-match-editor',
@@ -35,7 +36,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   public participantForLinking?: ParticipantModel;
   public participants: ParticipantModel[] = [];
 
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.id = this.activatedRoute.snapshot.params['id'] as number;
     if (this.id == -1)
       this.navbarService.setPageTitle('Nieuwe wedstrijd');
@@ -54,25 +55,29 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   }
 
   async refresh() {
-    if (this.id >= 0) {
-      try {
-        this.match = await this.apiService.getMatch(this.id);
-        this.match!.lijnenAsString = this.match!.lijnen.join('');
-        if (this.match.competition) {
-          this.competitionId = this.match.competition.id;
-          if (this.competitionId >= 0) {
-            this.competition = await this.apiService.getCompetition(this.match.competition.id);
+    try {
+      if (this.id >= 0) {
+        try {
+          this.match = await this.apiService.getMatch(this.id);
+          this.match!.lijnenAsString = this.match!.lijnen.join('');
+          if (this.match.competition) {
+            this.competitionId = this.match.competition.id;
+            if (this.competitionId >= 0) {
+              this.competition = await this.apiService.getCompetition(this.match.competition.id);
+            }
           }
-        }
-        this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})`);
+          this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})`);
 
-        this.participants = await this.apiService.getParticipantsForMatch(this.match.id);
+          this.participants = await this.apiService.getParticipantsForMatch(this.match.id);
+        }
+        catch (error) {
+          this.error = `Kon wedstrijd met id ${this.id} niet laden: ${error}`;
+        }
+      } else {
+        this.match = undefined;
       }
-      catch (error) {
-        this.error = `Kon wedstrijd met id ${this.id} niet laden: ${error}`;
-      }
-    } else {
-      this.match = undefined;
+    } catch (err) {
+      this.error = `Er is iets fout gegaan: ${err}`;
     }
   }
 
@@ -102,7 +107,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
     this.error = message;
   }
 
-  async editParticipantClose() : Promise<void> {
+  async editParticipantClose(): Promise<void> {
     delete this.participantForProperties;
     await this.refresh();
   }
@@ -111,15 +116,15 @@ export class MatchEditorComponent implements OnInit, OnChanges {
     this.participantForProperties = <ParticipantModel>{ id: -1 };
   }
 
-  async editParticipant(p : ParticipantModel): Promise<void> {
+  async editParticipant(p: ParticipantModel): Promise<void> {
     this.participantForProperties = JSON.parse(JSON.stringify(p));
   }
 
-  async linkParticipant(p : ParticipantModel): Promise<void> {
+  async linkParticipant(p: ParticipantModel): Promise<void> {
     this.participantForLinking = JSON.parse(JSON.stringify(p));
   }
 
-  async linkParticipantClose() : Promise<void> {
+  async linkParticipantClose(): Promise<void> {
     delete this.participantForLinking;
     await this.refresh();
   }

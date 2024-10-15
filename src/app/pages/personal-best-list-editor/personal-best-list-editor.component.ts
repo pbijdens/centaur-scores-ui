@@ -13,6 +13,7 @@ import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entr
 import { GetGroupNamePipe } from "../../pipes/getgroupname.pipe";
 import { EditPersonalBestEntryComponent } from "../../shared/edit-personal-best-entry/edit-personal-best-entry.component";
 import { ParticipantsListMember } from '../../models/participants-list-member';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-personal-best-list-editor',
@@ -33,7 +34,7 @@ export class PersonalBestListEditorComponent {
   public errorMessage= '';
   public memberList: ParticipantsListMember[] = [];
 
-  constructor(private apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
+  constructor(private apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.listId = this.activatedRoute.snapshot.params['listId'] as number || -1;
     this.pblId = this.activatedRoute.snapshot.params['pblId'] as number || -1;
   }

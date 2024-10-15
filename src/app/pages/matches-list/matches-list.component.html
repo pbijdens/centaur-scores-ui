@@ -8,6 +8,10 @@
     </div>
 </nav>
 
+<div class="cs-card error" *ngIf="errorMessage">
+    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
+    <p>{{errorMessage}}</p>
+</div>
 
 <div class="cs-card">
     <table class="cs-table">

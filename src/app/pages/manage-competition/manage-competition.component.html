@@ -3,7 +3,7 @@
         <div class="navbar-default">
             <ul>
                 <app-control-up-button></app-control-up-button>
-                <li>
+                <li *ngIf="authorizationService.user$ | async">
                     <button (click)="newMatch()" class="cs-button" aria-current="page">Wedstrijd toevoegen</button>
                 </li>
                 <li *ngIf="competition && competition.id >= 0">
@@ -17,7 +17,7 @@
                 </li>
 
                 <li>
-                    <button (click)="editCompetitionOpen()" class="cs-button" aria-current="page">Competitie
+                    <button (click)="editCompetitionOpen()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Competitie
                         aanpassen</button>
                 </li>
             </ul>
@@ -31,14 +31,16 @@
 </div>
 
 <form class="cs-modal-dialog"
-    [ngClass]="{'modal-dialog-open': editCompetition, 'modal-dialog-closed': !editCompetition}">
+    [ngClass]="{'modal-dialog-open': editCompetition, 'modal-dialog-closed': !editCompetition}"
+    *ngIf="authorizationService.user$ | async">
     <div *ngIf="editCompetition">
         <app-edit-competition-metadata [competitionId]="editCompetition.id" (onError)="editCompetitionError($event)"
             (onClose)="editCompetitionClose()"></app-edit-competition-metadata>
     </div>
 </form>
 
-<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': match, 'modal-dialog-closed': !match}">
+<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': match, 'modal-dialog-closed': !match}"
+      *ngIf="authorizationService.user$ | async">
     <div *ngIf="match">
         <app-edit-match-metadata [competitionId]="competitionId" [matchId]="match!.id"
             (onError)="editMatchError($event)" (onClose)="editMatchClose()"></app-edit-match-metadata>
@@ -68,7 +70,7 @@
                         <button [routerLink]="['matches', match.id, 'results']" class="cs-button">Bekijk
                             resultaten</button>
                         <button (click)="setActiveMatch(match)" class="cs-button">Maak wedstrijd actief</button>
-                        <button (click)="editMatch(match)" class="cs-button">Wedstrijd
+                        <button (click)="editMatch(match)" class="cs-button" *ngIf="authorizationService.user$ | async">Wedstrijd
                             aanpassen</button>
                     </app-control-dropdown-button>
                 </td>

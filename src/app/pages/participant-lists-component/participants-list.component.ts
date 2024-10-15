@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-participants-list',
@@ -21,12 +22,17 @@ export class ParticipantsListsComponent implements OnInit {
   public selectedList?: ParticipantsListModel;
   public errorMessage?: string;
 
-  constructor(public apiService: ApiService, public navbarService: NavbarService) {
+  constructor(public apiService: ApiService, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.navbarService.setPageTitle('Deelnemerslijsten beheren');
   }
 
   async refresh(): Promise<void> {
-    this.participantsLists = await this.apiService.getParticipantsLists();
+    try {
+      this.participantsLists = await this.apiService.getParticipantsLists();
+    }
+    catch (err) {
+      this.errorMessage = `Er is iets niet goed gegaan: ${err}`;
+    }
   }
 
   async ngOnInit(): Promise<void> {

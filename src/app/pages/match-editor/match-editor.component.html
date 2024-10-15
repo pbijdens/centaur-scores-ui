@@ -7,20 +7,20 @@
                     <a [routerLink]="['results']" class="cs-button" aria-current="page">Bekijk
                         uitslagen</a>
                 </li>
-                <li>
+                <li *ngIf="authorizationService.user$ | async">
                     <button (click)="newParticipant()" *ngIf="match" class="cs-button">Schutter toevoegen</button>
                 </li>
-                <li>
+                <li *ngIf="authorizationService.user$ | async">
                     <button (click)="openProperties()" *ngIf="match" class="cs-button">Wedstrijd aanpassen</button>
                 </li>
             </ul>
         </div>
         <div class="navbar-default" *ngIf="!error">
             <ul>
-                <li><button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
+                <li *ngIf="authorizationService.user$ | async"><button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
                         actieve wedstrijd</button>
                 </li>
-                <li>
+                <li *ngIf="authorizationService.user$ | async">
                     <button (click)="setActive(false)" *ngIf="match?.isActiveMatch" class="cs-button danger">Deactiveer
                         wedstrijd</button>
                 </li>
@@ -92,7 +92,7 @@
                 </td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
-                        <button (click)="editParticipant(participant)" class="cs-button">Gegevens of score
+                        <button (click)="editParticipant(participant)" class="cs-button" *ngIf="authorizationService.user$ | async">Gegevens of score
                             aanpassen</button>
                         <button (click)="linkParticipant(participant)" class="cs-button">Koppelen aan deelnemerslijst</button>
                     </app-control-dropdown-button>

@@ -10,6 +10,8 @@ import { MatchResultsComponent } from './pages/match-results/match-results.compo
 import { PersonalBestListsComponent } from './pages/personal-best-lists/personal-best-lists.component';
 import { PersonalBestListEditorComponent } from './pages/personal-best-list-editor/personal-best-list-editor.component';
 import { PersonalBestSuggestionsComponent } from './pages/personal-best-suggestions/personal-best-suggestions.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
+import { UserAclListComponent } from './pages/user-acl-list/user-acl-list.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/competitions', pathMatch: 'full'  },
@@ -32,6 +34,10 @@ export const routes: Routes = [
     { path: 'participantlists/:listId/pbl', component: PersonalBestListsComponent },
     { path: 'participantlists/:listId/pbl/:pblId', component: PersonalBestListEditorComponent },
     { path: 'participantlists/:listId/personalbest', component: PersonalBestSuggestionsComponent },
+
+    { path: 'auth', redirectTo: '/auth/user', pathMatch: 'full' },
+    { path: 'auth/user', component: UserListComponent },
+    { path: 'auth/acl', component: UserAclListComponent },
 ];
 
 

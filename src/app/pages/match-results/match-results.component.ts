@@ -59,15 +59,21 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
     }, updateTime);
   }
 
+  public errorMessage?: string;
   async refresh(): Promise<void> {
-    if (this.id == -1) {
-      this.match = await this.apiService.getActiveMatch();
-    } else {
-      this.match = await this.apiService.getMatch(this.id);
-    }
-    if (this.match) {
-      this.navbarService.setPageTitle(`Uitslag ${this.match.matchName}`);
-      this.results = await this.apiService.getSingleMatchResults(this.match.id);
+    try {
+      if (this.id == -1) {
+        this.match = await this.apiService.getActiveMatch();
+      } else {
+        this.match = await this.apiService.getMatch(this.id);
+      }
+      if (this.match) {
+        this.navbarService.setPageTitle(`Uitslag ${this.match.matchName}`);
+        this.results = await this.apiService.getSingleMatchResults(this.match.id);
+      }
+      delete this.errorMessage;
+    } catch (err) {
+      this.errorMessage = `Laden mislukt: ${err}`;
     }
   }
 }

@@ -13,6 +13,7 @@ import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entr
 import { KeysPipe } from "../../pipes/keys.pipe";
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { OnlyTopScorePipe } from "../../pipes/onlytopscore";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-personal-best-lists',
@@ -35,7 +36,7 @@ export class PersonalBestListsComponent implements OnInit {
 
   public print = false;
 
-  constructor(private apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
+  constructor(private apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.listId = this.activatedRoute.snapshot.params['listId'] as number || -1;
     this.print = JSON.parse(this.activatedRoute.snapshot.queryParams['print'] || 'false');
     activatedRoute.queryParams.subscribe(p => {
@@ -52,18 +53,22 @@ export class PersonalBestListsComponent implements OnInit {
   }
 
   async refresh(): Promise<void> {
-    if (this.listId > -1) {
-      this.participantsList = await this.apiService.getParticipantsList(this.listId) as ParticipantsListModel;
-      this.navbarService.setPageTitle(`PRs voor ${this.participantsList.name}`)
+    try {
+      if (this.listId > -1) {
+        this.participantsList = await this.apiService.getParticipantsList(this.listId) as ParticipantsListModel;
+        this.navbarService.setPageTitle(`PRs voor ${this.participantsList.name}`)
 
-      this.personalBestLists = await this.apiService.getPersonalBestLists(this.listId);
+        this.personalBestLists = await this.apiService.getPersonalBestLists(this.listId);
 
-      // For printing we add a special copy of the entries, grouped by discipline
-      // we also load all lists explicitly so the entries get included.
-      if (this.print && this.personalBestLists) {
-        await this.populateEntriesByDiscipline();
-        await this.buildIndexByArcher();
+        // For printing we add a special copy of the entries, grouped by discipline
+        // we also load all lists explicitly so the entries get included.
+        if (this.print && this.personalBestLists) {
+          await this.populateEntriesByDiscipline();
+          await this.buildIndexByArcher();
+        }
       }
+    } catch (err) {
+      this.errorMessage = `Laden mislukt: ${err}`;
     }
   }
 
@@ -73,7 +78,6 @@ export class PersonalBestListsComponent implements OnInit {
       this.personalBestLists[index].entries.forEach(entry => {
         if (indexByDisciplineThenArcher[entry.discipline] === undefined) {
           indexByDisciplineThenArcher[entry.discipline] = {};
-          console.log(`Added ${entry.discipline}`);
         }
         // If there is no entry yet for this archer, create one
         if (indexByDisciplineThenArcher[entry.discipline][entry.participant.id] === undefined) {
@@ -90,9 +94,9 @@ export class PersonalBestListsComponent implements OnInit {
       });
     }
 
-    let disciplines : string[] = [];
+    let disciplines: string[] = [];
     for (const discipline in indexByDisciplineThenArcher) { disciplines.push(`${discipline}`); }
-    disciplines = disciplines.sort();    
+    disciplines = disciplines.sort();
 
     const result: { [key: string]: PersonalBestListEntriesByArcherModel[] } = {};
     disciplines.forEach(discipline => {
@@ -101,7 +105,7 @@ export class PersonalBestListsComponent implements OnInit {
       for (const archerId in obj) {
         result[discipline].push(indexByDisciplineThenArcher[discipline][archerId]);
       }
-      result[discipline] = result[discipline].sort((x,y) => `${this.lastName(x.participant.name)}`.localeCompare(`${this.lastName(y.participant.name)}`));
+      result[discipline] = result[discipline].sort((x, y) => `${this.lastName(x.participant.name)}`.localeCompare(`${this.lastName(y.participant.name)}`));
     });
 
     this.disciplines = disciplines;

@@ -11,6 +11,7 @@ import { MatchModel } from '../../models/match-model';
 import { EditMatchMetadataComponent } from "../../shared/edit-match-metadata/edit-match-metadata.component";
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-manage-competition',
@@ -28,7 +29,7 @@ export class ManageCompetitionComponent implements OnInit {
 
   public match?: MatchModel;
 
-  constructor(public activatedRoute: ActivatedRoute, public apiService: ApiService, public navbarService: NavbarService) {
+  constructor(public activatedRoute: ActivatedRoute, public apiService: ApiService, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.navbarService.setPageTitle('Competitie beheren');
     this.competitionId = this.activatedRoute.snapshot.params['competitionId'] as number;
   }
@@ -38,12 +39,16 @@ export class ManageCompetitionComponent implements OnInit {
   }
 
   async refresh(): Promise<void> {
-    this.competition = await this.apiService.getCompetition(this.competitionId);
-    if (this.competition) {
-      this.navbarService.setPageTitle(`${this.competition.name}`);
-    }
-    if (!this.competition) {
-      this.errorMessage = `De competitie met ID ${this.competitionId} kan niet geladen worden`;
+    try {
+      this.competition = await this.apiService.getCompetition(this.competitionId);
+      if (this.competition) {
+        this.navbarService.setPageTitle(`${this.competition.name}`);
+      }
+      if (!this.competition) {
+        this.errorMessage = `De competitie met ID ${this.competitionId} kan niet geladen worden`;
+      }
+    } catch (err) {
+      this.errorMessage = `Laden mislukt: ${err}`;
     }
   }
 
@@ -56,8 +61,12 @@ export class ManageCompetitionComponent implements OnInit {
   }
 
   async setActiveMatch(match: MatchMetadataModel): Promise<void> {
-    await this.apiService.setActive(<MatchModel>{ id: match.id }, true);
-    await this.refresh();
+    try {
+      await this.apiService.setActive(<MatchModel>{ id: match.id }, true);
+      await this.refresh();
+    } catch (err) {
+      this.errorMessage = `Er is iets fout gegaan: ${err}`;
+    }
   }
 
   async editMatchClose(): Promise<void> {

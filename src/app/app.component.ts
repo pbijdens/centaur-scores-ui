@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavbarService } from './services/navbar.service';
+import { ApiService } from './services/api.service';
+import { LoggedinUserComponent } from "./shared/loggedin-user/loggedin-user.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule],
+  imports: [RouterOutlet, RouterModule, LoggedinUserComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
@@ -18,5 +20,7 @@ export class AppComponent implements OnInit {
     this.navbarService.title$.subscribe(x => {
       this.title = x;
     });
+
+
   }
 }

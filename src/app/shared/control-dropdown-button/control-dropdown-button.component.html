@@ -1,4 +1,4 @@
-<div class="cs-dropdown-control relative">
+<div class="cs-dropdown-control relative" *ngIf="label">
   <a class="cs-button cs-dropdown-button" (isMenuOpen)="toggleVisible(!!$event)" appDropdown>
     <div class="flex flex-row w-full"><span class="inline-block">{{label}}</span><span
         class="inline-block flex-grow"></span><span class="inline-block"><svg class="inline w-5 h-5 ml-2"
@@ -8,7 +8,10 @@
   </a>
   <div class="dropdown-menu" [ngClass]="visibilityClasses">
     <div class="dropdown-menu-visual">
-      <ng-content></ng-content>
+      <div #ref><ng-content></ng-content></div>
+      <span *ngIf=" ! ref.children.length">
+        Geen acties.
+     </span>      
     </div>
   </div>
 </div>

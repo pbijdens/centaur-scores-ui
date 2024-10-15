@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NavbarService } from '../../services/navbar.service';
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-matches-list',
@@ -16,16 +17,21 @@ import { ControlUpButtonComponent } from "../../shared/control-up-button/control
 })
 export class MatchesListComponent implements OnInit {
   public matches: Array<MatchModel> = [];
+  public errorMessage?: string;
 
-  constructor(public apiService: ApiService, public navbarService: NavbarService) {
+  constructor(public apiService: ApiService, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.navbarService.setPageTitle('Alle wedstrijden');
   }
 
   async refresh(): Promise<void> {
-    this.matches = await this.apiService.getMatches();
+    try {
+      this.matches = await this.apiService.getMatches();
+    } catch (err) {
+      this.errorMessage = `Er is iets niet goed gegaan: ${err}`;
+    }
   }
 
   async ngOnInit(): Promise<void> {
-    await this.refresh();   
+    await this.refresh();
   }
 }

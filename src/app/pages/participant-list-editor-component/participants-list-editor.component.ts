@@ -9,6 +9,7 @@ import { EditParticipantsListMetadataComponent } from "../../shared/edit-partici
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { NavbarService } from '../../services/navbar.service';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-participants-list-editor',
@@ -35,7 +36,7 @@ export class ParticipantsListEditorComponent implements OnInit {
 
   public metadataEditorModel?: ParticipantsListModel;
 
-  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
+  constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.listId = this.activatedRoute.snapshot.params['listId'] as number || -1;
     this.id = this.activatedRoute.snapshot.params['id'] as number || -1;
   }
@@ -95,13 +96,15 @@ export class ParticipantsListEditorComponent implements OnInit {
     } else {
       try {
         this.participant = await this.apiService.addParticipantsListMember(this.listId, this.participant);
-        if (this.participant) {
+        if (this.participant && this.participant.id >= 0) {
           this.id = this.participant.id;
           this.selectedClass = this.classes.find(x => x.name === this.participant.group);
           this.selectedSubclass = this.subclasses.find(x => x.name === this.participant.subgroup);
           this.participants = await this.apiService.getParticipantsListMembers(this.listId);
           this.editorOpen = false;
         } else {
+          this.errorMessage = `Toevoegen is mislukt.`;
+
           this.id = -1;
           await this.refresh();
           this.editorOpen = false;

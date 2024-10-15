@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DropdownMenuDirective } from '../../directives/dropdown-menu.directive';
 
@@ -11,7 +11,7 @@ import { DropdownMenuDirective } from '../../directives/dropdown-menu.directive'
   styleUrl: './control-dropdown-button.component.less'
 })
 export class ControlDropdownButtonComponent implements OnInit {
-  @Input() label = 'Opties';
+  @Input() label: string = 'Opties';
 
   public visibilityClasses: any = {};
   private isVisible: boolean = false;

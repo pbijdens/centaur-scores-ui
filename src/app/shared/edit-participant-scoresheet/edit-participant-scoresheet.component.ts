@@ -11,6 +11,7 @@ import { ScoreButtonDefinition } from '../../models/score-button-definition';
 import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
 import { InputParticipantNameForMatch } from "../input-participantname-for-match/input-participantname-for-match.component";
 import { ParticipantsListMember } from '../../models/participants-list-member';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-participant-scoresheet',
@@ -32,27 +33,31 @@ export class EditParticipantScoresheetComponent {
 
   public tab = 0;
 
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
   }
 
   async ngOnInit(): Promise<void> {
-    if (this.matchId >= 0) {
-      this.match = await this.apiService.getMatch(this.matchId);
-      this.match!.lijnenAsString = this.match!.lijnen.join('');
-    }
-
-    if (this.participantId >= 0) {
-      this.participant = await this.apiService.getParticipantForMatch(this.matchId, this.participantId);
-      if (this.match && this.participant) {
-        this.keyboard = this.match.scoreValues[this.participant.target] ?? [];
+    try {
+      if (this.matchId >= 0) {
+        this.match = await this.apiService.getMatch(this.matchId);
+        this.match!.lijnenAsString = this.match!.lijnen.join('');
       }
-    } else {
-      this.participant = <ParticipantModel>{
-        id: -1,
-      };
-      this.keyboard = [];
+
+      if (this.participantId >= 0) {
+        this.participant = await this.apiService.getParticipantForMatch(this.matchId, this.participantId);
+        if (this.match && this.participant) {
+          this.keyboard = this.match.scoreValues[this.participant.target] ?? [];
+        }
+      } else {
+        this.participant = <ParticipantModel>{
+          id: -1,
+        };
+        this.keyboard = [];
+      }
+    } catch (err) {
+      this.onError.emit(`Laden mislukt: ${err}`);
     }
   }
 
@@ -119,7 +124,7 @@ export class EditParticipantScoresheetComponent {
         this.participant.participantListEntryId = (event as ParticipantsListMember).id
       }
       else {
-        delete this.participant.participantListEntryId;  
+        delete this.participant.participantListEntryId;
       };
     } else if ((event as InputTagModel) && (event as InputTagModel).label && this.participant) {
       this.participant.name = (event as InputTagModel).label;

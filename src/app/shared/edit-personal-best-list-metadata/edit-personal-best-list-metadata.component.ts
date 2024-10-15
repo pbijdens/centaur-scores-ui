@@ -4,6 +4,7 @@ import { PersonalBestListModel } from '../../models/personal-best-list-model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KeysPipe } from "../../pipes/keys.pipe";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-personal-best-list-metadata',
@@ -21,15 +22,21 @@ export class EditPersonalBestListMetadataComponent {
   public list?: PersonalBestListModel;
   public rulesets: string[] = [];
 
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   async ngOnInit(): Promise<void> {
-    this.rulesets = [];
-    (await this.apiService.getRulesets()).forEach(r => {
-      if (!this.rulesets.find(x => x === r.competitionFormat)) {
-        this.rulesets.push(r.competitionFormat);
-      }
-    });
+    try {
+      this.rulesets = [];
+      (await this.apiService.getRulesets()).forEach(r => {
+        if (!this.rulesets.find(x => x === r.competitionFormat)) {
+          this.rulesets.push(r.competitionFormat);
+        }
+      });
+    }
+    catch (error) {
+      this.onError.emit('Kan gegevens niet laden.');
+      this.onClose.emit();
+    }
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {

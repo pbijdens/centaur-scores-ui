@@ -8,6 +8,7 @@ import { ParticipantModel } from '../../models/participant-model';
 import { MatchModel } from '../../models/match-model';
 import { CompetitionModel } from '../../models/competition-model';
 import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-participant-link',
@@ -32,7 +33,7 @@ export class EditParticipantLinkComponent implements OnInit {
   public selectedParticipandId = -1;
   public selectedParticipant?: ParticipantsListMember;
 
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   similar_text(first: string, second: string) {
     // Calculates the similarity between two strings  
@@ -91,7 +92,7 @@ export class EditParticipantLinkComponent implements OnInit {
     name = name.toLocaleLowerCase().replaceAll('[^\s\p{L}]', '');
     input = input.toLocaleLowerCase().replaceAll('[^\s\p{L}]', '');
     const percent = this.similar_text(name, input) / (this.max(name.length, input.length) / 100.0);
-    retval = Math.max(retval, percent);    
+    retval = Math.max(retval, percent);
 
     const normalizedName = name.replaceAll(/[^a-z]/gi, '');
     const normalizedInput = input.replaceAll(/[^a-z]/gi, '');
@@ -107,28 +108,32 @@ export class EditParticipantLinkComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.participant = await this.apiService.getParticipantForMatch(this.matchId, this.participantId);
-    if (this.participant) {
-      this.match = await this.apiService.getMatch(this.matchId);
-      if (this.match) {
-        if (this.match.competition?.id >= 0) {
-          this.competition = await this.apiService.getCompetition(this.match.competition.id);
-          if (this.competition && this.competition.participantsList && this.competition.participantsList.id >= 0) {
-            this.competition.participantsList = await this.apiService.getParticipantsList(this.competition.participantsList.id);
-            this.members = await this.apiService.getParticipantsListMembers(this.competition.participantsList!.id);
-            if (this.members) {
-              const tpname = this.participant?.name || '';
-              this.members.forEach(a => a.similarity = this.isSimilar(a.name, tpname));
-              let matches = this.members.sort((a,b) => b.similarity - a.similarity);
-              matches = matches.filter(m => m.similarity > 50).slice(0, 5);
-              this.matches = matches;              
-            }
+    try {
+      this.participant = await this.apiService.getParticipantForMatch(this.matchId, this.participantId);
+      if (this.participant) {
+        this.match = await this.apiService.getMatch(this.matchId);
+        if (this.match) {
+          if (this.match.competition?.id >= 0) {
+            this.competition = await this.apiService.getCompetition(this.match.competition.id);
+            if (this.competition && this.competition.participantsList && this.competition.participantsList.id >= 0) {
+              this.competition.participantsList = await this.apiService.getParticipantsList(this.competition.participantsList.id);
+              this.members = await this.apiService.getParticipantsListMembers(this.competition.participantsList!.id);
+              if (this.members) {
+                const tpname = this.participant?.name || '';
+                this.members.forEach(a => a.similarity = this.isSimilar(a.name, tpname));
+                let matches = this.members.sort((a, b) => b.similarity - a.similarity);
+                matches = matches.filter(m => m.similarity > 50).slice(0, 5);
+                this.matches = matches;
+              }
 
-            this.selectedParticipandId = this.participant.participantListEntryId || -1;
-            this.selectedParticipant = this.members.find(x => x.id === this.selectedParticipandId);
+              this.selectedParticipandId = this.participant.participantListEntryId || -1;
+              this.selectedParticipant = this.members.find(x => x.id === this.selectedParticipandId);
+            }
           }
         }
       }
+    } catch (err) {
+      this.onError.emit(`Laden mislukt: ${err}`);
     }
   }
 
@@ -142,9 +147,13 @@ export class EditParticipantLinkComponent implements OnInit {
 
   async selectMember(member: ParticipantsListMember): Promise<void> {
     if (this.participant) {
-      this.participant.participantListEntryId = member ? member.id : undefined;
-      this.participant.name = member.name;
-      await this.apiService.updateMatchParticipant(this.matchId, this.participant);
+      try {
+        this.participant.participantListEntryId = member ? member.id : undefined;
+        this.participant.name = member.name;
+        await this.apiService.updateMatchParticipant(this.matchId, this.participant);
+      } catch (err) {
+        this.onError.emit(`Opslaan mislukt: ${err}`);
+      }
     }
     this.onClose.emit();
   }

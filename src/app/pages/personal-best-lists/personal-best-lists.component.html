@@ -9,10 +9,10 @@
                             aria-current="page">Afdrukken</button>
                     </li>
                     <li>
-                        <button (click)="new()" class="cs-button" aria-current="page">Nieuwe PR catgeorie</button>
+                        <button (click)="new()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe PR catgeorie</button>
                     </li>
                     <li>
-                        <button [routerLink]="['..', 'personalbest']" class="cs-button" aria-current="page">Nieuwe PRs
+                        <button [routerLink]="['..', 'personalbest']" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe PRs
                             berekenen</button>
                     </li>
                 </ul>
@@ -49,9 +49,8 @@
                     <td class="w-64 cursor-pointer" [routerLink]="[ part.id ]">{{part.competitionFormat}}</td>
                     <td class="dropdown-row">
                         <app-control-dropdown-button>
-                            <button [routerLink]="[ part.id ]" class="cs-button">Gegevens
-                                aanpassen</button>
-                            <button (click)="select(part)" class="cs-button">Gegevens
+                            <button [routerLink]="[ part.id ]" class="cs-button">Lijst bekijken</button>
+                            <button (click)="select(part)" class="cs-button" *ngIf="authorizationService.user$ | async">Gegevens
                                 aanpassen</button>
                         </app-control-dropdown-button>
                     </td>
@@ -130,7 +129,9 @@
                                 <td class="w-32  text-left">{{discipline}}</td>
                                 <td class="max-w-24 min-w-24 w-24 text-left">{{entry.achieved}}</td>
                                 <td class="max-w-16 min-w-16 w-16 text-right">{{entry.score}}</td>
-                                <td class="h-7 flex-grow text-left"><div class="px-4">{{entry.participant.name}}</div></td>
+                                <td class="h-7 flex-grow text-left">
+                                    <div class="px-4">{{entry.participant.name}}</div>
+                                </td>
                             </tr>
                         </ng-container>
                     </ng-container>

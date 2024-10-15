@@ -13,7 +13,7 @@
     <p>{{errorMessage}}</p>
 </div>
 
-<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': showRecord, 'modal-dialog-closed': !showRecord}">
+<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': showRecord, 'modal-dialog-closed': !showRecord}" *ngIf="authorizationService.user$ | async">
     <div *ngIf="showRecord">
         <div>{{showRecord.participant.name}}</div>
         <!-- <app-edit-personal-best-list-metadata [listId]="listId" [pbListId]="pbListId" (onError)="editListMetadataError($event)"
@@ -21,7 +21,7 @@
     </div>
 </form>
 
-<div class="cs-card">
+<div class="cs-card" *ngIf="authorizationService.user$ | async">
     <table class="cs-table">
         <thead>
             <tr>
@@ -55,7 +55,7 @@
                 </td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
-                        <button (click)="select(suggestion)" class="cs-button">Opnemen in lijst</button>
+                        <button (click)="select(suggestion)" class="cs-button" *ngIf="authorizationService.user$ | async">Opnemen in lijst</button>
                     </app-control-dropdown-button>
                 </td>
             </tr>

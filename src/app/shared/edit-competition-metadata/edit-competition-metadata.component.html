@@ -49,15 +49,15 @@
                 <ul>
                     <li *ngIf="selectedCompetition.id > 0">
                         <button (click)="deleteCompetition()" class="cs-button danger"
-                            aria-current="page">Verwijderen</button>
+                            aria-current="page" *ngIf="authorizationService.user$ | async">Verwijderen</button>
                     </li>
                     <li class="flex-grow"></li>
                     <li *ngIf="selectedCompetition.id > 0">
                         <button (click)="saveCompetition()" class="cs-button default"
-                            aria-current="page">Opslaan</button>
+                            aria-current="page" *ngIf="authorizationService.user$ | async">Opslaan</button>
                     </li>
                     <li *ngIf="selectedCompetition.id <= 0">
-                        <button (click)="saveCompetition()" class="cs-button" aria-current="page"
+                        <button (click)="saveCompetition()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async"
                             [disabled]="!selectedCompetition.name"
                             [ngClass]="{'green': selectedCompetition.name, 'disabled': !selectedCompetition.name}">Toevoegen</button>
                     </li>

@@ -55,7 +55,7 @@
             placeholder="Naam van de lijst" [(ngModel)]="entry.score">
     </div>
 
-    <div class="cs-action-block">
+    <div class="cs-action-block" *ngIf="authorizationService.user$ | async">
         <div>
             <div class="cs-action-bar">
                 <ul>

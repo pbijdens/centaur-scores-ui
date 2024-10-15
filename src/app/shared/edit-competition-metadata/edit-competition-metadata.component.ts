@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { SelectRulesetGroupComponent } from '../select-ruleset-group/select-ruleset-group.component';
 import { SelectParticipantsListComponent } from '../select-participants-list/select-participants-list.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-competition-metadata',
@@ -21,7 +22,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
 
   public selectedCompetition?: CompetitionModel;
 
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   async ngOnInit(): Promise<void> {
   }

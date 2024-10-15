@@ -31,6 +31,8 @@ export class CompetitionResultsComponent {
   public refreshTimeoutCache = 60000;
   public refreshTimeout = 60000;
 
+  public errorMessage?: string;
+
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
     this.navbarService.setPageTitle('Uitslagen');
 
@@ -61,10 +63,15 @@ export class CompetitionResultsComponent {
   }
 
   async refresh(): Promise<void> {
-    this.competition = await this.apiService.getCompetition(this.id);
-    if (this.competition) {
-      this.navbarService.setPageTitle(`Uitslag ${this.competition.name}`);
-      this.results = await this.apiService.getCompetitionResults(this.competition.id);
+    try {
+      this.competition = await this.apiService.getCompetition(this.id);
+      if (this.competition) {
+        this.navbarService.setPageTitle(`Uitslag ${this.competition.name}`);
+        this.results = await this.apiService.getCompetitionResults(this.competition.id);
+      }
+      delete this.errorMessage;
+    } catch (err) {
+      this.errorMessage = `Laden mislukt: ${err}...`;
     }
   }
 }

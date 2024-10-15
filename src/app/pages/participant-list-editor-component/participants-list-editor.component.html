@@ -4,18 +4,18 @@
             <ul>
                 <app-control-up-button></app-control-up-button>
                 <li>
-                    <button (click)="new()" class="cs-button" aria-current="page">Nieuwe schutter
+                    <button (click)="new()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe schutter
                         toevoegen</button>
                 </li>
                 <li>
                     <button [routerLink]="['pbl']" class="cs-button" aria-current="page">PR lijsten</button>
                 </li>
                 <li>
-                    <button [routerLink]="['personalbest']" class="cs-button" aria-current="page">Nieuwe PRs
+                    <button [routerLink]="['personalbest']" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe PRs
                         berekenen</button>
                 </li>
                 <li>
-                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page">Lijst
+                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Lijst
                         aanpassen</button>
                 </li>
             </ul>
@@ -95,20 +95,17 @@
                 <div class="cs-action-bar">
                     <ul>
                         <li *ngIf="id > 0">
-                            <button (click)="delete()" class="cs-button danger" aria-current="page">Verwijderen</button>
+                            <button (click)="delete()" class="cs-button danger" aria-current="page" *ngIf="authorizationService.user$ | async">Verwijderen</button>
                         </li>
                         <li class="flex-grow"></li>
                         <li *ngIf="id > 0">
-                            <button (click)="save()" class="cs-button default" aria-current="page">Opslaan</button>
+                            <button (click)="save()" class="cs-button default" aria-current="page" *ngIf="authorizationService.user$ | async">Opslaan</button>
                         </li>
                         <li *ngIf="id <= 0">
                             <button (click)="save()" class="cs-button" aria-current="page"
                                 [disabled]="!participant.name"
-                                [ngClass]="{'green': participant.name, 'disabled': !participant.name}">Toevoegen</button>
+                                [ngClass]="{'green': participant.name, 'disabled': !participant.name}" *ngIf="authorizationService.user$ | async">Toevoegen</button>
                         </li>
-                        <!-- <li>
-                            <button (click)="close()" class="cs-button" aria-current="page">Annuleren</button>
-                        </li> -->
                     </ul>
                 </div>
             </div>

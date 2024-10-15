@@ -7,6 +7,7 @@ import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entr
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
 import { DpDatePickerModule, ISelectionEvent } from 'ng2-date-picker';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-personal-best-entry',
@@ -28,21 +29,27 @@ export class EditPersonalBestEntryComponent {
   public entry?: PersonalBestListEntryModel;
   public disciplines: string[] = [];
 
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   async ngOnInit(): Promise<void> {
-    this.rulesets = [];
-    this.disciplines = [];
-    (await this.apiService.getRulesets()).forEach(r => {
-      r.requiredClasses.forEach(cls => {
-        if (cls.label && !this.disciplines.find(x => x == cls.label)) {
-          this.disciplines.push(cls.label);
+    try {
+      this.rulesets = [];
+      this.disciplines = [];
+      (await this.apiService.getRulesets()).forEach(r => {
+        r.requiredClasses.forEach(cls => {
+          if (cls.label && !this.disciplines.find(x => x == cls.label)) {
+            this.disciplines.push(cls.label);
+          }
+        });
+        if (!this.rulesets.find(x => x === r.competitionFormat)) {
+          this.rulesets.push(r.competitionFormat);
         }
       });
-      if (!this.rulesets.find(x => x === r.competitionFormat)) {
-        this.rulesets.push(r.competitionFormat);
-      }
-    });
+    }
+    catch (error) {
+      this.onError.emit('Kan gegevens niet laden.');
+      this.onClose.emit();
+    }
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
@@ -124,7 +131,7 @@ export class EditPersonalBestEntryComponent {
   }
 
   async achievedDateSelected($event: ISelectionEvent): Promise<void> {
-    console.log($event);
+    // console.log($event);
   }
 
 }

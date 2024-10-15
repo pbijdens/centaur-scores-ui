@@ -1,0 +1,45 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+                <li>
+                    <button (click)="createUser()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe gebruiker toevoegen</button>
+                </li>                       
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="cs-card error" *ngIf="errorMessage">
+    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
+    <p>{{errorMessage}}</p>
+</div>
+
+<form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': selectedUser, 'modal-dialog-closed': !selectedUser}">
+    <div *ngIf="selectedUser">
+        <app-edit-user [user]="selectedUser" (onError)="modelError($event)" (onClose)="modelClose()"></app-edit-user>
+    </div>
+</form>
+
+<div class="cs-card">
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of userList">
+                <td class="cursor-pointer" (click)="open(user)">{{user.username}}</td>
+                <td class="dropdown-row">
+                    <app-control-dropdown-button>
+                        <button (click)="open(user)" class="cs-button" *ngIf="authorizationService.user$ | async">Gebruiker
+                            aanpassen</button>
+                    </app-control-dropdown-button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

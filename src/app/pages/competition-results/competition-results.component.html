@@ -71,5 +71,6 @@
 <ng-template #loading>
     <div class="cs-card">
         <div class="cs-heading h1">Wacht op resultaten...</div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
     </div>
 </ng-template>

@@ -11,6 +11,7 @@ import { PersonalBestListModel } from '../../models/personal-best-list-model';
 import { ParticipantsListModel } from '../../models/participants-list-model';
 import { GetPbListName } from "../../pipes/getpblistname.pipe";
 import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entry-model';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-personal-best-suggestions',
@@ -29,7 +30,7 @@ export class PersonalBestSuggestionsComponent {
   public personalBestLists: PersonalBestListModel[] = [];
   public participantsList: ParticipantsListModel = <ParticipantsListModel>{};
 
-  constructor(private apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
+  constructor(private apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.listId = this.activatedRoute.snapshot.params['listId'] as number || -1;
   }
 
@@ -37,7 +38,7 @@ export class PersonalBestSuggestionsComponent {
     try {
       if (this.listId > -1) {
         this.participantsList = await this.apiService.getParticipantsList(this.listId) as ParticipantsListModel;
-        this.personalBestLists = await this.apiService.getPersonalBestLists(this.listId) as PersonalBestListModel[];        
+        this.personalBestLists = await this.apiService.getPersonalBestLists(this.listId) as PersonalBestListModel[];
         this.navbarService.setPageTitle(`Nieuwe PRs voor ${this.participantsList.name}`)
         await this.refresh();
       }
@@ -46,8 +47,13 @@ export class PersonalBestSuggestionsComponent {
       this.errorMessage = `Laden mislukt: ${error}`;
     }
   }
+
   async refresh(): Promise<void> {
-    this.suggestions = await this.apiService.getPersonalBestSuggestions(this.listId) as NewPersonalBestModel[];
+    try {
+      this.suggestions = await this.apiService.getPersonalBestSuggestions(this.listId) as NewPersonalBestModel[];
+    } catch (err) {
+      this.errorMessage = `Laden mislukt: ${err}`;
+    }
   }
 
   async select(pb: NewPersonalBestModel): Promise<void> {

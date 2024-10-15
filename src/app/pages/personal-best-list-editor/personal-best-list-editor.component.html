@@ -3,7 +3,7 @@
         <div class="navbar-default">
             <ul>
                 <app-control-up-button></app-control-up-button>
-                <li>
+                <li *ngIf="authorizationService.user$ | async">
                     <button (click)="new()" class="cs-button" aria-current="page">Eerste PR registreren</button>
                 </li>
             </ul>
@@ -43,7 +43,7 @@
                     <td class="w-32 text-right cursor-pointer" (click)="open(entry)"><div class="pe-4">{{entry.score}}</div></td>
                     <td class="dropdown-row">
                         <app-control-dropdown-button>
-                            <button (click)="open(entry)" class="cs-button">Gegevens
+                            <button (click)="open(entry)" class="cs-button" *ngIf="authorizationService.user$ | async">Gegevens
                                 aanpassen</button>
                         </app-control-dropdown-button>
                     </td>

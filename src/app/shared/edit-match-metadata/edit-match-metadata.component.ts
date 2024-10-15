@@ -8,6 +8,7 @@ import { SelectRulesetComponent } from "../select-ruleset/select-ruleset.compone
 import { GroupsEditorComponent } from "../groups-editor/groups-editor.component";
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-match-metadata',
@@ -37,7 +38,7 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
   // per end etc. then it's not possible to deviate from these values when creating or 
   // editing a match.
 
-  constructor(public apiService: ApiService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     // if (!this.competition && this.competitionId >= 0) {
@@ -49,18 +50,23 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit(): Promise<void> {
-    if (this.competitionId >= 0) {
-      this.competition = await this.apiService.getCompetition(this.competitionId);
-    }
-    if (this.matchId >= 0) {
-      this.match = await this.apiService.getMatch(this.matchId);
-      this.match!.lijnenAsString = this.match!.lijnen.join('');
-    } else {
-      const code = `${new Date().getUTCFullYear()}-01-01`;
-      this.match = <MatchModel>{ id: -1, lijnenAsString: 'ABCD', lijnen: ['A','B','C','D'], matchCode: code };
-      if (this.competition) {
-        this.match.competition = this.competition;
+    try {
+      if (this.competitionId >= 0) {
+        this.competition = await this.apiService.getCompetition(this.competitionId);
       }
+      if (this.matchId >= 0) {
+        this.match = await this.apiService.getMatch(this.matchId);
+        this.match!.lijnenAsString = this.match!.lijnen.join('');
+      } else {
+        const code = `${new Date().getUTCFullYear()}-01-01`;
+        this.match = <MatchModel>{ id: -1, lijnenAsString: 'ABCD', lijnen: ['A', 'B', 'C', 'D'], matchCode: code };
+        if (this.competition) {
+          this.match.competition = this.competition;
+        }
+      }
+    } catch (err) {
+      this.errorMessage = `Laden mislukt: ${err}`;
+      this.onError.emit(`Kon gegevens niet inladen.`);
     }
   }
 

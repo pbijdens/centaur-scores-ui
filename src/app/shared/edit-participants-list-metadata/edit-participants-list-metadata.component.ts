@@ -3,6 +3,7 @@ import { ParticipantsListModel } from '../../models/participants-list-model';
 import { ApiService } from '../../services/api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-participants-list-metadata',
@@ -18,7 +19,7 @@ export class EditParticipantsListMetadataComponent implements OnChanges, OnInit 
 
   public list?: ParticipantsListModel;
 
-  constructor(public apiService: ApiService) {}
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
 
   async ngOnInit(): Promise<void> {
   }
@@ -30,25 +31,29 @@ export class EditParticipantsListMetadataComponent implements OnChanges, OnInit 
         name: '',
       };
     }
-    else if (this.listId >= 0) {      
-      this.list = await this.apiService.getParticipantsList(this.listId);
-      if (!this.list) {
+    else if (this.listId >= 0) {
+      try {
+        this.list = await this.apiService.getParticipantsList(this.listId);
+        if (!this.list) {
+          this.onError.emit('Kon de lijst met deelnemers niet laden.');
+          this.onClose.emit();
+        }
+      } catch (err) {
         this.onError.emit('Kon de lijst met deelnemers niet laden.');
-        this.onClose.emit();
       }
     }
   }
-  
+
   async deleteModel(): Promise<void> {
     if (this.list) {
       if (confirm(`Weet je zeker dat je de lijst ${this.list.name} met id ${this.list.id} wil verwijderen? Dit kan niet ongedaan worden gemaakt.`)) {
         try {
-          await this.apiService.deleteParticipantsList(this.list);          
+          await this.apiService.deleteParticipantsList(this.list);
         } catch (err) {
           this.onError.emit(`Kon lijst niet verwijderen.`);
         }
         this.onClose.emit();
-    }
+      }
     }
   }
 

@@ -68,7 +68,13 @@
 </ng-container>
 
 <ng-template #loading>
+    <div class="cs-progress-bar">
+        <div>
+            <div [attr.style]="'width: ' + (100 * refreshTimeoutCache)/refreshTimeout + '%'"></div>
+        </div>
+    </div>
     <div class="cs-card">
         <div class="cs-heading h1">Wacht op resultaten...</div>
+        <div *ngIf="errorMessage">{{errorMessage}}</div>
     </div>
 </ng-template>

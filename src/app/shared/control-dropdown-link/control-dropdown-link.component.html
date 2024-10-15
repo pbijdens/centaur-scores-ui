@@ -1,0 +1,17 @@
+<div class="cs-dropdown-link relative">
+  <a class="cs-button cs-dropdown-button" (isMenuOpen)="toggleVisible(!!$event)" appDropdown>
+    <div class="flex flex-row w-full"><span class="inline-block"><ng-container *ngTemplateOutlet="label"></ng-container></span><span
+        class="inline-block flex-grow"></span><span class="inline-block"><svg class="inline w-5 h-5 ml-1" fill="none"
+          stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg></span></div>
+  </a>
+  <div class="dropdown-menu" [ngClass]="visibilityClasses">
+    <div class="dropdown-menu-visual">
+      <div #ref><ng-content></ng-content></div>
+      <span *ngIf=" ! ref.children.length">
+        Geen acties.
+      </span>
+    </div>
+  </div>
+</div>

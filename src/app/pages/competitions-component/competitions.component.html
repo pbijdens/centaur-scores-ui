@@ -3,7 +3,7 @@
         <div class="navbar-default">
             <app-control-up-button></app-control-up-button>
             <ul>
-                <li>
+                <li *ngIf="authorizationService.user$ | async">
                     <button (click)="newCompetition()" class="cs-button" aria-current="page">Nieuwe competitie</button>
                 </li>
             </ul>
@@ -54,7 +54,7 @@
                         <button *ngIf="competition.participantsList && competition.participantsList.id > 0"
                             [routerLink]="[competition.id, 'participantlists', competition.participantsList!.id]"
                             class="cs-button">Deelnemerslijst</button>
-                        <button (click)="openProperties(competition)" class="cs-button">Competitie aanpassen</button>
+                        <button (click)="openProperties(competition)" class="cs-button" *ngIf="authorizationService.user$ | async">Competitie aanpassen</button>
                     </app-control-dropdown-button>
                 </td>
             </tr>

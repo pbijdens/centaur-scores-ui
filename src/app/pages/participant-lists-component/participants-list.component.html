@@ -4,7 +4,7 @@
             <ul>
                 <app-control-up-button></app-control-up-button>
                 <li>
-                    <button (click)="newParticipantsList()" class="cs-button" aria-current="page">Nieuwe lijst
+                    <button (click)="newParticipantsList()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe lijst
                         maken</button>
                 </li>                       
             </ul>
@@ -24,7 +24,6 @@
     </div>
 </form>
 
-
 <div class="cs-card">
     <table class="cs-table">
         <thead>
@@ -41,7 +40,7 @@
                     <app-control-dropdown-button>
                         <button [routerLink]="[participantsList.id]" class="cs-button">Lijst
                             openen</button>
-                        <button (click)="editParticipantsList(participantsList)" class="cs-button">Lijst
+                        <button (click)="editParticipantsList(participantsList)" class="cs-button" *ngIf="authorizationService.user$ | async">Lijst
                             aanpassen</button>
                     </app-control-dropdown-button>
                 </td>
