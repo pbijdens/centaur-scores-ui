@@ -28,19 +28,37 @@ export class ApiService {
   }
 
   async getMatches(): Promise<MatchModel[]> {
-    const data = await fetch(`${this.url}/match`);
+    const data = await fetch(`${this.url}/match`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
 
   async getMatch(id: number): Promise<MatchModel> {
-    const data = await fetch(`${this.url}/match/${id}`);
+    const data = await fetch(`${this.url}/match/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? {};
   }
 
   async getActiveMatch(): Promise<MatchModel | undefined> {
-    const data = await fetch(`${this.url}/match/active`);
+    const data = await fetch(`${this.url}/match/active`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status == 200) return (await data.json()) ?? {};
     else return undefined;
   }
@@ -96,32 +114,60 @@ export class ApiService {
 
   async getParticipantsForMatch(matchId: number): Promise<Array<ParticipantModel>> {
     const data = await fetch(`${this.url}/match/${matchId}/participants`, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
 
   async getCompetitions(): Promise<CompetitionModel[]> {
-    const data = await fetch(`${this.url}/competitions`);
+    const data = await fetch(`${this.url}/competitions`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
 
   async getParticipantsLists(): Promise<ParticipantsListModel[]> {
-    const data = await fetch(`${this.url}/participantlists`);
+    const data = await fetch(`${this.url}/participantlists`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
 
   async getParticipantsListMember(listId: number, id: number): Promise<ParticipantsListMember> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`);
+    const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
 
   async getParticipantsListMembers(listId: number): Promise<ParticipantsListMember[]> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members`);
+    const data = await fetch(`${this.url}/participantlists/${listId}/members`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
@@ -242,25 +288,49 @@ export class ApiService {
   }
 
   async getRulesets(): Promise<RulesetModel[]> {
-    const data = await fetch(`${this.url}/rulesets`);
+    const data = await fetch(`${this.url}/rulesets`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
 
   async getCompetition(id: number): Promise<CompetitionModel | undefined> {
-    const data = await fetch(`${this.url}/competitions/${id}`);
+    const data = await fetch(`${this.url}/competitions/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
   async getParticipantsList(id: number): Promise<ParticipantsListModel | undefined> {
-    const data = await fetch(`${this.url}/participantlists/${id}`);
+    const data = await fetch(`${this.url}/participantlists/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
   async getParticipantForMatch(matchId: number, participantId: number): Promise<ParticipantModel | undefined> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`);
+    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
@@ -303,13 +373,25 @@ export class ApiService {
   }
 
   async getSingleMatchResults(id: number): Promise<MatchResultModel | undefined> {
-    const data = await fetch(`${this.url}/match/${id}/results`);
+    const data = await fetch(`${this.url}/match/${id}/results`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
   async getCompetitionResults(id: number): Promise<CompetitionResultModel | undefined> {
-    const data = await fetch(`${this.url}/competitions/${id}/results`);
+    const data = await fetch(`${this.url}/competitions/${id}/results`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
@@ -352,13 +434,25 @@ export class ApiService {
   }
 
   async getPersonalBestList(listId: number, pbListId: number): Promise<PersonalBestListModel> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`);
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
   async getPersonalBestLists(listId: number): Promise<PersonalBestListModel[]> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl`);
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
@@ -402,13 +496,25 @@ export class ApiService {
   }
 
   async getPersonalBestListEntry(listId: number, pbListId: number, entryId: number): Promise<PersonalBestListEntryModel | undefined> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}/members/${entryId}`);
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}/members/${entryId}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }
 
   async getPersonalBestSuggestions(listId: number): Promise<NewPersonalBestModel[]> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/suggestions`);
+    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/suggestions`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+    });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
   }

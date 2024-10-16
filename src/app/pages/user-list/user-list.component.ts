@@ -7,11 +7,13 @@ import { UserModel } from '../../models/user-model';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { EditUserComponent } from "../../shared/edit-user/edit-user.component";
+import { RouterModule } from '@angular/router';
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ControlUpButtonComponent, ControlDropdownButtonComponent, EditUserComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, EditUserComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.less'
 })
@@ -22,9 +24,11 @@ export class UserListComponent implements OnInit {
 
   public userList: UserModel[] = [];
 
-  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService, public navbarService: NavbarService) { }
 
   async ngOnInit(): Promise<void> {
+    await this.navbarService.setPageTitle(`Gebruikersbeheer`)
+
     this.authorizationService.user$.subscribe(async (user) => {
       if (user && user.claims['is-administrator']) {
         this.userList = await this.apiService.getUsers();

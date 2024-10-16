@@ -6,6 +6,9 @@
                 <li>
                     <button (click)="createUser()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe gebruiker toevoegen</button>
                 </li>                       
+                <li>
+                    <button [routerLink]="['..', 'acl']" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Toegangslijsten</button>
+                </li>                       
             </ul>
         </div>
     </div>

@@ -48,12 +48,15 @@ export class PersonalBestSuggestionsComponent {
     }
   }
 
+  public loading =  true;
   async refresh(): Promise<void> {
     try {
+      this.loading = true;
       this.suggestions = await this.apiService.getPersonalBestSuggestions(this.listId) as NewPersonalBestModel[];
     } catch (err) {
       this.errorMessage = `Laden mislukt: ${err}`;
     }
+    this.loading = false;
   }
 
   async select(pb: NewPersonalBestModel): Promise<void> {
@@ -66,13 +69,16 @@ export class PersonalBestSuggestionsComponent {
         participant: pb.participant,
         score: pb.score
       };
+      const index = this.suggestions.indexOf(pb);
+      this.suggestions.splice(index, 1);
       const pbl = await this.apiService.getPersonalBestList(this.listId, pb.listId);
       if (!model.id || model.id < 0) {
         await this.apiService.createPersonalBestListEntry(this.listId, pbl, model);
       } else {
         await this.apiService.updatePersonalBestListEntry(this.listId, pbl, model);
       }
-      await this.refresh();
+      // await this.refresh();
+      // let's not refresh but instead remove the item from the list...
     } catch (error) {
       this.errorMessage = `Opslaan mislukt: ${error}`;;
     }
