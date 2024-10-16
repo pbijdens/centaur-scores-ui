@@ -29,7 +29,7 @@ export class EditUserComponent implements OnInit {
       for (let acl of acls) {
         this.acls.push({
           acl: acl,
-          selected: this.user.acls.find(ua => ua.id === acl.id) !== undefined
+          selected: (this.user.acls ?? []).find(ua => ua.id === acl.id) !== undefined
         });
       }
     } catch (error) {

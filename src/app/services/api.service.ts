@@ -461,6 +461,19 @@ export class ApiService {
     if (data.status != 200) throw "API Failure";
     return await data.json();
   }
+  
+  async updatePassword(user: UserModel): Promise<UserModel> {
+    const data = await fetch(`${this.url}/auth/password`, {
+      method: 'PUT',
+      headers: {
+        "content-type": "application/json",
+        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+      },
+      body: JSON.stringify(user)
+    });
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
 
   async createUser(user: UserModel): Promise<UserModel> {
     user.id = -1;

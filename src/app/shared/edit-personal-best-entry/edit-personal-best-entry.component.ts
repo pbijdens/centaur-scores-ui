@@ -81,7 +81,7 @@ export class EditPersonalBestEntryComponent {
 
   async deleteModel(): Promise<void> {
     if (this.list && this.entry) {
-      if (confirm(`Weet je zeker dat je de lijst ${this.list.name} met id ${this.list.id} wil verwijderen? Dit kan niet ongedaan worden gemaakt.`)) {
+      if (confirm(`Weet je zeker dat je ${this.entry.participant.name} met id ${this.entry.id} uit de lijst wil verwijderen? Dit kan niet ongedaan worden gemaakt.`)) {
         try {
           await this.apiService.deletePersonalBestListEntry(this.listId, this.list, this.entry);
         } catch (err) {

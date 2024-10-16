@@ -40,6 +40,8 @@ export class UserListComponent implements OnInit {
       id: -1,
       acls: [],
       password: '',
+      repeatPassword: '',
+      currentPassword: '',
       username: ''      
     };
   }

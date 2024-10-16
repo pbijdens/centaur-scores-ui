@@ -6,11 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ControlDropdownLinkComponent } from "../control-dropdown-link/control-dropdown-link.component";
 import { RouterModule } from '@angular/router';
+import { EditUserPasswordComponent } from "../edit-user-password/edit-user-password.component";
+import { UserModel } from '../../models/user-model';
 
 @Component({
   selector: 'app-loggedin-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ControlDropdownLinkComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ControlDropdownLinkComponent, EditUserPasswordComponent],
   templateUrl: './loggedin-user.component.html',
   styleUrl: './loggedin-user.component.less'
 })
@@ -21,6 +23,7 @@ export class LoggedinUserComponent implements OnInit {
   public showLogin = false;
   public username = '';
   public password = '';
+  public changePasswordUser?: UserModel;
 
   async ngOnInit(): Promise<void> {
     this.authorizationService.user$.subscribe((u: WhoAmIResponse | undefined) => {
@@ -72,4 +75,21 @@ export class LoggedinUserComponent implements OnInit {
     window.location.reload();
   }
 
+  async changePasswordDone(): Promise<void> {
+    delete this.changePasswordUser;
+  }
+
+  async changePasswordError($event: string): Promise<void> {
+    alert(`Password change failed with error: ${$event}`);
+    delete this.changePasswordUser;
+  }
+
+  async changePasswordOpen(): Promise<void> {
+    this.changePasswordUser = <UserModel>{
+      id: this.user?.id,
+      password: '',
+      currentPassword: '',
+      repeatPassword: ''
+    };
+  }
 }
