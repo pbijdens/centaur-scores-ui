@@ -30,10 +30,7 @@ export class ApiService {
   async getMatches(): Promise<MatchModel[]> {
     const data = await fetch(`${this.url}/match`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -42,10 +39,7 @@ export class ApiService {
   async getMatch(id: number): Promise<MatchModel> {
     const data = await fetch(`${this.url}/match/${id}`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? {};
@@ -54,10 +48,7 @@ export class ApiService {
   async getActiveMatch(): Promise<MatchModel | undefined> {
     const data = await fetch(`${this.url}/match/active`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status == 200) return (await data.json()) ?? {};
     else return undefined;
@@ -67,10 +58,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/match/${match.id}`, {
       method: 'PUT',
       body: JSON.stringify(match),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -79,10 +67,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/match`, {
       method: 'POST',
       body: JSON.stringify(match),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -91,10 +76,7 @@ export class ApiService {
   async deleteMatch(match: MatchModel): Promise<boolean> {
     const data = await fetch(`${this.url}/match/${match.id}`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -103,10 +85,7 @@ export class ApiService {
   async setActive(match: MatchModel, value: boolean): Promise<void> {
     const data = await fetch(`${this.url}/match/${match.id}/active/${value}`, {
       method: 'PUT',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -115,10 +94,7 @@ export class ApiService {
   async getParticipantsForMatch(matchId: number): Promise<Array<ParticipantModel>> {
     const data = await fetch(`${this.url}/match/${matchId}/participants`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -127,10 +103,7 @@ export class ApiService {
   async getCompetitions(): Promise<CompetitionModel[]> {
     const data = await fetch(`${this.url}/competitions`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -139,10 +112,7 @@ export class ApiService {
   async getParticipantsLists(): Promise<ParticipantsListModel[]> {
     const data = await fetch(`${this.url}/participantlists`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -151,10 +121,7 @@ export class ApiService {
   async getParticipantsListMember(listId: number, id: number): Promise<ParticipantsListMember> {
     const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -163,10 +130,7 @@ export class ApiService {
   async getParticipantsListMembers(listId: number): Promise<ParticipantsListMember[]> {
     const data = await fetch(`${this.url}/participantlists/${listId}/members`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -175,10 +139,7 @@ export class ApiService {
   async deleteParticipantsListMember(listId: number, id: number): Promise<number> {
     const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -188,9 +149,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${listId}/members`, {
       method: 'POST',
       body: JSON.stringify(participant),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? []) : participant;
@@ -200,10 +159,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
       method: 'PUT',
       body: JSON.stringify(participant),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -214,10 +170,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists`, {
       method: 'POST',
       body: JSON.stringify(list),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -226,10 +179,7 @@ export class ApiService {
   async deleteParticipantsList(list: ParticipantsListModel): Promise<number> {
     const data = await fetch(`${this.url}/participantlists/${list.id}`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -239,10 +189,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(list),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -253,10 +200,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/competitions`, {
       method: 'POST',
       body: JSON.stringify(competition),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -265,10 +209,7 @@ export class ApiService {
   async deleteCompetition(competition: CompetitionModel): Promise<number> {
     const data = await fetch(`${this.url}/competitions/${competition.id}`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -278,10 +219,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/competitions/${competition.id}`, {
       method: 'PUT',
       body: JSON.stringify(competition),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -290,10 +228,7 @@ export class ApiService {
   async getRulesets(): Promise<RulesetModel[]> {
     const data = await fetch(`${this.url}/rulesets`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -302,10 +237,7 @@ export class ApiService {
   async getCompetition(id: number): Promise<CompetitionModel | undefined> {
     const data = await fetch(`${this.url}/competitions/${id}`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -314,10 +246,7 @@ export class ApiService {
   async getParticipantsList(id: number): Promise<ParticipantsListModel | undefined> {
     const data = await fetch(`${this.url}/participantlists/${id}`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -326,10 +255,7 @@ export class ApiService {
   async getParticipantForMatch(matchId: number, participantId: number): Promise<ParticipantModel | undefined> {
     const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -338,10 +264,7 @@ export class ApiService {
   async deleteParticipantForMatch(matchId: number, participantId: number): Promise<number> {
     const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -351,10 +274,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/match/${matchId}/participants/${participant.id}/scoresheet`, {
       method: 'PUT',
       body: JSON.stringify(participant),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -364,9 +284,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/match/${matchId}/participants/scoresheet`, {
       method: 'POST',
       body: JSON.stringify(participant),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -375,10 +293,7 @@ export class ApiService {
   async getSingleMatchResults(id: number): Promise<MatchResultModel | undefined> {
     const data = await fetch(`${this.url}/match/${id}/results`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -387,10 +302,7 @@ export class ApiService {
   async getCompetitionResults(id: number): Promise<CompetitionResultModel | undefined> {
     const data = await fetch(`${this.url}/competitions/${id}/results`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -400,10 +312,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(list),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -412,10 +321,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl`, {
       method: 'POST',
       body: JSON.stringify(list),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -424,10 +330,7 @@ export class ApiService {
   async deletePersonalBestList(listId: number, pbListId: number) {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -436,10 +339,7 @@ export class ApiService {
   async getPersonalBestList(listId: number, pbListId: number): Promise<PersonalBestListModel> {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -448,10 +348,7 @@ export class ApiService {
   async getPersonalBestLists(listId: number): Promise<PersonalBestListModel[]> {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -461,10 +358,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
       method: 'PUT',
       body: JSON.stringify(entry),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -474,10 +368,7 @@ export class ApiService {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members`, {
       method: 'POST',
       body: JSON.stringify(entry),
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -486,10 +377,7 @@ export class ApiService {
   async deletePersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
       method: 'DELETE',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders()
     });
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
@@ -498,10 +386,7 @@ export class ApiService {
   async getPersonalBestListEntry(listId: number, pbListId: number, entryId: number): Promise<PersonalBestListEntryModel | undefined> {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}/members/${entryId}`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -510,10 +395,7 @@ export class ApiService {
   async getPersonalBestSuggestions(listId: number): Promise<NewPersonalBestModel[]> {
     const data = await fetch(`${this.url}/participantlists/${listId}/pbl/suggestions`, {
       method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -521,10 +403,7 @@ export class ApiService {
 
   async getLoggedInUser(): Promise<WhoAmIResponse | undefined> {
     const data = await fetch(`${this.url}/auth/whoami`, {
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      }
+      headers: await this.defaultHeaders()
     });
     if (data.status != 200) throw "API Failure";
     return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
@@ -533,10 +412,7 @@ export class ApiService {
   async signin(username: string, password: string): Promise<string | undefined> {
     const data = await fetch(`${this.url}/auth/login`, {
       method: 'POST',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
       body: JSON.stringify({ username: username, password: password })
     });
     if (data.status != 200) throw "API Failure";
@@ -546,10 +422,7 @@ export class ApiService {
   async getUsers(): Promise<UserModel[]> {
     const data = await fetch(`${this.url}/auth/user`, {
       method: 'GET',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return await data.json();
@@ -558,23 +431,17 @@ export class ApiService {
   async updateUser(user: UserModel): Promise<UserModel> {
     const data = await fetch(`${this.url}/auth/user`, {
       method: 'PUT',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
       body: JSON.stringify(user)
     });
     if (data.status != 200) throw "API Failure";
     return await data.json();
   }
-  
+
   async updatePassword(user: UserModel): Promise<UserModel> {
     const data = await fetch(`${this.url}/auth/password`, {
       method: 'PUT',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
       body: JSON.stringify(user)
     });
     if (data.status != 200) throw "API Failure";
@@ -585,10 +452,7 @@ export class ApiService {
     user.id = -1;
     const data = await fetch(`${this.url}/auth/user`, {
       method: 'POST',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
       body: JSON.stringify(user)
     });
     if (data.status != 200) throw "API Failure";
@@ -598,10 +462,7 @@ export class ApiService {
   async deleteUser(user: UserModel): Promise<UserModel> {
     const data = await fetch(`${this.url}/auth/user/${user.id}`, {
       method: 'DELETE',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders()
     });
     if (data.status != 200) throw "API Failure";
     return await data.json();
@@ -610,10 +471,7 @@ export class ApiService {
   async getACLs(): Promise<UserACLModel[]> {
     const data = await fetch(`${this.url}/auth/acl`, {
       method: 'GET',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
     return await data.json();
@@ -622,10 +480,7 @@ export class ApiService {
   async updateACL(acl: UserACLModel): Promise<UserACLModel> {
     const data = await fetch(`${this.url}/auth/acl`, {
       method: 'PUT',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
       body: JSON.stringify(acl)
     });
     if (data.status != 200) throw "API Failure";
@@ -636,10 +491,7 @@ export class ApiService {
     acl.id = -1;
     const data = await fetch(`${this.url}/auth/acl`, {
       method: 'POST',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      },
+      headers: await this.defaultHeaders(),
       body: JSON.stringify(acl)
     });
     if (data.status != 200) throw "API Failure";
@@ -649,12 +501,16 @@ export class ApiService {
   async deleteACL(acl: UserACLModel): Promise<UserACLModel> {
     const data = await fetch(`${this.url}/auth/acl/${acl.id}`, {
       method: 'DELETE',
-      headers: {
-        "content-type": "application/json",
-        "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
-      }
+      headers: await this.defaultHeaders()
     });
     if (data.status != 200) throw "API Failure";
     return await data.json();
+  }
+
+  async defaultHeaders(): Promise<HeadersInit | undefined> {
+    return {
+      "content-type": "application/json",
+      "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
+    };
   }
 }

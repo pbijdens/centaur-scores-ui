@@ -47,6 +47,7 @@
                     <th class="flex-grow text-left">Nieuw record</th>
                     <th class="flex-grow text-left">Discipline</th>
                     <th class="flex-grow text-left">Datum</th>
+                    <th class="flex-grow text-left">Recordlijst</th>
                     <th class="flex-grow text-left">Informatie</th>
                     <th>Acties</th>
                 </tr>
@@ -58,18 +59,16 @@
                     <td class="flex-grow">{{suggestion.score}}</td>
                     <td class="flex-grow">{{suggestion.discipline}}</td>
                     <td class="flex-grow">{{suggestion.achieved}}</td>
+                    <td class="flex-grow">{{suggestion.listId | getPbListName:personalBestLists}}</td>
                     <td class="w-96">
                         <div class="flex flex-row flex-wrap">
-                            <div class="entry"><span class="slabel">Record lijst:</span> <span
-                                    class="svalue">{{suggestion.listId | getPbListName:personalBestLists}}</span></div>
                             <div class="entry"><span class="slabel">Wedstrijd:</span> <span
                                     class="svalue">{{suggestion.match.matchCode}} -
                                     {{suggestion.match.matchName}}</span>
                             </div>
-                            <div class="entry"><span class="slabel">Competitie:</span> <span
-                                    class="svalue">{{suggestion.competition.name}}
-                                    ({{suggestion.competition.startDate}}-{{suggestion.competition.endDate}})</span>
-                            </div>
+                            <div class="entry"><span class="slabel">Competitie:</span> <span class="svalue">{{suggestion.competition.name}}</span></div>
+                            <!-- <div class="entry"><span class="slabel">Record ID:</span> <span class="svalue">{{suggestion.id}}</span></div> -->
+                            <!-- <div class="entry"><span class="slabel">Notes:</span> <span class="svalue">{{suggestion.notes}}</span></div> -->
                         </div>
                     </td>
                     <td class="dropdown-row">
