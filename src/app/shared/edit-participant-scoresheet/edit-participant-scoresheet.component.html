@@ -40,6 +40,7 @@
                         </label>
                         <app-input-participantname-for-match [matchId]="matchId"
                             [participantId]="participant.participantListEntryId || -1"
+                            [name]="participant.name"
                             (selected)="selectedParticipant($event)"></app-input-participantname-for-match>
                     </div>
 

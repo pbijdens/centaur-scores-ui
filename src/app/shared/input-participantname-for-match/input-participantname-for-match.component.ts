@@ -17,6 +17,8 @@ export class InputParticipantNameForMatch implements OnInit {
   @Input() participantId = -1;
   @Output() selected = new EventEmitter<ParticipantsListMember>();
 
+  @Input() name: string = '';
+
   public memberListMembers: ParticipantsListMember[] = [];
   public currentSelection?: ParticipantsListMember;
 
@@ -39,7 +41,11 @@ export class InputParticipantNameForMatch implements OnInit {
       if (!competition) { this.memberListMembers = []; return; }
       const memberListMembers = await this.apiService.getParticipantsListMembers(competition?.participantsList!.id);
       if (!memberListMembers) { this.memberListMembers = []; return; }
-      if (memberListMembers && (!this.currentSelection || this.currentSelection.id !== this.participantId)) {
+
+      if (this.participantId === -1) {
+        this.currentSelection = <ParticipantsListMember>{ id: -1, name: this.name, label: this.name };
+      }
+      else if (memberListMembers && (!this.currentSelection || this.currentSelection.id !== this.participantId)) {
         this.currentSelection = memberListMembers.find(x => x.id === this.participantId);
       }
       this.memberListMembers = memberListMembers;
@@ -49,8 +55,10 @@ export class InputParticipantNameForMatch implements OnInit {
   }
 
   participantChanged($event: Event) {
+    if (!(this.currentSelection?.id) && this.currentSelection?.label) {
+      this.currentSelection.id = -1;
+      this.currentSelection.name = this.currentSelection.label;
+    }
     this.selected.emit(this.currentSelection);
   }
-
-
 }

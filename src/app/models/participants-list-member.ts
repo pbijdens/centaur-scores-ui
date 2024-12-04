@@ -9,4 +9,5 @@ export interface ParticipantsListMember {
     personalBests: PersonalBestListEntryModel[];
     // calculated
     similarity: number;
+    label?: string;
 }

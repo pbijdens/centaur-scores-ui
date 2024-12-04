@@ -120,11 +120,12 @@ export class EditParticipantScoresheetComponent {
   async selectedParticipant(event: ParticipantsListMember | InputTagModel): Promise<void> {
     if ((event as ParticipantsListMember).name && this.participant) {
       this.participant.name = (event as ParticipantsListMember).name;
-      if ((event as ParticipantsListMember).id) {
+      if ((event as ParticipantsListMember).id > 0) {
         this.participant.participantListEntryId = (event as ParticipantsListMember).id
       }
       else {
         delete this.participant.participantListEntryId;
+        this.participant.participantListEntryId = -1;
       };
     } else if ((event as InputTagModel) && (event as InputTagModel).label && this.participant) {
       this.participant.name = (event as InputTagModel).label;
