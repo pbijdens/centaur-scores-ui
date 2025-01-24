@@ -8,6 +8,7 @@ export interface MatchResultEntry {
     perArrowAverage: number;
     prPerArrowAverage: number;
     prScore: number;
+    prAverage: number;
     isPR: boolean;
     tiebreakerInfo: string;
 }

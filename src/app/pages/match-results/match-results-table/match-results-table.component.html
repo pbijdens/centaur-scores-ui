@@ -16,9 +16,11 @@
                     </div>
                     <div class="cs-results-subscript" *ngIf="entry.tiebreakerInfo">{{entry.tiebreakerInfo}}
                     </div>
-                    <div class="cs-results-subscript" *ngIf="entry.isPR">Nieuw persoonlijk record (nu:
-                        {{entry.prScore}})
+                    <div class="cs-results-subscript" *ngIf="entry.isPR; else nopr">Nieuw PR. Huidig PR: {{entry.prScore}} ({{entry.prAverage| number:'1.2-2'}})
                     </div>
+                    <ng-template #nopr>
+                        <div class="cs-results-subscript">Huidig PR: {{entry.prScore}} ({{entry.prAverage| number:'1.2-2'}})</div>
+                    </ng-template>
                 </td>
                 <td class="text-right">{{entry.score}} <span class="mini text-xs">({{entry.perArrowAverage| number:
                         '1.2-2'}})</span></td>
