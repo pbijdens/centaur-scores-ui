@@ -78,10 +78,15 @@
         </thead>
         <tbody>
             <tr *ngFor="let participant of participants">
-                <td class="w-16 text-center"><span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton"><button class="cs-button ok" (click)="linkParticipant(participant)">&#x2714;</button></span></td>
+                <td class="w-16 text-center" *ngIf="authorizationService.user$ | async; else linkButtonLoggedOut"><span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton"><button class="cs-button ok" (click)="linkParticipant(participant)">&#x2714;</button></span></td>
                 <ng-template #linkButton>
                     <button class="cs-button warning" (click)="linkParticipant(participant)">&#x26A0;</button>
                 </ng-template>                
+                <ng-template #linkButtonLoggedOut>
+                    <td class="w-16 text-center">
+                    <span *ngIf="!participant.participantListEntryId || participant.participantListEntryId < 0"><div class="cs-button ok">&#x2714;</div></span>
+                    </td>
+                </ng-template>
                 <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.groupName}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.subgroupName}}</td>
@@ -94,7 +99,7 @@
                     <app-control-dropdown-button>
                         <button (click)="editParticipant(participant)" class="cs-button" *ngIf="authorizationService.user$ | async">Gegevens of score
                             aanpassen</button>
-                        <button (click)="linkParticipant(participant)" class="cs-button">Koppelen aan deelnemerslijst</button>
+                        <button (click)="linkParticipant(participant)" class="cs-button" *ngIf="authorizationService.user$ | async">Koppelen aan deelnemerslijst</button>
                     </app-control-dropdown-button>
                 </td>
             </tr>

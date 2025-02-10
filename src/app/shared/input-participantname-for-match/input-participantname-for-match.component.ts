@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { NgSelectConfig, NgSelectModule } from '@ng-select/ng-select';
+import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-input-participantname-for-match',
@@ -22,7 +23,7 @@ export class InputParticipantNameForMatch implements OnInit {
   public memberListMembers: ParticipantsListMember[] = [];
   public currentSelection?: ParticipantsListMember;
 
-  constructor(public apiService: ApiService, private config: NgSelectConfig) {
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService, private config: NgSelectConfig) {
     this.config.notFoundText = 'Niet gevonden';
     this.config.appendTo = 'body';
   }

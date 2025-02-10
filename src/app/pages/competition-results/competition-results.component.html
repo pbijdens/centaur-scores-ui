@@ -16,7 +16,7 @@
                 <button (click)="tab=1" class="cs-tab-button" aria-current="page"
                     [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Op discipline</button>
                 <button (click)="tab=2" class="cs-tab-button" aria-current="page"
-                    [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Op discipline en leeftijd</button>
+                    [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Op klasse</button>
             </div>
             <div class="cs-tab-content">
 
@@ -31,7 +31,7 @@
                         <div class="results-content">
                             <div class="cs-results-card">
                                 <ng-container>
-                                    <div class="cs-heading h2">Ongeklasseerd</div>
+                                    <div class="cs-heading h2 break-after-avoid">Ongeklasseerd</div>
                                     <app-competition-results-table [competition]="competition" [results]="results"
                                         [entries]="results.ungrouped"></app-competition-results-table>
                                 </ng-container>
@@ -42,7 +42,7 @@
                         <div class="results-content">
                             <div class="cs-results-card" *ngFor="let discipline of results.byClass | keys">
                                 <ng-container>
-                                    <div class="cs-heading h2">{{discipline | getGroupName: results.groups}}</div>
+                                    <div class="cs-heading h2 break-after-avoid">{{discipline | getGroupName: results.groups}}</div>
                                     <app-competition-results-table [competition]="competition" [results]="results"
                                         [entries]="results.byClass[discipline]"></app-competition-results-table>
                                 </ng-container>
@@ -53,7 +53,7 @@
                         <div class="results-content">
                             <div class="cs-results-card" *ngFor="let discipline of results.bySubclass | keys">
                                 <ng-container *ngFor="let subclass of results.bySubclass[discipline] | keys">
-                                    <div class="cs-heading h2">{{discipline | getGroupName: results.groups}} -
+                                    <div class="cs-heading h2 break-after-avoid">{{discipline | getGroupName: results.groups}} -
                                         {{subclass |
                                         getGroupName: results.subgroups}}</div>
                                     <app-competition-results-table [competition]="competition" [results]="results"

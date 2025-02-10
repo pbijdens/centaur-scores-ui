@@ -7,6 +7,7 @@ import { SelectRulesetGroupComponent } from '../select-ruleset-group/select-rule
 import { SelectParticipantsListComponent } from '../select-participants-list/select-participants-list.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthorizationService } from '../../services/authorization.service';
+import { ActiveListService } from '../../services/active-list.service';
 
 @Component({
   selector: 'app-edit-competition-metadata',
@@ -22,28 +23,47 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
 
   public selectedCompetition?: CompetitionModel;
 
-  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService, public activelistService: ActiveListService) { }
 
   async ngOnInit(): Promise<void> {
+    this.activelistService.activeList$.subscribe((listId) => {
+      this.reload(listId);
+    });
   }
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    if (this.competitionId === -1) {
-      const codeStart = `${new Date().getUTCFullYear()}-01-01`;
-      const codeEnd = `${new Date().getUTCFullYear()}-12-31`;
-      this.selectedCompetition = <CompetitionModel>{
-        id: -1,
-        name: '',
-        startDate: codeStart,
-        endDate: codeEnd
-      };
-    }
-    else if (this.competitionId >= 0) {
-      this.selectedCompetition = await this.apiService.getCompetition(this.competitionId);
-      if (!this.selectedCompetition) {
-        this.onError.emit('Competition load failed.');
-        this.onClose.emit();
+    this.reload(this.activelistService.activeList);
+  }
+
+  async reload(listId: number) {
+    try {
+      const list = listId >= 0 ? await this.apiService.getParticipantsList(listId) : undefined;
+      if (this.competitionId === -1) {
+        const codeStart = `${new Date().getUTCFullYear()}-01-01`;
+        const codeEnd = `${new Date().getUTCFullYear()}-12-31`;
+        this.selectedCompetition = <CompetitionModel>{
+          id: -1,
+          name: '',
+          startDate: codeStart,
+          endDate: codeEnd,
+          participantsList: list
+        };
+        if (!list) {
+          this.onError.emit(`Voordat je een competitie aan kan maken moet je eerst een actieve lijst kiezen.`);
+          this.onClose.emit();
+        }
       }
+      else if (this.competitionId >= 0) {
+        this.selectedCompetition = await this.apiService.getCompetition(this.competitionId);
+        if (!this.selectedCompetition) {
+          this.onError.emit('Competition load failed.');
+          this.onClose.emit();
+        }
+      }
+    }
+    catch (error) {
+      this.onError.emit('Competition load failed.');
+      this.onClose.emit();
     }
   }
 

@@ -3,11 +3,12 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { NavbarService } from './services/navbar.service';
 import { ApiService } from './services/api.service';
 import { LoggedinUserComponent } from "./shared/loggedin-user/loggedin-user.component";
+import { SelectActiveListComponent } from "./shared/select-active-list/select-active-list.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, LoggedinUserComponent],
+  imports: [RouterOutlet, RouterModule, LoggedinUserComponent, SelectActiveListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })

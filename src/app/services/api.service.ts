@@ -14,13 +14,14 @@ import { WhoAmIResponse } from '../models/who-am-i-response';
 import { AuthorizationService } from './authorization.service';
 import { UserModel } from '../models/user-model';
 import { UserACLModel } from '../models/user-acl-model';
+import { ActiveListService } from './active-list.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  constructor(private authorizationService: AuthorizationService) { }
+  constructor(private authorizationService: AuthorizationService, private activeListService: ActiveListService) { }
 
   get url(): String {
     const result = `${window.location.protocol}//${window.location.hostname}:8062`;
@@ -28,7 +29,7 @@ export class ApiService {
   }
 
   async getMatches(): Promise<MatchModel[]> {
-    const data = await fetch(`${this.url}/match`, {
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/match` : `${this.url}/match`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -101,8 +102,8 @@ export class ApiService {
   }
 
   async getCompetitions(): Promise<CompetitionModel[]> {
-    const data = await fetch(`${this.url}/competitions`, {
-      method: 'GET',
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/competitions` : `${this.url}/competitions`, {
+      method: 'GET',      
       headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
@@ -226,7 +227,7 @@ export class ApiService {
   }
 
   async getRulesets(): Promise<RulesetModel[]> {
-    const data = await fetch(`${this.url}/rulesets`, {
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/rulesets` : `${this.url}/rulesets`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });

@@ -39,7 +39,7 @@
             (groupSelected)="setRuleset($event)"></app-select-ruleset-group>
     </div>
     <div class="cs-input-block">
-        <app-select-participants-list [currentList]="selectedCompetition.participantsList"
+        <app-select-participants-list [currentList]="selectedCompetition.participantsList" [disabled]="true"
             (listSelected)="setParticipantsList($event)"></app-select-participants-list>
     </div>
 
@@ -58,8 +58,8 @@
                     </li>
                     <li *ngIf="selectedCompetition.id <= 0">
                         <button (click)="saveCompetition()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async"
-                            [disabled]="!selectedCompetition.name"
-                            [ngClass]="{'green': selectedCompetition.name, 'disabled': !selectedCompetition.name}">Toevoegen</button>
+                            [disabled]="!selectedCompetition.name || !selectedCompetition.participantsList"
+                            [ngClass]="{'green': selectedCompetition.name, 'disabled': !selectedCompetition.name || !selectedCompetition.participantsList}">Toevoegen</button>
                     </li>
                 </ul>
             </div>

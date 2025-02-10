@@ -30,7 +30,7 @@
             <ng-container [ngSwitch]="tab">
                 <div class="cs-tab-body-x" *ngSwitchCase="1">
                     <app-edit-scorecard [participant]="participant" [keyboard]="keyboard"
-                        [arrowsPerEnd]="match.arrowsPerEnd"></app-edit-scorecard>
+                        [arrowsPerEnd]="match.arrowsPerEnd" [disabled]="!(authorizationService.user$ | async)"></app-edit-scorecard>
                 </div>
 
                 <div class="cs-tab-body-x" *ngSwitchDefault>
@@ -64,19 +64,23 @@
                     <div class="cs-input-block">
                         <app-select-from-groupinfo [currentValue]="participant.group"
                             (valueSelected)="setParticipantGroup($event)" [values]="match.groups"
-                            label="Discipline"></app-select-from-groupinfo>
+                            label="Discipline"
+                            [disabled]="!(authorizationService.user$ | async)">
+                        </app-select-from-groupinfo>
                     </div>
 
                     <div class="cs-input-block">
                         <app-select-from-groupinfo [currentValue]="participant.subgroup"
                             (valueSelected)="setParticipantSubgroup($event)" [values]="match.subgroups"
-                            label="Leeftijdscategorie"></app-select-from-groupinfo>
+                            label="Leeftijdscategorie"
+                            [disabled]="!(authorizationService.user$ | async)"></app-select-from-groupinfo>
                     </div>
 
                     <div class="cs-input-block">
                         <app-select-from-groupinfo [currentValue]="participant.target"
                             (valueSelected)="setParticipantTarget($event)" [values]="match.targets"
-                            label="Blazoen"></app-select-from-groupinfo>
+                            label="Blazoen"
+                            [disabled]="!(authorizationService.user$ | async)"></app-select-from-groupinfo>
                     </div>
 
                 </div>
@@ -85,10 +89,10 @@
         </div>
     </div>
 
-    <div class="cs-action-block" *ngIf="authorizationService.user$ | async">
+    <div class="cs-action-block">
         <div>
             <div class="cs-action-bar">
-                <ul>
+                <ul *ngIf="authorizationService.user$ | async">
                     <li *ngIf="participant.id > 0">
                         <button (click)="deleteEntity()" class="cs-button danger"
                             aria-current="page">Verwijderen</button>
@@ -101,6 +105,12 @@
                         <button (click)="saveEntity()" class="cs-button" aria-current="page"
                             [disabled]="!participant.name"
                             [ngClass]="{'green': participant.name, 'disabled': !participant.name}">Toevoegen</button>
+                    </li>
+                </ul>
+                <ul *ngIf="!(authorizationService.user$ | async)">
+                    <li class="flex-grow"></li>
+                    <li>
+                        <button (click)="close()" class="cs-button default" aria-current="page">Sluiten</button>
                     </li>
                 </ul>
             </div>

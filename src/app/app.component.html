@@ -14,11 +14,9 @@
                     <a [routerLink]="['/competitions' ]" class="top-link" aria-current="page">Competities</a>
                 </li>                
                 <li>
-                    <a [routerLink]="['/participantlists' ]" class="top-link" aria-current="page">Lijsten</a>
-                </li>                
-                <li>
                     <a [routerLink]="['/', 'matches', -1, 'results' ]" class="top-link" aria-current="page">Live uitslagen</a>
-                </li>
+                </li>                
+                <app-select-active-list></app-select-active-list>
                 <app-loggedin-user></app-loggedin-user>
             </ul>
         </div>

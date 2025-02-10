@@ -14,6 +14,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class SelectParticipantsListComponent {
   @Input() currentList?: ParticipantListMetadataModel;
+  @Input() disabled = false;
   @Output() listSelected = new EventEmitter<ParticipantListMetadataModel>();  
 
   options: Array<ParticipantListMetadataModel> = [];

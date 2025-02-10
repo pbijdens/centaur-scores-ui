@@ -2,7 +2,7 @@
     Deelnemers
 </label>
 <select id="ruleset" title="Kies een lijst" #memberListControl
-    (change)="selectionChanged($event, memberListControl.value)" [(ngModel)]="selectedEntry"
+    (change)="selectionChanged($event, memberListControl.value)" [(ngModel)]="selectedEntry" [disabled]="disabled"
     [ngModelOptions]="{standalone: true}" class="cs-input" placeholder="Kies een lijst">
     <option *ngFor="let c of options" [ngValue]="c">{{c.name}}</option>
 </select>

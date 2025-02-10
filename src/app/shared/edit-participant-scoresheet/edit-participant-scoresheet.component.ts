@@ -48,7 +48,13 @@ export class EditParticipantScoresheetComponent {
       if (this.participantId >= 0) {
         this.participant = await this.apiService.getParticipantForMatch(this.matchId, this.participantId);
         if (this.match && this.participant) {
-          this.keyboard = this.match.scoreValues[this.participant.target] ?? [];
+          this.keyboard = this.match.scoreValues[this.participant.target];
+          if (!this.keyboard) {
+            this.keyboard = (Object.values(this.match?.scoreValues)[0] as ScoreButtonDefinition[]) ?? [];
+          }
+          console.log('kb', this.keyboard);
+        } else {
+          this.keyboard = [];
         }
       } else {
         this.participant = <ParticipantModel>{

@@ -1,0 +1,19 @@
+<ng-container>
+    <li><app-control-dropdown-link [label]="activeListTitleTemplate">
+            <button class="cs-button" [routerLink]="['/', 'participantlists', activeList.id]"
+                *ngIf="(authorizationService.user$ | async) && activeList">Leden</button>
+            <button class="cs-button" [routerLink]="['/', 'participantlists', activeList.id, 'pbl']"
+                *ngIf="(authorizationService.user$ | async) && activeList">PRs</button>
+            <button class="cs-button" [routerLink]="['/', 'participantlists']"
+                *ngIf="authorizationService.user$ | async">Beheer lijsten</button>
+            <div class="w-full text-center text-slate-800 text-sm">Kies een actieve lijst</div>
+            <div class="active-lists">
+                @for (list of allLists; track $index) {
+                <button class="cs-button secondary compact" (click)="selectList(list)">{{list.name}}</button>
+                }
+            </div>
+        </app-control-dropdown-link></li>
+    <ng-template #activeListTitleTemplate>
+        <span class="active-list-title">{{activeListTitle}}</span>
+    </ng-template>
+</ng-container>

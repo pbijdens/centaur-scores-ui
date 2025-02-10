@@ -12,7 +12,7 @@
             <tr [ngClass]="{'active-end': selectedEnd == endIndex}" class="cs-end-row">
                 <td class="text-center w-16">{{endIndex + 1}}</td>
                 <td class="text-center w-12" *ngFor="let arrow of end.arrows; index as arrowIndex"
-                    (click)="setIndex(endIndex, arrowIndex)"
+                    (click)="!disabled && setIndex(endIndex, arrowIndex)"
                     [ngClass]="{'active-arrow': selectedEnd == endIndex && selectedArrow == arrowIndex}">
                     <div [attr.class]="'cs-arrow cs-arrow-score cs-arrow-'+ arrow">{{arrow === 0 ? '-' : arrow}}</div>
                 </td>
@@ -21,7 +21,7 @@
             </tr>
             <tr *ngIf="selectedEnd == endIndex" class="cs-kb-row">
                 <td [attr.colspan]="arrowsPerEnd + 3">
-                    <div class="cs-kb">
+                    <div class="cs-kb" *ngIf="!disabled">
                         <div *ngFor="let key of keyboard" [attr.class]="'cs-kb-key cs-kb-key-'+ key.value"
                             (click)="pressKey(key)">
                             {{key.label}}

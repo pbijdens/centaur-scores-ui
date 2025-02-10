@@ -44,7 +44,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
       this.navbarService.setPageTitle('Wedstrijd bewerken');
   }
 
-  async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {    
     await this.refresh();
   }
 

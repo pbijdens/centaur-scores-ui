@@ -14,6 +14,7 @@ export class SelectFromGroupinfoComponent {
   @Input() currentValue?: string;
   @Input() values?: GroupInfo[];
   @Input() label = 'Selecteer een waarde';
+  @Input() disabled = false;
   @Output() valueSelected = new EventEmitter<GroupInfo>();  
 
   selectedEntry: GroupInfo | undefined;

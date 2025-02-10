@@ -18,6 +18,7 @@ export class EditScorecardComponent {
   @Input() participant!: ParticipantModel;
   @Input() keyboard!: ScoreButtonDefinition[];
   @Input() arrowsPerEnd!: number;
+  @Input() disabled = false;
 
   public selectedEnd = -11;
   public selectedArrow = 0;

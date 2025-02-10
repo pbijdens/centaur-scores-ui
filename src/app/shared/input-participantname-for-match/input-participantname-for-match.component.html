@@ -1,4 +1,4 @@
-<ng-select [(ngModel)]="currentSelection" (change)="participantChanged($event)" [clearable]="false" [addTag]="true"
+<ng-select [(ngModel)]="currentSelection" (change)="participantChanged($event)" [clearable]="false" [addTag]="true" [disabled]="!(authorizationService.user$ | async)"
     addTagText="Nieuw naam:">
     @for (c of memberListMembers; track c) {
         <ng-option [value]="c">{{c.name}}</ng-option>
