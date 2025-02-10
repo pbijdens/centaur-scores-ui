@@ -31,12 +31,11 @@
 
     <div class="cs-input-block">
         <label for="a02">
-            Behaald op (YYYY-MM-DD)
+            Behaald op
         </label>
-        <!-- <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a02" type="text"
-            placeholder="Behaald op" [(ngModel)]="entry.achieved"> -->
-        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day" [(ngModel)]="entry.achieved"
-            placeholder="Kies een datum..." [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-date" id="a02" type="date" autocomplete="off"
+            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Kies een datum..."
+            [(ngModel)]="entry.achieved">
     </div>
 
     <div class="cs-input-block">
@@ -44,6 +43,7 @@
             Opmerkingen
         </label>
         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a03" type="text"
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
             placeholder="Opmerkingen" [(ngModel)]="entry.notes">
     </div>
 
@@ -52,6 +52,7 @@
             Score
         </label>
         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="a04" type="text"
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
             placeholder="Naam van de lijst" [(ngModel)]="entry.score">
     </div>
 

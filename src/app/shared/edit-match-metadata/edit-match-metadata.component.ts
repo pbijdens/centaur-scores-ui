@@ -7,13 +7,12 @@ import { ApiService } from '../../services/api.service';
 import { SelectRulesetComponent } from "../select-ruleset/select-ruleset.component";
 import { GroupsEditorComponent } from "../groups-editor/groups-editor.component";
 import { KeysPipe } from '../../pipes/keys.pipe';
-import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-match-metadata',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectRulesetComponent, GroupsEditorComponent, KeysPipe, DpDatePickerModule],
+  imports: [CommonModule, FormsModule, SelectRulesetComponent, GroupsEditorComponent, KeysPipe],
   templateUrl: './edit-match-metadata.component.html',
   styleUrl: './edit-match-metadata.component.less'
 })

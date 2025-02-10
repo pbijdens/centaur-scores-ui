@@ -15,7 +15,8 @@
         <label for="competitionName">
             Competitie
         </label>
-        <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
+        <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled" 
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
             id="competitionName" type="text" placeholder="Naam van de competitie" [(ngModel)]="competition!.name">
     </div>
 
@@ -24,6 +25,7 @@
             Competitieregels
         </label>
         <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
             id="competitionRulesetGroup" type="text" placeholder="Regels" [(ngModel)]="competition!.rulesetGroupName">
     </div>
 
@@ -52,6 +54,7 @@
                             Pijlen per ronde
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="arrowsPerEnd"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             type="number" placeholder="Aantal pijlen dat per ronde wordt geschoten"
                             [(ngModel)]="match!.arrowsPerEnd">
                     </div>
@@ -60,6 +63,7 @@
                             Aantal tellende rondes
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="numberOfEnds"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.numberOfEnds">
                     </div>
                     <div class="cs-input-block">
@@ -67,6 +71,7 @@
                             Lijnen (bijvoorbeeld ABCD)
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="lijnenAsString"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             type="text" placeholder="Lijnen (bijvoorbeeld ABCD)" [(ngModel)]="match!.lijnenAsString">
                     </div>
                 </div>
@@ -111,9 +116,9 @@
                         <label for="matchCode">
                             Datum
                         </label>
-                        <dp-date-picker class="cs-input w-full h-full bg-white p-0" mode="day"
-                            [(ngModel)]="match!.matchCode" placeholder="Kies een datum..."
-                            [config]="{ format: 'YYYY-MM-DD', firstDayOfWeek: 'mo'}"></dp-date-picker>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-date" id="matchCode" type="date"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Kies een datum..." [(ngModel)]="match!.matchCode">
                     </div>
 
                     <div class="cs-input-block">
@@ -121,6 +126,7 @@
                             Naam van de wedstrijd
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchName" type="text"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             placeholder="Volledige naam van de wedstrijd" [(ngModel)]="match!.matchName">
                     </div>
 

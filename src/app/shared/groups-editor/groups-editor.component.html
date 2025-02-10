@@ -35,11 +35,13 @@
                 <td></td>
                 <td>
                     <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchCode" type="text"
-                        placeholder="Code" [(ngModel)]="newCode">
+                        placeholder="Code" [(ngModel)]="newCode" autocomplete="off" spellcheck="false" autocorrect="off"
+                        autocapitalize="off">
                 </td>
                 <td>
                     <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="matchCode" type="text"
-                        placeholder="Naam" [(ngModel)]="newLabel">
+                        placeholder="Naam" [(ngModel)]="newLabel" autocomplete="off" spellcheck="false"
+                        autocorrect="off" autocapitalize="off">
                 </td>
                 <td>
                     <button (click)="addElement()" class="cs-button w-32">Toevoegen</button>

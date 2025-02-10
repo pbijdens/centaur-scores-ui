@@ -5,14 +5,13 @@ import { CompetitionModel } from '../../models/competition-model';
 import { ApiService } from '../../services/api.service';
 import { SelectRulesetGroupComponent } from '../select-ruleset-group/select-ruleset-group.component';
 import { SelectParticipantsListComponent } from '../select-participants-list/select-participants-list.component';
-import { DpDatePickerModule } from 'ng2-date-picker';
 import { AuthorizationService } from '../../services/authorization.service';
 import { ActiveListService } from '../../services/active-list.service';
 
 @Component({
   selector: 'app-edit-competition-metadata',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectParticipantsListComponent, SelectRulesetGroupComponent, DpDatePickerModule],
+  imports: [CommonModule, FormsModule, SelectParticipantsListComponent, SelectRulesetGroupComponent],
   templateUrl: './edit-competition-metadata.component.html',
   styleUrl: './edit-competition-metadata.component.less'
 })

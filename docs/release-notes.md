@@ -1,5 +1,14 @@
 # Release notes
 
+## Version 1.1.9
+
+Date: 2/10/2025
+
+### Clean-up
+
+Cleaned up date input to use the standard browser controls. Removed commented-out code. Remoced autocomplete, spell checking 
+and auto capitalize from the input fields.
+
 ## Version 1.1.8
 
 Date: 2/10/2025

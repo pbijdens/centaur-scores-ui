@@ -11,14 +11,6 @@
         </button>
     </div>
 
-    <!-- <div class="cs-input-block" *ngIf="match">
-        <label for="competitionName">
-            Wedstrijd
-        </label>
-        <input [disabled]="true" [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
-            id="competitionName" type="text" placeholder="Naam van de competitie" [(ngModel)]="match!.matchName">
-    </div> -->
-
     <div class="cs-tab-box" *ngIf="participant && match">
         <div class="cs-tab-buttons">
             <button (click)="tab=0" class="cs-tab-button" aria-current="page"
@@ -48,7 +40,8 @@
                         <label for="participantLijn">
                             Lijn
                         </label>
-                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text disabled" id="participantLijn"
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text disabled" id="participantLijn" 
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             type="text" placeholder="Lijn" [disabled]="true" [(ngModel)]="participant.lijn">
                     </div>
 
@@ -57,6 +50,7 @@
                             Apparaat ID
                         </label>
                         <input [ngModelOptions]="{standalone: true}" class="cs-input-text disabled"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             id="participantDeviceID" type="text" placeholder="Apparaat ID" [disabled]="true"
                             [(ngModel)]="participant.deviceID">
                     </div>

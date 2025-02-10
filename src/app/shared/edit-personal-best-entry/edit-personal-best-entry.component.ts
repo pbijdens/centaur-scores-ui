@@ -6,13 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entry-model';
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { InputMemberFromListComponent } from "../input-member-from-list/input-member-from-list.component";
-import { DpDatePickerModule, ISelectionEvent } from 'ng2-date-picker';
 import { AuthorizationService } from '../../services/authorization.service';
 
 @Component({
   selector: 'app-edit-personal-best-entry',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputMemberFromListComponent, DpDatePickerModule],
+  imports: [CommonModule, FormsModule, InputMemberFromListComponent],
   templateUrl: './edit-personal-best-entry.component.html',
   styleUrl: './edit-personal-best-entry.component.less'
 })
@@ -129,10 +128,5 @@ export class EditPersonalBestEntryComponent {
       }
     }
   }
-
-  async achievedDateSelected($event: ISelectionEvent): Promise<void> {
-    // console.log($event);
-  }
-
 }
 

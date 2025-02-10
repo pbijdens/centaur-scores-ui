@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         <ng-container *ngFor="let entry of entries">
-            <tr [ngClass]="{'personalbest': entry.isPR}">
+            <tr [ngClass]="{'personalbest': entry.isPR}" >
                 <td class="text-right">{{entry.position}}.</td>
                 <td class="break-inside-avoid">
                     <div>{{entry.participantInfo}}</div>

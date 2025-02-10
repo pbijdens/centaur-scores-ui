@@ -39,8 +39,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less",
-              "node_modules/@angular/cdk/overlay-prebuilt.css"
+              "src/styles.less"
             ],
             "scripts": []
           },
