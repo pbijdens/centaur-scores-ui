@@ -1,12 +1,26 @@
-# Version 1.1.7
+# Release notes
+
+## Version 1.1.8
 
 Date: 2/10/2025
 
-## Backend
+### Backend
+
+This version requires the endpoints added in version 1.1.7 of the backend.
+
+### Result list add intermediate results
+
+When a match is over more than 10 ends, then for each group of 10 ends the intermediate result is added to the results view.
+
+## Version 1.1.7
+
+Date: 2/10/2025
+
+### Backend
 
 This version requires the endpoints added in version 1.1.6 of the backend.
 
-## Result list active tab
+### Result list active tab
 
 For live scoring, the active tab on the result list will now follow the active tab chosen for this list in any
 of the systems. These will all eb synchronized to the latest choice. This allows you to change the view of
@@ -14,15 +28,15 @@ all connected displays centrally.
 
 ![example](image-1.png)
 
-# Version 1.1.6
+## Version 1.1.6
 
 Date: 2/10/2025
 
-## Backend
+### Backend
 
 This version requires the endpoints added in version 1.1.5 of the backend.
 
-## Results lists
+### Results lists
 
 The scores will now be divided equally over multiple columns. Previously the system would prefer to keep scores
 for a single group in a single column, but this turned out to give unbdesirable results for compeititons with
@@ -31,13 +45,13 @@ preventing orphaning the headings.
 
 ![example](image.png)
 
-## Active list
+### Active list
 
 As of now it's required to select a participant list from the top-menu before competitions or matches can be accessed.
 
-![example](images/image001.png)
+![example](image001.png)
 
-## Verbeterd beheer deelnemers wedstrijden
+### Verbeterd beheer deelnemers wedstrijden
 
 Als de huidige gebruiker niet is ingelogd, is het niet meer mogelijk om aanpassingen te doen in de scorekaarten, of om een deelnemer van de wedstrijd  
 te verbinden met de ledenlijst. De UI liet dit eerder wel toe, terwijl het backend dat weigerde te doen. Nu is het zo dat alle dialogen read-only

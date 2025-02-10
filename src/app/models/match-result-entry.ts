@@ -11,4 +11,5 @@ export interface MatchResultEntry {
     prAverage: number;
     isPR: boolean;
     tiebreakerInfo: string;
+    scores: number[];
 }

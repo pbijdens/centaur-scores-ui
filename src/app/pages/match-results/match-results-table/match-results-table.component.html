@@ -3,6 +3,9 @@
         <tr>
             <th class="w-12">#</th>
             <th>Naam</th>
+            @for (item of [].constructor(numSubscores); track $index) {
+            <th><span class="mini text-xs">{{$index + 1}}</span></th>
+            }
             <th class="w-20">Score</th>
         </tr>
     </thead>
@@ -16,12 +19,18 @@
                     </div>
                     <div class="cs-results-subscript" *ngIf="entry.tiebreakerInfo">{{entry.tiebreakerInfo}}
                     </div>
-                    <div class="cs-results-subscript" *ngIf="entry.isPR; else nopr">Nieuw PR. Huidig PR: {{entry.prScore}} ({{entry.prAverage| number:'1.2-2'}})
+                    <div class="cs-results-subscript" *ngIf="entry.isPR; else nopr">Nieuw PR. Huidig PR:
+                        {{entry.prScore}} ({{entry.prAverage| number:'1.2-2'}})
                     </div>
                     <ng-template #nopr>
-                        <div class="cs-results-subscript" *ngIf="entry.prScore>0">Huidig PR: {{entry.prScore}} ({{entry.prAverage| number:'1.2-2'}})</div>
+                        <div class="cs-results-subscript" *ngIf="entry.prScore>0">Huidig PR: {{entry.prScore}}
+                            ({{entry.prAverage| number:'1.2-2'}})</div>
                     </ng-template>
                 </td>
+                @for (item of [].constructor(numSubscores); track $index) {
+                <td><span class="mini text-xs">{{$index < entry.scores.length ? entry.scores[$index]: '-' }}</span>
+                </td>
+                }
                 <td class="text-right">{{entry.score}} <span class="mini text-xs">({{entry.perArrowAverage| number:
                         '1.2-2'}})</span></td>
             </tr>
