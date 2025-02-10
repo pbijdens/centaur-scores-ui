@@ -11,11 +11,11 @@
     <div class="cs-results-page mt-2">
         <div class="cs-tab-box">
             <div class="cs-tab-buttons">
-                <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                <button (click)="updateActiveTab(0)" class="cs-tab-button" aria-current="page"
                     [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Ongeklasseerd</button>
-                <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                <button (click)="updateActiveTab(1)" class="cs-tab-button" aria-current="page"
                     [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Op discipline</button>
-                <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                <button (click)="updateActiveTab(2)" class="cs-tab-button" aria-current="page"
                     [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Op klasse</button>
             </div>
             <div class="cs-tab-content">

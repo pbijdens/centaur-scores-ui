@@ -68,6 +68,7 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
         this.match = await this.apiService.getMatch(this.id);
       }
       if (this.match) {
+        this.tab = +(await this.apiService.getMatchUiSetting(this.match?.id?? -1, "ActiveResultsTab") ?? "1");
         this.navbarService.setPageTitle(`Uitslag ${this.match.matchName}`);
         this.results = await this.apiService.getSingleMatchResults(this.match.id);
       }
@@ -75,5 +76,10 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
     } catch (err) {
       this.errorMessage = `Laden mislukt: ${err}`;
     }
+  }
+
+  async updateActiveTab(tabId: number) {
+    this.tab = tabId;
+    await this.apiService.updateMatchUiSetting(this.match?.id ?? -1, "ActiveResultsTab", `${tabId}`);
   }
 }

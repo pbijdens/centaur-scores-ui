@@ -514,4 +514,22 @@ export class ApiService {
       "authorization": await this.authorizationService.getOAuthBearerTokenValue(),
     };
   }
+
+  async getMatchUiSetting(matchId: number, setting: string): Promise<string | undefined> {
+    const data = await fetch(`${this.url}/match/${matchId}/setting/${setting}`, {
+      method: 'GET',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
+
+  async updateMatchUiSetting(matchId: number, setting: string, value: string): Promise<string | undefined> {
+    const data = await fetch(`${this.url}/match/${matchId}/setting/${setting}/value/${value}`, {
+      method: 'PUT',
+      headers: await this.defaultHeaders()
+    });
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
 }

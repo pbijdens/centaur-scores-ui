@@ -10,7 +10,7 @@
         <ng-container *ngFor="let entry of entries">
             <tr [ngClass]="{'personalbest': entry.isPR}">
                 <td class="text-right">{{entry.position}}.</td>
-                <td class="">
+                <td class="break-inside-avoid">
                     <div>{{entry.participantInfo}}</div>
                     <div class="cs-results-subscript" *ngIf="entry.scoreInfo[0].info">{{entry.scoreInfo[0].info}}
                     </div>

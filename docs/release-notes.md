@@ -1,6 +1,22 @@
+# Version 1.1.7
+
+Date: 2/10/2025
+
+## Backend
+
+This version requires the endpoints added in version 1.1.6 of the backend.
+
+## Result list active tab
+
+For live scoring, the active tab on the result list will now follow the active tab chosen for this list in any
+of the systems. These will all eb synchronized to the latest choice. This allows you to change the view of
+all connected displays centrally.
+
+![example](image-1.png)
+
 # Version 1.1.6
 
-Date: 10/2/2025
+Date: 2/10/2025
 
 ## Backend
 
