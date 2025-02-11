@@ -1,10 +1,2 @@
-<div class="explanation">
-    <p>Bij gelijke scores wordt het aantal geschoten tienen, negens, achten, etc. gebruikt om de ondelringe positie
-        te bepalen. Biedt dit geen uitkomst, dan krijgen beide schutters dezelfde plaats toebedeeld en wordt er een
-        asterisk (*) achter de naam geplaatst. De wedstrijdleiding moet in dit geval de onderlinge positie
-        bepalen.</p>
-    <p>Getoonde gemiddeldes zijn op basis van het aantal ingevoerde pijlen. Ook overgeslagen series en schoten tellen
-        daarbij mee.</p>
-    <p>Persoonlijke records worden berekend op basis van de bij de wedstrijdleiding bekende scores. Meld buiten de deur
-        geschoten records bij de wedstrijdsecretaris.</p>
+<div class="explanation" [innerHTML]="uiConfiguration.resultFooter$ | async | safeHtml">
 </div>

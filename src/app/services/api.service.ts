@@ -532,4 +532,25 @@ export class ApiService {
     if (data.status != 200) throw "API Failure";
     return await data.json();
   }
+
+  async getUiConfiguration(setting: string): Promise<any | undefined> {
+    const data = await fetch(`${this.url}/admin/config/${setting}`, {
+      method: 'GET',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
+
+  async putUiConfiguration(setting: string, value: string): Promise<string | undefined> {
+    const data = await fetch(`${this.url}/admin/config/${setting}`, {
+      method: 'PUT',
+      headers: await this.defaultHeaders(),
+      body: JSON.stringify({value: value}),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+    return await data.json();
+  }
 }

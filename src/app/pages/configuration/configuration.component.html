@@ -1,0 +1,33 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<form class="cs-card">
+    <div class="cs-input-block">
+        <label for="field1">
+            Titel
+        </label>
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="field1" type="text" autocomplete="off"
+            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Standaard paginatitel"
+            [(ngModel)]="title" (input)="titleChanged($event)" [readOnly]="!(authorizationService.user$ | async)">
+    </div>
+</form>
+
+<form class="cs-card">
+    <div class="cs-input-block">
+        <label for="field2">
+            Onderschirft uitslagen-pagina (als HTML)
+        </label>
+        <textarea [ngModelOptions]="{standalone: true}" class="cs-input-text" id="field2" t autocomplete="off"
+            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Onderschrift (HTML)"
+            [(ngModel)]="resultFooter" (input)="resultFooterChanged($event)" rows="10"
+            [readOnly]="!(authorizationService.user$ | async)"></textarea>
+    </div>
+</form>

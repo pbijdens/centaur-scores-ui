@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/competitions', pathMatch: 'full'  },
+    { path: 'config', loadComponent: () => import('./pages/configuration/configuration.component').then(mod => mod.ConfigurationComponent) },
     { path: 'matches', loadComponent: () => import('./pages/matches-list/matches-list.component').then(mod => mod.MatchesListComponent) },
     { path: 'matches/:id', loadComponent: () => import('./pages/match-editor/match-editor.component').then(mod => mod.MatchEditorComponent) },
     { path: 'matches/:id/results', loadComponent: () => import('./pages/match-results/match-results.component').then(mod => mod.MatchResultsComponent) },
