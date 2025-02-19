@@ -1,3 +1,3 @@
 {
-    "apiUrl1": "{proto}//{hostname}:8062/"
+    "apiUrl": "{proto}//{hostname}:8062/"
 }
