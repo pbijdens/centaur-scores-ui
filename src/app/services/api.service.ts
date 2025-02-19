@@ -26,30 +26,35 @@ export interface IConfig {
 })
 export class ApiService {
 
-  private urlOverride = '';
+  private static urlOverride = '';
   constructor(private authorizationService: AuthorizationService, private activeListService: ActiveListService) {
-    fetch('/assets/configuration.json').then(async (doc) => {
-      const config = await doc.json() as IConfig;
-      if (config.apiUrl) {
-        this.urlOverride = config.apiUrl.replace('{proto}', window.location.protocol).replace('{hostname}', window.location.hostname).replace(/[/]*$/, '');
-        console.log(`API URL: ${this.urlOverride}`);
-      }
-    }).catch(err => {
-      console.error(err);
-    });
-   }
+  }
 
-  get url(): String {
-    if (!this.urlOverride) {
-      const result = `${window.location.protocol}//${window.location.hostname}:8062`;
-      return result;
-    } else {
-      return this.urlOverride;
+  async loadConfiguration() {
+    if (ApiService.urlOverride) return;
+    try {
+      const configResponse = await fetch('/assets/configuration.json');
+      const config = await configResponse.json() as IConfig;
+      if (config.apiUrl) {
+        ApiService.urlOverride = config.apiUrl.replace('{proto}', window.location.protocol).replace('{hostname}', window.location.hostname).replace(/[/]*$/, '');
+        console.log(`API URL: ${ApiService.urlOverride}`);
+      } else {
+        ApiService.urlOverride = `${window.location.protocol}//${window.location.hostname}:8062`;
+      }
     }
+    catch (err) {
+      ApiService.urlOverride = `${window.location.protocol}//${window.location.hostname}:8062`;
+    }
+
+  }
+
+  async url(): Promise<String> {
+    await this.loadConfiguration();
+    return ApiService.urlOverride;
   }
 
   async getMatches(): Promise<MatchModel[]> {
-    const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/match` : `${this.url}/match`, {
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${await this.url()}/list/${this.activeListService.activeList}/match` : `${await this.url()}/match`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -58,7 +63,7 @@ export class ApiService {
   }
 
   async getMatch(id: number): Promise<MatchModel> {
-    const data = await fetch(`${this.url}/match/${id}`, {
+    const data = await fetch(`${await this.url()}/match/${id}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -67,7 +72,7 @@ export class ApiService {
   }
 
   async getActiveMatch(): Promise<MatchModel | undefined> {
-    const data = await fetch(`${this.url}/match/active`, {
+    const data = await fetch(`${await this.url()}/match/active`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -76,7 +81,7 @@ export class ApiService {
   }
 
   async putMatch(match: MatchModel): Promise<MatchModel> {
-    const data = await fetch(`${this.url}/match/${match.id}`, {
+    const data = await fetch(`${await this.url()}/match/${match.id}`, {
       method: 'PUT',
       body: JSON.stringify(match),
       headers: await this.defaultHeaders(),
@@ -85,7 +90,7 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
   async postMatch(match: MatchModel): Promise<MatchModel> {
-    const data = await fetch(`${this.url}/match`, {
+    const data = await fetch(`${await this.url()}/match`, {
       method: 'POST',
       body: JSON.stringify(match),
       headers: await this.defaultHeaders(),
@@ -95,7 +100,7 @@ export class ApiService {
   }
 
   async deleteMatch(match: MatchModel): Promise<boolean> {
-    const data = await fetch(`${this.url}/match/${match.id}`, {
+    const data = await fetch(`${await this.url()}/match/${match.id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders(),
     });
@@ -104,7 +109,7 @@ export class ApiService {
   }
 
   async setActive(match: MatchModel, value: boolean): Promise<void> {
-    const data = await fetch(`${this.url}/match/${match.id}/active/${value}`, {
+    const data = await fetch(`${await this.url()}/match/${match.id}/active/${value}`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
     });
@@ -113,7 +118,7 @@ export class ApiService {
   }
 
   async getParticipantsForMatch(matchId: number): Promise<Array<ParticipantModel>> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/participants`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -122,7 +127,7 @@ export class ApiService {
   }
 
   async getCompetitions(): Promise<CompetitionModel[]> {
-    const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/competitions` : `${this.url}/competitions`, {
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${await this.url()}/list/${this.activeListService.activeList}/competitions` : `${await this.url()}/competitions`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -131,7 +136,7 @@ export class ApiService {
   }
 
   async getParticipantsLists(): Promise<ParticipantsListModel[]> {
-    const data = await fetch(`${this.url}/participantlists`, {
+    const data = await fetch(`${await this.url()}/participantlists`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -140,7 +145,7 @@ export class ApiService {
   }
 
   async getParticipantsListMember(listId: number, id: number): Promise<ParticipantsListMember> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/members/${id}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -149,7 +154,7 @@ export class ApiService {
   }
 
   async getParticipantsListMembers(listId: number): Promise<ParticipantsListMember[]> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/members`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -158,7 +163,7 @@ export class ApiService {
   }
 
   async deleteParticipantsListMember(listId: number, id: number): Promise<number> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/members/${id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders(),
     });
@@ -167,7 +172,7 @@ export class ApiService {
   }
 
   async addParticipantsListMember(listId: number, participant: ParticipantsListMember): Promise<ParticipantsListMember> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/members`, {
       method: 'POST',
       body: JSON.stringify(participant),
       headers: await this.defaultHeaders(),
@@ -177,7 +182,7 @@ export class ApiService {
   }
 
   async updateParticipantsListMember(listId: number, id: number, participant: ParticipantsListMember): Promise<ParticipantsListMember> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/members/${id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/members/${id}`, {
       method: 'PUT',
       body: JSON.stringify(participant),
       headers: await this.defaultHeaders(),
@@ -188,7 +193,7 @@ export class ApiService {
 
   async addParticipantsList(list: ParticipantsListModel): Promise<ParticipantsListModel> {
     list.id = -1;
-    const data = await fetch(`${this.url}/participantlists`, {
+    const data = await fetch(`${await this.url()}/participantlists`, {
       method: 'POST',
       body: JSON.stringify(list),
       headers: await this.defaultHeaders(),
@@ -198,7 +203,7 @@ export class ApiService {
   }
 
   async deleteParticipantsList(list: ParticipantsListModel): Promise<number> {
-    const data = await fetch(`${this.url}/participantlists/${list.id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${list.id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders(),
     });
@@ -207,7 +212,7 @@ export class ApiService {
   }
 
   async updateParticipantsList(list: ParticipantsListModel): Promise<ParticipantModel> {
-    const data = await fetch(`${this.url}/participantlists/${list.id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(list),
       headers: await this.defaultHeaders(),
@@ -218,7 +223,7 @@ export class ApiService {
 
   async addCompetition(competition: CompetitionModel): Promise<CompetitionModel> {
     competition.id = -1;
-    const data = await fetch(`${this.url}/competitions`, {
+    const data = await fetch(`${await this.url()}/competitions`, {
       method: 'POST',
       body: JSON.stringify(competition),
       headers: await this.defaultHeaders(),
@@ -228,7 +233,7 @@ export class ApiService {
   }
 
   async deleteCompetition(competition: CompetitionModel): Promise<number> {
-    const data = await fetch(`${this.url}/competitions/${competition.id}`, {
+    const data = await fetch(`${await this.url()}/competitions/${competition.id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders(),
     });
@@ -237,7 +242,7 @@ export class ApiService {
   }
 
   async updateCompetition(competition: CompetitionModel): Promise<ParticipantModel> {
-    const data = await fetch(`${this.url}/competitions/${competition.id}`, {
+    const data = await fetch(`${await this.url()}/competitions/${competition.id}`, {
       method: 'PUT',
       body: JSON.stringify(competition),
       headers: await this.defaultHeaders(),
@@ -247,7 +252,7 @@ export class ApiService {
   }
 
   async getRulesets(): Promise<RulesetModel[]> {
-    const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/rulesets` : `${this.url}/rulesets`, {
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${await this.url()}/list/${this.activeListService.activeList}/rulesets` : `${await this.url()}/rulesets`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -256,7 +261,7 @@ export class ApiService {
   }
 
   async getCompetition(id: number): Promise<CompetitionModel | undefined> {
-    const data = await fetch(`${this.url}/competitions/${id}`, {
+    const data = await fetch(`${await this.url()}/competitions/${id}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -265,7 +270,7 @@ export class ApiService {
   }
 
   async getParticipantsList(id: number): Promise<ParticipantsListModel | undefined> {
-    const data = await fetch(`${this.url}/participantlists/${id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${id}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -274,7 +279,7 @@ export class ApiService {
   }
 
   async getParticipantForMatch(matchId: number, participantId: number): Promise<ParticipantModel | undefined> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/participants/${participantId}/scoresheet`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -283,7 +288,7 @@ export class ApiService {
   }
 
   async deleteParticipantForMatch(matchId: number, participantId: number): Promise<number> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants/${participantId}/scoresheet`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/participants/${participantId}/scoresheet`, {
       method: 'DELETE',
       headers: await this.defaultHeaders(),
     });
@@ -292,7 +297,7 @@ export class ApiService {
   }
 
   async updateMatchParticipant(matchId: number, participant: ParticipantModel): Promise<ParticipantModel> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants/${participant.id}/scoresheet`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/participants/${participant.id}/scoresheet`, {
       method: 'PUT',
       body: JSON.stringify(participant),
       headers: await this.defaultHeaders(),
@@ -302,7 +307,7 @@ export class ApiService {
   }
 
   async createParticipantForMatch(matchId: number, participant: ParticipantModel): Promise<CompetitionModel> {
-    const data = await fetch(`${this.url}/match/${matchId}/participants/scoresheet`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/participants/scoresheet`, {
       method: 'POST',
       body: JSON.stringify(participant),
       headers: await this.defaultHeaders(),
@@ -312,7 +317,7 @@ export class ApiService {
   }
 
   async getSingleMatchResults(id: number): Promise<MatchResultModel | undefined> {
-    const data = await fetch(`${this.url}/match/${id}/results`, {
+    const data = await fetch(`${await this.url()}/match/${id}/results`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -321,7 +326,7 @@ export class ApiService {
   }
 
   async getCompetitionResults(id: number): Promise<CompetitionResultModel | undefined> {
-    const data = await fetch(`${this.url}/competitions/${id}/results`, {
+    const data = await fetch(`${await this.url()}/competitions/${id}/results`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -330,7 +335,7 @@ export class ApiService {
   }
 
   async updatePersonalBestList(listId: number, list: PersonalBestListModel) {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(list),
       headers: await this.defaultHeaders(),
@@ -339,7 +344,7 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
   async createPersonalBestList(listId: number, list: PersonalBestListModel) {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl`, {
       method: 'POST',
       body: JSON.stringify(list),
       headers: await this.defaultHeaders(),
@@ -349,7 +354,7 @@ export class ApiService {
   }
 
   async deletePersonalBestList(listId: number, pbListId: number) {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${pbListId}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders(),
     });
@@ -358,7 +363,7 @@ export class ApiService {
   }
 
   async getPersonalBestList(listId: number, pbListId: number): Promise<PersonalBestListModel> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${pbListId}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -367,7 +372,7 @@ export class ApiService {
   }
 
   async getPersonalBestLists(listId: number): Promise<PersonalBestListModel[]> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -376,7 +381,7 @@ export class ApiService {
   }
 
   async updatePersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
       method: 'PUT',
       body: JSON.stringify(entry),
       headers: await this.defaultHeaders(),
@@ -386,7 +391,7 @@ export class ApiService {
   }
 
   async createPersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${list.id}/members`, {
       method: 'POST',
       body: JSON.stringify(entry),
       headers: await this.defaultHeaders(),
@@ -396,7 +401,7 @@ export class ApiService {
   }
 
   async deletePersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${list.id}/members/${entry.id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders()
     });
@@ -405,7 +410,7 @@ export class ApiService {
   }
 
   async getPersonalBestListEntry(listId: number, pbListId: number, entryId: number): Promise<PersonalBestListEntryModel | undefined> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/${pbListId}/members/${entryId}`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/${pbListId}/members/${entryId}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -414,7 +419,7 @@ export class ApiService {
   }
 
   async getPersonalBestSuggestions(listId: number): Promise<NewPersonalBestModel[]> {
-    const data = await fetch(`${this.url}/participantlists/${listId}/pbl/suggestions`, {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/pbl/suggestions`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -423,7 +428,7 @@ export class ApiService {
   }
 
   async getLoggedInUser(): Promise<WhoAmIResponse | undefined> {
-    const data = await fetch(`${this.url}/auth/whoami`, {
+    const data = await fetch(`${await this.url()}/auth/whoami`, {
       headers: await this.defaultHeaders()
     });
     if (data.status != 200) throw "API Failure";
@@ -431,7 +436,7 @@ export class ApiService {
   }
 
   async signin(username: string, password: string): Promise<string | undefined> {
-    const data = await fetch(`${this.url}/auth/login`, {
+    const data = await fetch(`${await this.url()}/auth/login`, {
       method: 'POST',
       headers: await this.defaultHeaders(),
       body: JSON.stringify({ username: username, password: password })
@@ -441,7 +446,7 @@ export class ApiService {
   }
 
   async getUsers(): Promise<UserModel[]> {
-    const data = await fetch(`${this.url}/auth/user`, {
+    const data = await fetch(`${await this.url()}/auth/user`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -450,7 +455,7 @@ export class ApiService {
   }
 
   async updateUser(user: UserModel): Promise<UserModel> {
-    const data = await fetch(`${this.url}/auth/user`, {
+    const data = await fetch(`${await this.url()}/auth/user`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
       body: JSON.stringify(user)
@@ -460,7 +465,7 @@ export class ApiService {
   }
 
   async updatePassword(user: UserModel): Promise<UserModel> {
-    const data = await fetch(`${this.url}/auth/password`, {
+    const data = await fetch(`${await this.url()}/auth/password`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
       body: JSON.stringify(user)
@@ -471,7 +476,7 @@ export class ApiService {
 
   async createUser(user: UserModel): Promise<UserModel> {
     user.id = -1;
-    const data = await fetch(`${this.url}/auth/user`, {
+    const data = await fetch(`${await this.url()}/auth/user`, {
       method: 'POST',
       headers: await this.defaultHeaders(),
       body: JSON.stringify(user)
@@ -481,7 +486,7 @@ export class ApiService {
   }
 
   async deleteUser(user: UserModel): Promise<UserModel> {
-    const data = await fetch(`${this.url}/auth/user/${user.id}`, {
+    const data = await fetch(`${await this.url()}/auth/user/${user.id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders()
     });
@@ -490,7 +495,7 @@ export class ApiService {
   }
 
   async getACLs(): Promise<UserACLModel[]> {
-    const data = await fetch(`${this.url}/auth/acl`, {
+    const data = await fetch(`${await this.url()}/auth/acl`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -499,7 +504,7 @@ export class ApiService {
   }
 
   async updateACL(acl: UserACLModel): Promise<UserACLModel> {
-    const data = await fetch(`${this.url}/auth/acl`, {
+    const data = await fetch(`${await this.url()}/auth/acl`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
       body: JSON.stringify(acl)
@@ -510,7 +515,7 @@ export class ApiService {
 
   async createACL(acl: UserACLModel): Promise<UserACLModel> {
     acl.id = -1;
-    const data = await fetch(`${this.url}/auth/acl`, {
+    const data = await fetch(`${await this.url()}/auth/acl`, {
       method: 'POST',
       headers: await this.defaultHeaders(),
       body: JSON.stringify(acl)
@@ -520,7 +525,7 @@ export class ApiService {
   }
 
   async deleteACL(acl: UserACLModel): Promise<UserACLModel> {
-    const data = await fetch(`${this.url}/auth/acl/${acl.id}`, {
+    const data = await fetch(`${await this.url()}/auth/acl/${acl.id}`, {
       method: 'DELETE',
       headers: await this.defaultHeaders()
     });
@@ -536,7 +541,7 @@ export class ApiService {
   }
 
   async getMatchUiSetting(matchId: number, setting: string): Promise<string | undefined> {
-    const data = await fetch(`${this.url}/match/${matchId}/setting/${setting}`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/setting/${setting}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -545,7 +550,7 @@ export class ApiService {
   }
 
   async updateMatchUiSetting(matchId: number, setting: string, value: string): Promise<string | undefined> {
-    const data = await fetch(`${this.url}/match/${matchId}/setting/${setting}/value/${value}`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/setting/${setting}/value/${value}`, {
       method: 'PUT',
       headers: await this.defaultHeaders()
     });
@@ -554,7 +559,7 @@ export class ApiService {
   }
 
   async getUiConfiguration(setting: string): Promise<any | undefined> {
-    const data = await fetch(`${this.url}/admin/config/${setting}`, {
+    const data = await fetch(`${await this.url()}/admin/config/${setting}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -564,7 +569,7 @@ export class ApiService {
   }
 
   async putUiConfiguration(setting: string, value: string): Promise<string | undefined> {
-    const data = await fetch(`${this.url}/admin/config/${setting}`, {
+    const data = await fetch(`${await this.url()}/admin/config/${setting}`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
       body: JSON.stringify({ value: value }),
@@ -575,7 +580,7 @@ export class ApiService {
   }
 
   async createMatchFromFinalsDefinition(matchId: number, definition: MatchFinalDefinition): Promise<number | undefined> {
-    const data = await fetch(`${this.url}/match/${matchId}/finals`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/finals`, {
       method: 'POST',
       body: JSON.stringify(definition),
       headers: await this.defaultHeaders(),
@@ -586,7 +591,7 @@ export class ApiService {
   }
 
   async updateH2HWinner(matchId: number, discipline: string, bracket: number, winnerId: number, loserId: number): Promise<void> {
-    const data = await fetch(`${this.url}/match/${matchId}/finals/win/${discipline}/${bracket}/${winnerId}/${loserId}`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/finals/win/${discipline}/${bracket}/${winnerId}/${loserId}`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
     });
@@ -595,7 +600,7 @@ export class ApiService {
   }
 
   async putH2HNextRound(matchId: number): Promise<void> {
-    const data = await fetch(`${this.url}/match/${matchId}/finals/nextround`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/finals/nextround`, {
       method: 'POST',
       headers: await this.defaultHeaders(),
     });
@@ -604,7 +609,7 @@ export class ApiService {
   }
 
   async putH2HPrevRound(matchId: number): Promise<void> {
-    const data = await fetch(`${this.url}/match/${matchId}/finals/nextround/undo`, {
+    const data = await fetch(`${await this.url()}/match/${matchId}/finals/nextround/undo`, {
       method: 'POST',
       headers: await this.defaultHeaders(),
     });
