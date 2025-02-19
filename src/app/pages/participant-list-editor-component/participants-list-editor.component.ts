@@ -10,11 +10,13 @@ import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-bu
 import { NavbarService } from '../../services/navbar.service';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { AuthorizationService } from '../../services/authorization.service';
+import { CompetitionResultsComponent } from "../competition-results/competition-results.component";
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-participants-list-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent, CompetitionResultsComponent, ErrorComponent],
   templateUrl: './participants-list-editor.component.html',
   styleUrl: './participants-list-editor.component.less'
 })

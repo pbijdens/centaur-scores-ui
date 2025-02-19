@@ -7,11 +7,12 @@ import { NavbarService } from '../../services/navbar.service';
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-matches-list',
   standalone: true,
-  imports: [RouterModule, CommonModule, ControlDropdownButtonComponent, ControlUpButtonComponent],
+  imports: [RouterModule, CommonModule, ControlDropdownButtonComponent, ControlUpButtonComponent, ErrorComponent],
   templateUrl: './matches-list.component.html',
   styleUrl: './matches-list.component.less'
 })

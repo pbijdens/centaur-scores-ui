@@ -12,11 +12,12 @@ import { ParticipantsListModel } from '../../models/participants-list-model';
 import { GetPbListName } from "../../pipes/getpblistname.pipe";
 import { PersonalBestListEntryModel } from '../../models/personal-lest-list-entry-model';
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-personal-best-suggestions',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, GetPbListName],
+  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, GetPbListName, ErrorComponent],
   templateUrl: './personal-best-suggestions.component.html',
   styleUrl: './personal-best-suggestions.component.less'
 })

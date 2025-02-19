@@ -16,6 +16,9 @@ export interface MatchModel {
     targets: Array<GroupInfo>;
     rulesetCode?: string;
     competition: CompetitionModel;
+    matchFlags: number;
+    activeRound: number;
+    numberOfRounds: number;
 
     lijnenAsString: string;
 }

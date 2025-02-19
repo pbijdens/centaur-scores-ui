@@ -16,11 +16,12 @@ import { EditParticipantLinkComponent } from "../../shared/edit-participant-link
 import { CompetitionModel } from '../../models/competition-model';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-match-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent, ControlUpButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent, ControlUpButtonComponent, ErrorComponent],
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })
@@ -28,13 +29,14 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   public match?: MatchModel;
   public matchForProperties?: MatchModel;
   public id: number = -1;
-  public error?: String;
+  public error?: string;
   public selectedTemplate = MatchTemplates[0];
   public competitionId = -1;
   public competition: CompetitionModel | undefined;
   public participantForProperties?: ParticipantModel;
   public participantForLinking?: ParticipantModel;
   public participants: ParticipantModel[] = [];
+  public isH2H: boolean = false;
 
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService, public authorizationService: AuthorizationService) {
     this.id = this.activatedRoute.snapshot.params['id'] as number;
@@ -59,6 +61,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
       if (this.id >= 0) {
         try {
           this.match = await this.apiService.getMatch(this.id);
+          this.isH2H = this.match && ((this.match.matchFlags & 0x1) == 0x1);
           this.match!.lijnenAsString = this.match!.lijnen.join('');
           if (this.match.competition) {
             this.competitionId = this.match.competition.id;
@@ -66,7 +69,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
               this.competition = await this.apiService.getCompetition(this.match.competition.id);
             }
           }
-          this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})`);
+          this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})` + (this.match.activeRound > 0 ? ` ronde ${this.match.activeRound}` : ``));
 
           this.participants = await this.apiService.getParticipantsForMatch(this.match.id);
         }

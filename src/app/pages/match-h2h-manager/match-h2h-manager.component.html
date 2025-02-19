@@ -1,0 +1,102 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+                <li>
+                    <a [routerLink]="['..', 'results']" class="cs-button" aria-current="page">Bekijk
+                        uitslagen</a>
+                </li>                
+                <li><button (click)="refresh()" class="cs-button">Verversen</button></li>
+                <li><button (click)="nextRound()"
+                        *ngIf="(authorizationService.user$ | async) && match && match.activeRound <  match.numberOfRounds"
+                        class="cs-button danger">Volgende ronde</button></li>
+                <li><button (click)="prevRound()"
+                        *ngIf="(authorizationService.user$ | async) && match && match.activeRound >  1"
+                        class="cs-button danger">Ronde terug</button></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<app-error (onClose)="this.error = ''" [error]="error"></app-error>
+
+<ng-container *ngIf="match && results">
+
+    @for (discipline of results.finalScores | keys; track $index) {
+    <div class="cs-card mt-2 mb-2 break-inside-avoid">
+        <h2 class="cs-heading w-full text-left">{{discipline | getGroupName: results.groups}}</h2>
+        <div class="flex flex-row w-full space-x-1 flex-nowrap">
+            @for (round of results.finalScores[discipline] | keys; track $index) {
+            <div class="w-1/4 flex flex-col p-1"
+                [ngClass]="{'bg-slate-50': +round != match.activeRound, 'border-2 bg-white': +round == match.activeRound}">
+                <div class="font-bold">{{titels[+round]}}</div>
+                <div class="flex flex-col space-y-4 justify-around h-full">
+                    @for (bracket of results.finalScores[discipline][+round]; track $index) {
+                    <div *ngIf="+round == 4 && bracket.bracketNumber == 1">Gouden finale</div>
+                    <div class="row w-full w-full flex flex-row border border-black p-0.5 space-x-1"
+                        [ngClass]="{
+                            'bg-green-100': (+round == match.activeRound) && ((bracket.participant1?.isWinner || bracket.participant2?.isWinner) || (!bracket.participant1 && !bracket.participant2)), 
+                            'bg-yellow-50': (+round == match.activeRound) && !((bracket.participant1?.isWinner || bracket.participant2?.isWinner) || (!bracket.participant1 && !bracket.participant2)), 
+                            'bg-slate-50': +round != match.activeRound}">
+                        <!-- <div class="text-sm h-full content-center">{{bracket.bracketNumber}}</div> -->
+
+                        <div class="flex-grow flex flex-col">
+                            <div class="content-center text-sm overflow-clip"><ng-container
+                                    *ngIf="bracket.participant1 && +round == match.activeRound">
+                                    <button class="cs-button tiny"
+                                        (click)="setWinner(discipline, bracket, bracket.participant1, bracket.participant2)"
+                                        [ngClass]="{'disabled': bracket.participant2 && bracket.participant2.isWinner, 'danger': bracket.participant1.isWinner}">Win</button>
+                                </ng-container>&nbsp;<span *ngIf="bracket.participant1; else noone"
+                                    [ngClass]="{'font-bold': bracket.participant1.isWinner}">{{bracket.participant1.participant.name}}</span>
+                                <ng-container *ngIf="bracket.participant1">
+                                    <div class="flex flex-row space-x-1">
+                                        @for (endScore of bracket.participant1.endScores; track $index) {
+                                        <div class="px-1 py-0 border border-slate-400 w-8 my-1 text-center text-xs">
+                                            {{+endScore>=0 ?
+                                            +endScore : '-'}}</div>
+                                        }
+
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="border-t border-slate-600 text-sm overflow-clip"><ng-container
+                                    *ngIf="bracket.participant2 && +round == match.activeRound">
+                                    <button class="cs-button tiny"
+                                        (click)="setWinner(discipline, bracket, bracket.participant2, bracket.participant1)"
+                                        [ngClass]="{'disabled': bracket.participant1 && bracket.participant1.isWinner, 'danger': bracket.participant2.isWinner}">Win</button>
+                                </ng-container>&nbsp;<span *ngIf="bracket.participant2; else noone"
+                                    [ngClass]="{'font-bold': bracket.participant2.isWinner}">{{bracket.participant2.participant.name}}</span>
+                                <ng-container *ngIf="bracket.participant2">
+                                    <div class="flex flex-row space-x-1">
+                                        @for (endScore of bracket.participant2.endScores; track $index) {
+                                        <div class="px-1 py-0 border border-slate-400 w-8 my-1 text-center text-xs">
+                                            {{+endScore>=0 ?
+                                            +endScore : '-'}}</div>
+                                        }
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <ng-template #noone><span>(vrij)</span></ng-template>
+                        </div>
+                        <div class="flex flex-col w-8">
+                            <div class="h-1/2 content-center text-right text-lg"><span
+                                    *ngIf="bracket.participant1 && bracket.participant2; else noscore"
+                                    [ngClass]="{'font-semibold': bracket.participant1.isWinner}">{{bracket.participant1.score}}</span>
+                            </div>
+                            <div class="h-1/2 content-center text-right text-lg"><span
+                                    *ngIf="bracket.participant2 && bracket.participant1; else noscore"
+                                    [ngClass]="{'font-semibold': bracket.participant2.isWinner}">{{bracket.participant2.score}}</span>
+                            </div>
+                            <ng-template #noscore><span>-</span></ng-template>
+                        </div>
+                    </div>
+                    <div *ngIf="+round == 4 && bracket.bracketNumber == 2">Bronzen finale</div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+</ng-container>

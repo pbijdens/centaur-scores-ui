@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ActiveListService } from '../../services/active-list.service';
 import { ControlDropdownLinkComponent } from '../control-dropdown-link/control-dropdown-link.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ParticipantsListModel } from '../../models/participants-list-model';
@@ -21,7 +21,7 @@ export class SelectActiveListComponent implements OnInit {
   public allLists: ParticipantsListModel[] = [];
   public activeList: ParticipantsListModel | undefined = undefined as ParticipantsListModel | undefined;
 
-  constructor(public apiService: ApiService, public activeListService: ActiveListService, public authorizationService: AuthorizationService) {
+  constructor(public apiService: ApiService, public activeListService: ActiveListService, public authorizationService: AuthorizationService, public router: Router) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -34,7 +34,7 @@ export class SelectActiveListComponent implements OnInit {
 
   async selectList(list: ParticipantsListModel) {
     this.activeListService.setActiveList(list?.id);
-    window.location.reload();
+    this.router.navigate(['/'], { info: {reload: true}});
   }
 
 }

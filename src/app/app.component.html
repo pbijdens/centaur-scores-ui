@@ -1,25 +1,28 @@
-<nav class="cs-application-header">
-    <div>
-        <a [routerLink]="['/']" class="logo">
-            <div><img src="assets/centaur.svg" alt="Logo" /></div>
-            <span class="navbar-title">{{title}}</span>
-        </a>
-        <div class="navbar-default">
-            <ul>
+<div [ngClass]="{ 'screen-height': !(navbarService.overflow$ | async)}">
+    <nav class="cs-application-header">
+        <div>
+            <a [routerLink]="['/']" class="logo">
+                <div><img src="assets/centaur.svg" alt="Logo" /></div>
+                <span class="navbar-title">{{title}}</span>
+            </a>
+            <div class="navbar-default">
+                <ul>
 
-                <li>
-                    <a [routerLink]="['/matches' ]" class="top-link" aria-current="page">Wedstrijden</a>
-                </li>
-                <li>
-                    <a [routerLink]="['/competitions' ]" class="top-link" aria-current="page">Competities</a>
-                </li>                
-                <li>
-                    <a [routerLink]="['/', 'matches', -1, 'results' ]" class="top-link" aria-current="page">Live uitslagen</a>
-                </li>                
-                <app-select-active-list></app-select-active-list>
-                <app-loggedin-user></app-loggedin-user>
-            </ul>
+                    <li>
+                        <a [routerLink]="['/matches' ]" class="top-link" aria-current="page">Wedstrijden</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/competitions' ]" class="top-link" aria-current="page">Competities</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/', 'matches', -1, 'results' ]" class="top-link" aria-current="page">Live
+                            uitslagen</a>
+                    </li>
+                    <app-select-active-list></app-select-active-list>
+                    <app-loggedin-user></app-loggedin-user>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-<div class="page"><router-outlet /></div>
+    </nav>
+    <div class="page"><router-outlet /></div>
+</div>

@@ -8,11 +8,12 @@ import { ControlUpButtonComponent } from "../../shared/control-up-button/control
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { EditUserAclComponent } from "../../shared/edit-user-acl/edit-user-acl.component";
 import { NavbarService } from '../../services/navbar.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-user-acl-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ControlUpButtonComponent, ControlDropdownButtonComponent, EditUserAclComponent],
+  imports: [CommonModule, FormsModule, ControlUpButtonComponent, ControlDropdownButtonComponent, EditUserAclComponent, ErrorComponent],
   templateUrl: './user-acl-list.component.html',
   styleUrl: './user-acl-list.component.less'
 })

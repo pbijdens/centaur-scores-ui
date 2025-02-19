@@ -61,6 +61,9 @@ module.exports = {
         'cardbg': {
           'DEFAULT': '#F1F4F1',
         },
+        'cardaltbg': {
+          'DEFAULT': '#ced8ce',
+        },        
         'cardfg': {
           'DEFAULT': '#000000',
         },

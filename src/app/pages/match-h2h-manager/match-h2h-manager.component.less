@@ -1,0 +1,28 @@
+div.cs-button-block {
+    @apply self-end items-stretch px-0 bg-transparent;
+
+    >div {
+        //@apply flex flex-wrap items-center justify-between mx-auto p-1;
+        @apply m-0 p-0 w-full px-0;
+
+        div.cs-button-bar {
+            //@apply w-full block w-auto flex flex-row flex-grow justify-end;
+            @apply m-0 p-0 w-full;
+
+            >ul {
+                @apply flex flex-row justify-end w-full;
+                @apply p-0 space-x-0 m-0;
+                @apply border-0;
+                @apply font-medium;
+
+                li {
+                    @apply m-0 px-1;
+
+                    .cs-button {
+                        @apply m-0 my-2;
+                    }
+                }
+            }
+        }
+    }
+}

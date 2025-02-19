@@ -1,0 +1,5 @@
+<div class="cs-card error sticky top-0 z-30" *ngIf="error">
+    <h2>Er is iets niet helemaal goed gegeaan...</h2>
+    <p>{{error}}</p>
+    <div class="flex"><div class="flex-grow"></div><button class="cs-button danger" (click)="close()">Sluit dit bericht</button></div>    
+</div>

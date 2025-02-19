@@ -9,11 +9,12 @@ import { EditCompetitionMetadataComponent } from '../../shared/edit-competition-
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-competitions-list',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent, ErrorComponent],
   templateUrl: './competitions.component.html',
   styleUrl: './competitions.component.less'
 })

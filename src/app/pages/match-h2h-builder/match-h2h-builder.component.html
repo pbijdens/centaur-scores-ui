@@ -1,0 +1,127 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+                <li><button (click)="autoFinalsPerGroup()" class="cs-button">Finale per discipline</button></li>
+                <li><button (click)="autoFinalsPerSubroup()" class="cs-button">Finale per discipline - klasse</button>
+                </li>
+                <li><button (click)="dhz()" class="cs-button">Doe het zelf (handmatig)</button></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<app-error (onClose)="this.error = ''" [error]="error"></app-error>
+
+<div class="cs-card">
+    <div class="cs-input-block">
+        <label for="definitionName">
+            Naam van de wedstrijd
+        </label>
+        <input [disabled]="false" [ngModelOptions]="{standalone: true}" class="cs-input-text" autocomplete="off"
+            spellcheck="false" autocorrect="off" autocapitalize="off" id="definitionName" type="text"
+            placeholder="Naam van de te maken wedstrijd" [(ngModel)]="definition.name">
+    </div>
+</div>
+
+@for (group of definition.groups; track $index) {
+<div class="cs-card">
+    <ng-container>
+
+        <div class="cs-input-block flex">
+            <div class="flex-grow">
+                <label for="finalsName">
+                    Naam van deze finale
+                </label>
+                <input [disabled]="false" [ngModelOptions]="{standalone: true}" class="cs-input-text" autocomplete="off"
+                    spellcheck="false" autocorrect="off" autocapitalize="off" id="finalsName" type="text"
+                    placeholder="Naam van deze finale" [(ngModel)]="group.name">
+            </div>
+            <div class="w-32 ml-2">
+                <label for="finalsName">
+                    Set system?
+                </label>
+                <input [disabled]="false" [ngModelOptions]="{standalone: true}" autocomplete="off" spellcheck="false"
+                    autocorrect="off" autocapitalize="off" id="finalsName" type="checkbox" class="w-4 h-8"
+                    placeholder="Gebruik set systeem" [(ngModel)]="group.isSetScored">
+            </div>
+        </div>
+
+        <div class="cs-input-block">
+            <label for="finalsGroup">
+                Selecteer een groep uit de uitslagenlijst voor de potentiële deelnemers (wist de huidige selectie)
+            </label>
+            <select id="finalsGroup" title="Kies een groep" #groupTemplate (change)="groupChanged($event, group)"
+                [(ngModel)]="group.selectedList" [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                placeholder="Kies een discipline">
+                <option *ngFor="let c of resultLists" [ngValue]="c">{{c.name}} - {{c.participants.length}} deelnemer(s)
+                </option>
+            </select>
+        </div>
+
+        <div class="cs-input-block">
+            <label for="participants">
+                Selecteer hier de deelnemers die doorgaan naar de finale. Gebruik ctrl+click of shift-click om meerdere
+                te selecteren.
+            </label>
+            <div class="flex">
+                <select class="flex-grow" id="participants" name="participants" title="Kies een of meer deelnemers"
+                    multiple [(ngModel)]="group.participants" [ngModelOptions]="{standalone: true}"
+                    class="cs-input-text" placeholder="Kies een of meer deelnemers"
+                    (change)="participantsChanged($event, group)">
+                    <option *ngFor="let c of group.allParticipants" [ngValue]="c">{{c.position}}.
+                        {{c.participantData.name}}
+                        ({{c.score}})</option>
+                </select>
+                <div class="w-2/5 min-h-48 p-2 ml-2 bg-slate-200 border-2 rounded-sm border-slate-400">
+                    <ol>
+                        @for (c of group.participants; track $index) {
+                        <li>{{c.position}}. {{c.participantData.name}} ({{c.score}})</li>
+                        }
+                    </ol>
+                </div>
+            </div>
+            <div class="text-sm"><i>Geplaatst: {{group.participants.length}} uit {{group.allParticipants.length}}</i>
+            </div>
+        </div>
+
+    </ng-container>
+
+    <ng-container>
+        <div class="cs-button-block" *ngIf="authorizationService.user$ | async">
+            <div>
+                <div class="cs-button-bar">
+                    <ul>
+                        <li>
+                            <button (click)="deleteGroup(group)" class="cs-button danger"
+                                [disabled]="definition.groups.length <= 1" aria-current="page">Deze groep
+                                verwijderen</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+</div>
+}
+
+<footer class="cs-card footer sticky bottom-0">
+    <div class="cs-button-block" *ngIf="authorizationService.user$ | async">
+        <div>
+            <div class="cs-button-bar">
+                <ul>
+                    <li>
+                        <button (click)="addGroup()" class="cs-button" aria-current="page">Nieuwe groep</button>
+                    </li>
+                    <li class="flex-grow"></li>
+                    <li>
+                        <button (click)="run()" class="cs-button" aria-current="page">Maak de
+                            finale-wedstrijd</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

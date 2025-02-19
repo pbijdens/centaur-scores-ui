@@ -22,6 +22,10 @@ a {
   @apply focus:outline-none focus:ring-1 focus:ring-accenta-700;
   @apply cursor-pointer;
 
+  &.tiny {
+    @apply px-2 py-0 me-1 m-0 my-1 text-xs font-normal;
+  }
+
   &.warning {
     @apply bg-white hover:bg-slate-100 text-black;
   }
@@ -61,14 +65,14 @@ a {
   }
 
   .dropdown-menu {
-    @apply min-w-64 max-w-64 z-10 origin-top-right absolute right-0 top-8 rounded mt-0 shadow-lg border-0;
+    @apply min-w-64 max-w-64 z-50 origin-top-right absolute right-0 top-8 rounded mt-0 shadow-lg border-0;
 
     .cs-button {
       @apply w-full;
     }
 
     .dropdown-menu-visual {
-      @apply bg-accentb overflow-overlay p-1;
+      @apply bg-accentb overflow-overlay p-1 z-50;
 
       .cs-button {
         @apply m-0~"mt-0.5" rounded-lg;
@@ -83,14 +87,14 @@ a {
   }
 
   .dropdown-menu {
-    @apply min-w-64 max-w-64 z-10 origin-top-right absolute right-0 top-8 rounded mt-0 shadow-lg border-0;
+    @apply min-w-64 max-w-64 z-50 origin-top-right absolute right-0 top-8 rounded mt-0 shadow-lg border-0;
 
     .cs-button {
       @apply w-full;
     }
 
     .dropdown-menu-visual {
-      @apply bg-accentb overflow-overlay p-1;
+      @apply bg-accentb overflow-overlay p-1 z-50;
 
       .cs-button {
         @apply ~"mt-0.5" rounded-none m-0;

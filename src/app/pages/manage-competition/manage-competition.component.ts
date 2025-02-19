@@ -12,11 +12,12 @@ import { EditMatchMetadataComponent } from "../../shared/edit-match-metadata/edi
 import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-button/control-dropdown-button.component";
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-manage-competition',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, EditMatchMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditCompetitionMetadataComponent, EditMatchMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent, ErrorComponent],
   templateUrl: './manage-competition.component.html',
   styleUrl: './manage-competition.component.less'
 })

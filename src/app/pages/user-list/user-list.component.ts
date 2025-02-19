@@ -9,11 +9,12 @@ import { ControlDropdownButtonComponent } from "../../shared/control-dropdown-bu
 import { EditUserComponent } from "../../shared/edit-user/edit-user.component";
 import { RouterModule } from '@angular/router';
 import { NavbarService } from '../../services/navbar.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, EditUserComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, EditUserComponent, ErrorComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.less'
 })

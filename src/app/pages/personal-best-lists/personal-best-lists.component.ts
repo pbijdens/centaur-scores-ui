@@ -14,11 +14,12 @@ import { KeysPipe } from "../../pipes/keys.pipe";
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { OnlyTopScorePipe } from "../../pipes/onlytopscore";
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-personal-best-lists',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, EditPersonalBestListMetadataComponent, ControlDropdownButtonComponent, KeysPipe, OnlyTopScorePipe],
+  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, EditPersonalBestListMetadataComponent, ControlDropdownButtonComponent, KeysPipe, OnlyTopScorePipe, ErrorComponent],
   templateUrl: './personal-best-lists.component.html',
   styleUrl: './personal-best-lists.component.less'
 })

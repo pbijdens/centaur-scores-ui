@@ -14,11 +14,12 @@ import { GetGroupNamePipe } from "../../pipes/getgroupname.pipe";
 import { EditPersonalBestEntryComponent } from "../../shared/edit-personal-best-entry/edit-personal-best-entry.component";
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { AuthorizationService } from '../../services/authorization.service';
+import { ErrorComponent } from "../../shared/error/error.component";
 
 @Component({
   selector: 'app-personal-best-list-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, GetGroupNamePipe, EditPersonalBestEntryComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ControlUpButtonComponent, ControlDropdownButtonComponent, GetGroupNamePipe, EditPersonalBestEntryComponent, ErrorComponent],
   templateUrl: './personal-best-list-editor.component.html',
   styleUrl: './personal-best-list-editor.component.less'
 })

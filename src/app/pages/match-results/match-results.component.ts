@@ -10,11 +10,12 @@ import { GetGroupNamePipe } from '../../pipes/getgroupname.pipe';
 import { MatchResultsTableComponent } from "./match-results-table/match-results-table.component";
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { ResultTableFooterComponent } from './result-table-footer/result-table-footer.component';
+import { MatchResultsKnockoutComponent } from "./match-results-knockout/match-results-knockout.component";
 
 @Component({
   selector: 'app-match-results',
   standalone: true,
-  imports: [CommonModule, KeysPipe, GetGroupNamePipe, MatchResultsTableComponent, ControlUpButtonComponent, ResultTableFooterComponent],
+  imports: [CommonModule, KeysPipe, GetGroupNamePipe, MatchResultsTableComponent, ControlUpButtonComponent, ResultTableFooterComponent, MatchResultsKnockoutComponent],
   templateUrl: './match-results.component.html',
   styleUrl: './match-results.component.less'
 })
@@ -27,9 +28,12 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
   public tab = 1;
   public intervalId: any;
 
-  public refreshUpdateInterval = 50;
   public refreshTimeoutCache = 15000;
   public refreshTimeout = 15000;
+  public refreshUpdateInterval = 1000;
+
+  public isH2H = false;
+  public shift = 0;
 
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
     this.navbarService.setPageTitle('Uitslagen');
@@ -48,9 +52,16 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    const updateTime = this.refreshUpdateInterval;
     this.refreshTimeoutCache = this.refreshTimeout;
     await this.refresh();
+
+    if (this.isH2H) {
+      this.refreshTimeoutCache = this.refreshTimeout = 5000;
+      this.refreshUpdateInterval = 1000;
+    } 
+
+    const updateTime = this.refreshUpdateInterval;
+
     this.intervalId = setInterval(() => {
       this.refreshTimeoutCache -= updateTime;
       if (this.refreshTimeoutCache <= 0) {
@@ -69,9 +80,21 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
         this.match = await this.apiService.getMatch(this.id);
       }
       if (this.match) {
+        this.isH2H = (this.match.matchFlags & 0x1) == 0x1;
         this.tab = +(await this.apiService.getMatchUiSetting(this.match?.id?? -1, "ActiveResultsTab") ?? "1");
-        this.navbarService.setPageTitle(`Uitslag ${this.match.matchName}`);
-        this.results = await this.apiService.getSingleMatchResults(this.match.id);
+        this.navbarService.setPageTitle(`Uitslag ${this.match.matchName}`, false);
+        const result = await this.apiService.getSingleMatchResults(this.match.id);
+        if (this.isH2H && result && result.groups && result.groups.length > 0) {
+          for (let i = 0; i < this.shift; i++) {
+            const elt = result.groups.shift();
+            elt && result.groups.push(elt);
+          }
+          console.log(result.groups);
+          this.shift = (this.shift + 1) % result.groups.length;
+        }
+        this.results = result;
+      } else {
+        this.isH2H = false;
       }
       delete this.errorMessage;
     } catch (err) {

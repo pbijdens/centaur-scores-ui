@@ -20,6 +20,12 @@ export class ControlDropdownButtonComponent implements OnInit {
     this.setVisibilityClasses();
   }
 
+  closeIfOpen(): void {
+    if (this.isVisible) {
+      this.toggleVisible(false);
+    }
+  }
+
   toggleVisible(isVisible: boolean): void {
     this.isVisible = isVisible;
     this.setVisibilityClasses();

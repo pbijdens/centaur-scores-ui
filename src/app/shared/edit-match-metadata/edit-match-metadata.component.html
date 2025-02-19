@@ -74,6 +74,14 @@
                             autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             type="text" placeholder="Lijnen (bijvoorbeeld ABCD)" [(ngModel)]="match!.lijnenAsString">
                     </div>
+                    <div class="cs-input-block">
+                        <label for="numberOfEnds">
+                            Active ronde (finale)
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="activeRound"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.activeRound">
+                    </div>                    
                 </div>
 
                 <div class="cs-tab-body-x" *ngSwitchCase="2">

@@ -15,12 +15,14 @@ import { AuthorizationService } from './authorization.service';
 import { UserModel } from '../models/user-model';
 import { UserACLModel } from '../models/user-acl-model';
 import { ActiveListService } from './active-list.service';
+import { MatchFinalDefinition } from '../models/match-final-definition';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+
   constructor(private authorizationService: AuthorizationService, private activeListService: ActiveListService) { }
 
   get url(): String {
@@ -103,7 +105,7 @@ export class ApiService {
 
   async getCompetitions(): Promise<CompetitionModel[]> {
     const data = await fetch(this.activeListService.activeList >= 0 ? `${this.url}/list/${this.activeListService.activeList}/competitions` : `${this.url}/competitions`, {
-      method: 'GET',      
+      method: 'GET',
       headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
@@ -547,10 +549,49 @@ export class ApiService {
     const data = await fetch(`${this.url}/admin/config/${setting}`, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
-      body: JSON.stringify({value: value}),
+      body: JSON.stringify({ value: value }),
     });
     if (data.status == 204) return undefined;;
     if (data.status != 200) throw "API Failure";
     return await data.json();
   }
+
+  async createMatchFromFinalsDefinition(matchId: number, definition: MatchFinalDefinition): Promise<number | undefined> {
+    const data = await fetch(`${this.url}/match/${matchId}/finals`, {
+      method: 'POST',
+      body: JSON.stringify(definition),
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+    return (await data.json()).id;
+  }
+
+  async updateH2HWinner(matchId: number, discipline: string, bracket: number, winnerId: number, loserId: number): Promise<void> {
+    const data = await fetch(`${this.url}/match/${matchId}/finals/win/${discipline}/${bracket}/${winnerId}/${loserId}`, {
+      method: 'PUT',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+  }
+
+  async putH2HNextRound(matchId: number): Promise<void> {
+    const data = await fetch(`${this.url}/match/${matchId}/finals/nextround`, {
+      method: 'POST',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+  }
+
+  async putH2HPrevRound(matchId: number): Promise<void> {
+    const data = await fetch(`${this.url}/match/${matchId}/finals/nextround/undo`, {
+      method: 'POST',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+  }
+
 }

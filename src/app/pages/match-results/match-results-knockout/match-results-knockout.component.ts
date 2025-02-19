@@ -1,0 +1,37 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { KeysPipe } from '../../../pipes/keys.pipe';
+import { CommonModule } from '@angular/common';
+import { MatchResultModel } from '../../../models/match-result-model';
+import { MatchModel } from '../../../models/match-model';
+import { GetGroupNamePipe } from '../../../pipes/getgroupname.pipe';
+import { ApiService } from '../../../services/api.service';
+
+@Component({
+  selector: 'app-match-results-knockout',
+  standalone: true,
+  imports: [CommonModule, KeysPipe, GetGroupNamePipe],
+  templateUrl: './match-results-knockout.component.html',
+  styleUrl: './match-results-knockout.component.less'
+})
+export class MatchResultsKnockoutComponent implements OnInit {
+  tab = 0;
+
+  @Input() match?: MatchModel;
+  @Input() results?: MatchResultModel;
+  @Input() refreshTimeout: number = 1;
+  @Input() refreshTimeoutCache: number = 1;
+
+  titels = ['', 'Achtste finale', 'Kwart finale', 'Halve finale', 'Finale'];  
+
+  constructor(public apiService: ApiService) {    
+  }
+
+  async ngOnInit(): Promise<void> {
+    this.tab = +(await this.apiService.getMatchUiSetting(this.match?.id?? -1, "ActiveResultsFinalsTab") ?? "0");
+  }
+
+  async updateActiveTab(tabId: number) {
+    this.tab = tabId;
+    await this.apiService.updateMatchUiSetting(this.match?.id ?? -1, "ActiveResultsFinalsTab", `${tabId}`);
+  }
+}

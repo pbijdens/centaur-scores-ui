@@ -1,4 +1,4 @@
-<nav class="cs-page-header">
+<!-- <nav class="cs-page-header">
     <div>
         <div class="navbar-default">
             <ul>
@@ -6,9 +6,9 @@
             </ul>
         </div>
     </div>
-</nav>
-<ng-container *ngIf="results && match; else loading">
-    <div class="cs-results-page mt-2">
+</nav> -->
+<ng-container *ngIf="results && match; else loading">    
+    <div class="cs-results-page mt-2" *ngIf="(match.matchFlags % 2) == 0; else finals">
         <div class="cs-tab-box">
             <div class="cs-tab-buttons">
                 <button (click)="updateActiveTab(0)" class="cs-tab-button" aria-current="page"
@@ -84,4 +84,8 @@
         <div class="cs-heading h1">Wacht op resultaten...</div>
         <div *ngIf="errorMessage">{{errorMessage}}</div>
     </div>
+</ng-template>
+
+<ng-template #finals>
+    <app-match-results-knockout [match]="match" [results]="results" [refreshTimeoutCache]="refreshTimeoutCache" [refreshTimeout]="refreshTimeout" />
 </ng-template>

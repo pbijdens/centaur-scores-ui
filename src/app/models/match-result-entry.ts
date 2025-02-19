@@ -1,3 +1,4 @@
+import { ParticipantData } from "./participant-data";
 import { ScoreInfoEntry } from "./score-info-entry";
 
 export interface MatchResultEntry {
@@ -12,4 +13,6 @@ export interface MatchResultEntry {
     isPR: boolean;
     tiebreakerInfo: string;
     scores: number[];
+
+    participantData: ParticipantData;
 }

@@ -8,16 +8,21 @@
                         uitslagen</a>
                 </li>
                 <li *ngIf="authorizationService.user$ | async">
-                    <button (click)="newParticipant()" *ngIf="match" class="cs-button">Schutter toevoegen</button>
+                    <button (click)="newParticipant()" *ngIf="match && !isH2H" class="cs-button">Schutter toevoegen</button>
                 </li>
                 <li *ngIf="authorizationService.user$ | async">
-                    <button (click)="openProperties()" *ngIf="match" class="cs-button">Wedstrijd aanpassen</button>
+                    <app-control-dropdown-button label="Beheer">
+                        <button (click)="openProperties()" *ngIf="match" class="cs-button">Wedstrijd aanpassen</button>
+                        <a [routerLink]="['h2h']" class="cs-button" aria-current="page" *ngIf="!isH2H">Maak finaleronde</a>
+                    </app-control-dropdown-button>
                 </li>
+                <li><a [routerLink]="['h2hrun']" class="cs-button" aria-current="page" *ngIf="isH2H">Ga naar finale-beheer</a></li>
             </ul>
         </div>
         <div class="navbar-default" *ngIf="!error">
             <ul>
-                <li *ngIf="authorizationService.user$ | async"><button (click)="setActive(true)" *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
+                <li *ngIf="authorizationService.user$ | async"><button (click)="setActive(true)"
+                        *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
                         actieve wedstrijd</button>
                 </li>
                 <li *ngIf="authorizationService.user$ | async">
@@ -29,10 +34,7 @@
     </div>
 </nav>
 
-<div class="cs-card error" *ngIf="error">
-    <div class="cs-heading h1">Er is iets niet goed gegaan...</div>
-    <p>{{error}}</p>
-</div>
+<app-error (onClose)="this.error = ''" [error]="error"></app-error>
 
 <form class="cs-modal-dialog"
     [ngClass]="{'modal-dialog-open': matchForProperties, 'modal-dialog-closed': !matchForProperties}">
@@ -55,10 +57,13 @@
     [ngClass]="{'modal-dialog-open': participantForLinking, 'modal-dialog-closed': !participantForLinking}">
     <div *ngIf="participantForLinking && match">
         <app-edit-participant-link [matchId]="match.id" [participantId]="participantForLinking.id"
-            (onError)="editParticipantError($event)"
-            (onClose)="linkParticipantClose()"></app-edit-participant-link>
+            (onError)="editParticipantError($event)" (onClose)="linkParticipantClose()"></app-edit-participant-link>
     </div>
 </form>
+
+<div class="cs-card bg-yellow-100" *ngIf="(match?.matchFlags ?? 0) % 2 == 1">
+    <div class="text-xl">Let op! Dit is een finaleronde. Je kan niet zomaar de deelnemers of gegevens aanpassen. Een finale ronde wordt aangemaakt vanuit een wedstrijd en kan daarna niet meer worden gewijzigd. Maak bij fouten een nieuwe finale aan.</div>
+</div>
 
 <div class="cs-card" *ngIf="participants">
     <div class="cs-heading h1">Deelnemers</div>
@@ -78,13 +83,20 @@
         </thead>
         <tbody>
             <tr *ngFor="let participant of participants">
-                <td class="w-16 text-center" *ngIf="authorizationService.user$ | async; else linkButtonLoggedOut"><span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton"><button class="cs-button ok" (click)="linkParticipant(participant)">&#x2714;</button></span></td>
+                <td class="w-16 text-center" *ngIf="authorizationService.user$ | async; else linkButtonLoggedOut"><span
+                        *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0; else linkButton"><button
+                            class="cs-button ok" (click)="linkParticipant(participant)">&#x2714;</button></span></td>
                 <ng-template #linkButton>
                     <button class="cs-button warning" (click)="linkParticipant(participant)">&#x26A0;</button>
-                </ng-template>                
+                </ng-template>
                 <ng-template #linkButtonLoggedOut>
                     <td class="w-16 text-center">
-                    <span *ngIf="!participant.participantListEntryId || participant.participantListEntryId < 0"><div class="cs-button ok">&#x2714;</div></span>
+                        <span *ngIf="!participant.participantListEntryId || participant.participantListEntryId < 0">
+                            <div class="cs-button ok">&#x26A0;</div>
+                        </span>
+                        <span *ngIf="participant.participantListEntryId && participant.participantListEntryId >= 0">
+                            <div class="cs-button ok">&#x2714;</div>
+                        </span>                        
                     </td>
                 </ng-template>
                 <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
@@ -97,9 +109,11 @@
                 </td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
-                        <button (click)="editParticipant(participant)" class="cs-button" *ngIf="authorizationService.user$ | async">Gegevens of score
+                        <button (click)="editParticipant(participant)" class="cs-button"
+                            *ngIf="authorizationService.user$ | async">Gegevens of score
                             aanpassen</button>
-                        <button (click)="linkParticipant(participant)" class="cs-button" *ngIf="authorizationService.user$ | async">Koppelen aan deelnemerslijst</button>
+                        <button (click)="linkParticipant(participant)" class="cs-button"
+                            *ngIf="authorizationService.user$ | async">Koppelen aan deelnemerslijst</button>
                     </app-control-dropdown-button>
                 </td>
             </tr>
