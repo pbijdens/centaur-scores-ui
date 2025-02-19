@@ -17,17 +17,35 @@ import { UserACLModel } from '../models/user-acl-model';
 import { ActiveListService } from './active-list.service';
 import { MatchFinalDefinition } from '../models/match-final-definition';
 
+export interface IConfig {
+  apiUrl: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private authorizationService: AuthorizationService, private activeListService: ActiveListService) { }
+  private urlOverride = '';
+  constructor(private authorizationService: AuthorizationService, private activeListService: ActiveListService) {
+    fetch('/assets/configuration.json').then(async (doc) => {
+      const config = await doc.json() as IConfig;
+      if (config.apiUrl) {
+        this.urlOverride = config.apiUrl.replace('{proto}', window.location.protocol).replace('{hostname}', window.location.hostname).replace(/[/]*$/, '');
+        console.log(`API URL: ${this.urlOverride}`);
+      }
+    }).catch(err => {
+      console.error(err);
+    });
+   }
 
   get url(): String {
-    const result = `${window.location.protocol}//${window.location.hostname}:8062`;
-    return result;
+    if (!this.urlOverride) {
+      const result = `${window.location.protocol}//${window.location.hostname}:8062`;
+      return result;
+    } else {
+      return this.urlOverride;
+    }
   }
 
   async getMatches(): Promise<MatchModel[]> {
