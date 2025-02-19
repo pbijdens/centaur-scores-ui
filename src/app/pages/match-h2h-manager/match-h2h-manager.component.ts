@@ -84,4 +84,8 @@ export class MatchH2hManagerComponent implements OnInit {
     }
   }
 
+  async setActive(value: boolean): Promise<void> {
+    await this.apiService.setActive(this.match!, value);
+    await this.refresh();
+  }
 }

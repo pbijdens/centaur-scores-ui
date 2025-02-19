@@ -89,7 +89,6 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
             const elt = result.groups.shift();
             elt && result.groups.push(elt);
           }
-          console.log(result.groups);
           this.shift = (this.shift + 1) % result.groups.length;
         }
         this.results = result;

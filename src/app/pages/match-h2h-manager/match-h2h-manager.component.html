@@ -16,6 +16,18 @@
                         class="cs-button danger">Ronde terug</button></li>
             </ul>
         </div>
+        <div class="navbar-default" *ngIf="!error">
+            <ul>
+                <li *ngIf="authorizationService.user$ | async"><button (click)="setActive(true)"
+                        *ngIf="!(match?.isActiveMatch)" class="cs-button">Stel in als
+                        actieve wedstrijd</button>
+                </li>
+                <li *ngIf="authorizationService.user$ | async">
+                    <button (click)="setActive(false)" *ngIf="match?.isActiveMatch" class="cs-button danger">Deactiveer
+                        wedstrijd</button>
+                </li>
+            </ul>
+        </div>        
     </div>
 </nav>
 
