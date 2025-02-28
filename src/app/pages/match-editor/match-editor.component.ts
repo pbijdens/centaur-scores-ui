@@ -63,6 +63,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
           this.match = await this.apiService.getMatch(this.id);
           this.isH2H = this.match && ((this.match.matchFlags & 0x1) == 0x1);
           this.match!.lijnenAsString = this.match!.lijnen.join('');
+          this.match!.isFinale = this.match && ((this.match.matchFlags & 0x1) == 0x1);
           if (this.match.competition) {
             this.competitionId = this.match.competition.id;
             if (this.competitionId >= 0) {
@@ -72,6 +73,18 @@ export class MatchEditorComponent implements OnInit, OnChanges {
           this.navbarService.setPageTitle(`${this.match.matchName} (${this.match.matchCode})` + (this.match.activeRound > 0 ? ` ronde ${this.match.activeRound}` : ``));
 
           this.participants = await this.apiService.getParticipantsForMatch(this.match.id);
+          if (this.match && (this.match.matchFlags & 0x1) == 0x1) {
+            this.participants.forEach(p => {
+              if (p.headToHeadJSON) {
+                const data = JSON.parse(p.headToHeadJSON);
+                if (data.length >= this.match!.activeRound && data[this.match!.activeRound - 1]) {
+                  p.position = data[this.match!.activeRound - 1].InitialPosition;
+                }
+              } else {
+                p.position = 0;
+              }
+            });
+          }
         }
         catch (error) {
           this.error = `Kon wedstrijd met id ${this.id} niet laden: ${error}`;

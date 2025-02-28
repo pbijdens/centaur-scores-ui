@@ -43,6 +43,7 @@ export class EditParticipantScoresheetComponent {
       if (this.matchId >= 0) {
         this.match = await this.apiService.getMatch(this.matchId);
         this.match!.lijnenAsString = this.match!.lijnen.join('');
+        this.match!.isFinale = 0x1 == (this.match!.matchFlags & 0x1);
       }
 
       if (this.participantId >= 0) {

@@ -62,7 +62,8 @@
 </form>
 
 <div class="cs-card bg-yellow-100" *ngIf="(match?.matchFlags ?? 0) % 2 == 1">
-    <div class="text-xl">Let op! Dit is een finaleronde. Je kan niet zomaar de deelnemers of gegevens aanpassen. Een finale ronde wordt aangemaakt vanuit een wedstrijd en kan daarna niet meer worden gewijzigd. Maak bij fouten een nieuwe finale aan.</div>
+    <div class="text-xl">Let op! Dit is een finaleronde. Je kan niet zomaar de deelnemers of gegevens aanpassen. Een finale ronde wordt
+         aangemaakt vanuit een wedstrijd en kan daarna nog maar beperkt worden gewijzigd. Maak bij fouten een nieuwe finale aan.</div>
 </div>
 
 <div class="cs-card" *ngIf="participants">
@@ -99,7 +100,7 @@
                         </span>                        
                     </td>
                 </ng-template>
-                <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}}</td>
+                <td class="flex-grow cursor-pointer" (click)="editParticipant(participant)">{{participant.name}} {{participant.position}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.groupName}}</td>
                 <td class="w-48 cursor-pointer" (click)="editParticipant(participant)">{{participant.subgroupName}}</td>
                 <td class="w-48 cursor-pointer text-xs" (click)="editParticipant(participant)">{{participant.deviceID}}

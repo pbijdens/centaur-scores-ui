@@ -15,5 +15,9 @@ export interface ParticipantModel {
     // V2 only
     groupName?: string;
     subgroupName?: string;
-    targetName?: string;    
+    targetName?: string;   
+    
+    // V3
+    headToHeadJSON?: string;
+    position: number;
 }

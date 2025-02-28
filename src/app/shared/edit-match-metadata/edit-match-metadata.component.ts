@@ -56,6 +56,7 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
       if (this.matchId >= 0) {
         this.match = await this.apiService.getMatch(this.matchId);
         this.match!.lijnenAsString = this.match!.lijnen.join('');
+        this.match!.isFinale = this.match && ((this.match.matchFlags & 0x1) == 0x1);
       } else {
         const code = `${new Date().getUTCFullYear()}-01-01`;
         this.match = <MatchModel>{ id: -1, lijnenAsString: 'ABCD', lijnen: ['A', 'B', 'C', 'D'], matchCode: code };
@@ -89,6 +90,7 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
   async saveEntity(): Promise<void> {
     if (this.match) {
       this.match.lijnen = this.match.lijnenAsString.split('');
+      this.match.matchFlags = (this.match.matchFlags & ~0x1) | (this.match.isFinale ? 0x1: 0x0);
       if (this.match.id <= 0) {
         try {
           await this.apiService.postMatch(this.match);
@@ -123,7 +125,11 @@ export class EditMatchMetadataComponent implements OnInit, OnChanges {
         if (ruleset.requiredEnds) this.match.numberOfEnds = ruleset.requiredEnds;
         if (ruleset.requiredTargets) this.match.targets = ruleset.requiredTargets;
         if (ruleset.requiredScoreValues) this.match.scoreValues = ruleset.requiredScoreValues;
-      }
+        if (ruleset.code.endsWith('finals')) {
+          this.match.isFinale = true;
+          this.match.matchFlags = 0x1;
+        }
+        }
       this.match!.lijnenAsString = this.match!.lijnen.join('');
     }
   }
