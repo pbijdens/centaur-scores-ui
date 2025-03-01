@@ -34,6 +34,9 @@
 <app-error (onClose)="this.error = ''" [error]="error"></app-error>
 
 <ng-container *ngIf="match && results">
+    <div class="cs-card">
+        Deze pagina kan je gebruiken om de winnaars van de wedstrijden aan te wijzen. Voor elkse wedstrijd die geen "bye" is moet met de hand een winnaar aangewezen worden. Als alle wedstrijden beslist zijn kan je de volgende ronde starten. Om de actuele uitslagen te zien moet dje zelf de knop "Verversen" gebruiken.
+    </div>
 
     @for (discipline of results.finalScores | keys; track $index) {
     <div class="cs-card mt-2 mb-2 break-inside-avoid">

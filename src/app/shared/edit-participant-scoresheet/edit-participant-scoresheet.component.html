@@ -16,13 +16,18 @@
             <button (click)="tab=0" class="cs-tab-button" aria-current="page"
                 [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Algemeen</button>
             <button (click)="tab=1" class="cs-tab-button" aria-current="page"
-                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}" *ngIf="participant.id >= 0">Scores</button>
+                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}" *ngIf="participant.id >= 0 && match.isFinale">Finale status</button>
+            <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 2, 'inactive': tab != 2}" *ngIf="participant.id >= 0 && (!match.isFinale || match.activeRound >= 1)">Scores</button>
         </div>
         <div class="cs-tab-content">
             <ng-container [ngSwitch]="tab">
+                <div class="cs-tab-body-x" *ngSwitchCase="2">
+                    <app-edit-scorecard [participant]="participant" [keyboard]="keyboard" [arrowsPerEnd]="match.arrowsPerEnd" [disabled]="!(authorizationService.user$ | async)"></app-edit-scorecard>
+                </div>
+
                 <div class="cs-tab-body-x" *ngSwitchCase="1">
-                    <app-edit-scorecard [participant]="participant" [keyboard]="keyboard"
-                        [arrowsPerEnd]="match.arrowsPerEnd" [disabled]="!(authorizationService.user$ | async)"></app-edit-scorecard>
+                    <app-edit-participant-finals-details [match]="match" [participant]="participant"></app-edit-participant-finals-details>
                 </div>
 
                 <div class="cs-tab-body-x" *ngSwitchDefault>
@@ -63,7 +68,7 @@
                         </app-select-from-groupinfo>
                     </div>
 
-                    <div class="cs-input-block">
+                    <div class="cs-input-block" *ngIf="!match.isFinale">
                         <app-select-from-groupinfo [currentValue]="participant.subgroup"
                             (valueSelected)="setParticipantSubgroup($event)" [values]="match.subgroups"
                             label="Leeftijdscategorie"

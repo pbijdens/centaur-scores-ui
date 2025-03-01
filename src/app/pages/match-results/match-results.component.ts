@@ -35,6 +35,8 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
   public isH2H = false;
   public shift = 0;
 
+  public estimatedArrows = 0;
+
   constructor(public apiService: ApiService, public activatedRoute: ActivatedRoute, public router: Router, public navbarService: NavbarService) {
     this.navbarService.setPageTitle('Uitslagen');
 
@@ -84,6 +86,16 @@ export class MatchResultsComponent implements OnInit, OnDestroy {
         this.tab = +(await this.apiService.getMatchUiSetting(this.match?.id?? -1, "ActiveResultsTab") ?? "1");
         this.navbarService.setPageTitle(`Uitslag ${this.match.matchName}`, false);
         const result = await this.apiService.getSingleMatchResults(this.match.id);
+        if (result && result.ungrouped && result.ungrouped.length > 0) {
+          const count: { [id: number] : number; } = {};
+          result.ungrouped.map(e => e.perArrowAverage == 0 ? 0 : Math.round(e.score / e.perArrowAverage)).forEach(x => (count[+x] && count[+x]++) || (count[+x] = 1));
+          let maxValue = 0;
+          let maxKey = 0;
+          for (let key in count)if (count[key] > maxValue) { maxValue = count[key]; maxKey = +key;}
+          this.estimatedArrows = maxKey;
+        } else {
+          this.estimatedArrows = 0;
+        }
         if (this.isH2H && result && result.groups && result.groups.length > 0) {
           for (let i = 0; i < this.shift; i++) {
             const elt = result.groups.shift();

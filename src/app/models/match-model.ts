@@ -21,4 +21,5 @@ export interface MatchModel {
     numberOfRounds: number;
 
     lijnenAsString: string;
+    isFinale: boolean;
 }

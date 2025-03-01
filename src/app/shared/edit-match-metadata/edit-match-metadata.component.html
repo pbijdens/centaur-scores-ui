@@ -47,8 +47,6 @@
         <div class="cs-tab-content">
             <ng-container [ngSwitch]="tab">
                 <div class="cs-tab-body-x" *ngSwitchCase="1">
-
-
                     <div class="cs-input-block">
                         <label for="arrowsPerEnd">
                             Pijlen per ronde
@@ -76,11 +74,11 @@
                     </div>
                     <div class="cs-input-block">
                         <label for="numberOfEnds">
-                            Active ronde (finale)
+                            Actieve finaleronde (0 = voorbereiding, 1, 2, 3 of 4 = uitvoering)
                         </label>
-                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="activeRound"
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text diasbled" id="activeRound" [readOnly]="true" [disabled]="true"
                             autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-                            type="number" placeholder="Aantal tellende rondes" [(ngModel)]="match!.activeRound">
+                            type="number" placeholder="Actieve finaleronde (1, 2, 3 or 4)" [(ngModel)]="match!.activeRound">
                     </div>                    
                 </div>
 
@@ -141,6 +139,15 @@
                     <div class="cs-input-block">
                         <app-select-ruleset [group]="competition?.rulesetGroupName" [currentCode]="match.rulesetCode"
                             (rulesetSelected)="setMatchRuleset($event)"></app-select-ruleset>
+                    </div>
+
+                    <div class="cs-input-block">
+                        <label for="flagsIsFinals">
+                            Deze wedstrijd is een finaleronde
+                        </label>
+                        <input [disabled]="false" [ngModelOptions]="{standalone: true}" autocomplete="off" spellcheck="false"
+                            autocorrect="off" autocapitalize="off" id="finalsName" type="checkbox" class="w-4 h-8"
+                            placeholder="Deze wedstrijd is een finaleronde" [(ngModel)]="match.isFinale">
                     </div>
 
                 </div>
