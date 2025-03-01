@@ -18,7 +18,7 @@
                 <button (click)="updateActiveTab(2)" class="cs-tab-button" aria-current="page"
                     [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Op klasse</button>
             </div>
-            <div class="cs-tab-content">
+            <div class="cs-tab-content-results-page">
                 <div class="cs-progress-bar">
                     <div>
                         <div [attr.style]="'width: ' + (100 * refreshTimeoutCache)/refreshTimeout + '%'"></div>
