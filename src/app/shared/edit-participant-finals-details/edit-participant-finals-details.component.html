@@ -1,0 +1,26 @@
+<div>
+    <table class="cs-table">
+        <thead>
+            <th>Ronde</th>
+            <th>Geplaatst als</th>
+            <th>Bracket #</th>
+            <th>Pos</th>
+            <th>Type</th>
+            <th>Tegenstander</th>
+            <th>Winnaar?</th>
+            <th>Actief</th>
+        </thead>
+    @for (item of info; track $index) {
+        <tr>
+            <td>{{$index +1}}</td>
+            <td>{{item.InitialPosition}}e</td>
+            <td>{{item.Bracket}}</td>
+            <td>{{item.Position ? 'Boven' : 'Beneden'}}</td>
+            <td>{{item.IsSetScored ? 'Sets' : 'Cummulatief' }}</td>
+            <td>{{item.OpponentId}}</td>
+            <td>{{item.IsWinner ? 'Winnaar' : 'Nee/Onbekend'}}</td>
+            <td>{{item.IsActive ? 'Deze ronde' : ''}}</td>
+        </tr>
+    }
+    </table>
+</div>

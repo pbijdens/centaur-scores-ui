@@ -591,7 +591,10 @@ export class ApiService {
   }
 
   async updateH2HWinner(matchId: number, discipline: string, bracket: number, winnerId: number, loserId: number): Promise<void> {
-    const data = await fetch(`${await this.url()}/match/${matchId}/finals/win/${discipline}/${bracket}/${winnerId}/${loserId}`, {
+    const url = discipline 
+      ? `${await this.url()}/match/${matchId}/finals/win/${discipline}/${bracket}/${winnerId}/${loserId}`
+      : `${await this.url()}/match/${matchId}/finals/win/${bracket}/${winnerId}/${loserId}`;
+    const data = await fetch(url, {
       method: 'PUT',
       headers: await this.defaultHeaders(),
     });
@@ -617,4 +620,23 @@ export class ApiService {
     if (data.status != 200) throw "API Failure";
   }
 
+  async matchStartH2H(matchId: number, definition: MatchFinalDefinition): Promise<number | undefined> {
+    const data = await fetch(`${await this.url()}/match/${matchId}/finals`, {
+      method: 'POST',
+      body: JSON.stringify(definition),
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;;
+    if (data.status != 200) throw "API Failure";
+    return (await data.json()).id;
+  }
+
+  async matchMoveParticipant(matchId: number, participantId: number, arg1: number): Promise<void> {
+    const data = await fetch(`${await this.url()}/match/${matchId}/participants/${participantId}/move/${arg1}`, {
+      method: 'POST',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status == 204) return undefined;
+    if (data.status != 200) throw "API Failure";
+  }
 }

@@ -1,0 +1,50 @@
+<ng-container *ngIf="match">
+    <div class="modal-dialog-header">
+        <div class="cs-heading h2 flex-grow">Finale configureren</div>
+        <button (click)="close()" type="button" class="close-button">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="cs-tab-box" *ngIf="data">
+        <div class="cs-tab-buttons">
+            <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Algemeen</button>
+        </div>
+        <div class="cs-tab-content">
+            <table class="cs-table">
+                <thead>
+                    <th class="flex-grow">Discipline</th>
+                    <th class="w-32 text-left">Set systeem?</th>
+                </thead>
+                <tbody>
+                @for (item of data; track $index) {
+                    <tr>
+                        <td class="flex-grow">{{item.name}}</td>
+                        <td><input [disabled]="false" [ngModelOptions]="{standalone: true}" autocomplete="off" spellcheck="false"
+                            autocorrect="off" autocapitalize="off" id="isSetScored" type="checkbox" class="w-4 h-8"
+                            placeholder="Gebruik set systeem" [(ngModel)]="item.isSetScored"></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="cs-action-block">
+        <div>
+            <div class="cs-action-bar">
+                <ul>
+                    <li class="flex-grow"></li>
+                    <li *ngIf="match.id > 0">
+                        <button (click)="save()" class="cs-button default" aria-current="page">Begin de finale</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-container>

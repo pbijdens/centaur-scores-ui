@@ -74,9 +74,9 @@
                     </div>
                     <div class="cs-input-block">
                         <label for="numberOfEnds">
-                            Active finaleronde (1, 2, 3 of 4)
+                            Actieve finaleronde (0 = voorbereiding, 1, 2, 3 of 4 = uitvoering)
                         </label>
-                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="activeRound"
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text diasbled" id="activeRound" [readOnly]="true" [disabled]="true"
                             autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
                             type="number" placeholder="Actieve finaleronde (1, 2, 3 or 4)" [(ngModel)]="match!.activeRound">
                     </div>                    

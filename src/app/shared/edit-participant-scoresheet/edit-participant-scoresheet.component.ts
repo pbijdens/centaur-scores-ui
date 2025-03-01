@@ -12,11 +12,12 @@ import { InputMemberFromListComponent } from "../input-member-from-list/input-me
 import { InputParticipantNameForMatch } from "../input-participantname-for-match/input-participantname-for-match.component";
 import { ParticipantsListMember } from '../../models/participants-list-member';
 import { AuthorizationService } from '../../services/authorization.service';
+import { EditParticipantFinalsDetailsComponent } from "../edit-participant-finals-details/edit-participant-finals-details.component";
 
 @Component({
   selector: 'app-edit-participant-scoresheet',
   standalone: true,
-  imports: [CommonModule, FormsModule, SelectFromGroupinfoComponent, EditScorecardComponent, InputMemberFromListComponent, InputParticipantNameForMatch],
+  imports: [CommonModule, FormsModule, SelectFromGroupinfoComponent, EditScorecardComponent, InputMemberFromListComponent, InputParticipantNameForMatch, EditParticipantFinalsDetailsComponent],
   templateUrl: './edit-participant-scoresheet.component.html',
   styleUrl: './edit-participant-scoresheet.component.less'
 })
@@ -53,7 +54,6 @@ export class EditParticipantScoresheetComponent {
           if (!this.keyboard) {
             this.keyboard = (Object.values(this.match?.scoreValues)[0] as ScoreButtonDefinition[]) ?? [];
           }
-          console.log('kb', this.keyboard);
         } else {
           this.keyboard = [];
         }

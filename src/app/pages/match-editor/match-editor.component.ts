@@ -17,11 +17,13 @@ import { CompetitionModel } from '../../models/competition-model';
 import { ControlUpButtonComponent } from "../../shared/control-up-button/control-up-button.component";
 import { AuthorizationService } from '../../services/authorization.service';
 import { ErrorComponent } from "../../shared/error/error.component";
+import { MatchFinalDefinition } from '../../models/match-final-definition';
+import { FinalsCreateConfigurationComponent } from "../../shared/finals-create-configuration/finals-create-configuration.component";
 
 @Component({
   selector: 'app-match-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent, ControlUpButtonComponent, ErrorComponent],
+  imports: [RouterModule, CommonModule, FormsModule, KeysPipe, GroupsEditorComponent, EditMatchMetadataComponent, EditParticipantScoresheetComponent, ControlDropdownButtonComponent, EditParticipantLinkComponent, ControlUpButtonComponent, ErrorComponent, FinalsCreateConfigurationComponent],
   templateUrl: './match-editor.component.html',
   styleUrl: './match-editor.component.less'
 })
@@ -35,6 +37,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
   public competition: CompetitionModel | undefined;
   public participantForProperties?: ParticipantModel;
   public participantForLinking?: ParticipantModel;
+  public specifyFinalSettings: boolean = false;
   public participants: ParticipantModel[] = [];
   public isH2H: boolean = false;
 
@@ -46,7 +49,7 @@ export class MatchEditorComponent implements OnInit, OnChanges {
       this.navbarService.setPageTitle('Wedstrijd bewerken');
   }
 
-  async ngOnInit(): Promise<void> {    
+  async ngOnInit(): Promise<void> {
     await this.refresh();
   }
 
@@ -77,8 +80,8 @@ export class MatchEditorComponent implements OnInit, OnChanges {
             this.participants.forEach(p => {
               if (p.headToHeadJSON) {
                 const data = JSON.parse(p.headToHeadJSON);
-                if (data.length >= this.match!.activeRound && data[this.match!.activeRound - 1]) {
-                  p.position = data[this.match!.activeRound - 1].InitialPosition;
+                if (data.length && this.isH2H) {
+                  p.position = data[0].InitialPosition;
                 }
               } else {
                 p.position = 0;
@@ -144,5 +147,28 @@ export class MatchEditorComponent implements OnInit, OnChanges {
     delete this.participantForLinking;
     await this.refresh();
   }
+
+  async h2hStart(): Promise<void> {
+    this.specifyFinalSettingsOpen();
+  }
+
+  async move(participant: ParticipantModel, arg1: number): Promise<void> {
+    await this.apiService.matchMoveParticipant(this.match!.id, participant.id, arg1);
+    await this.refresh();
+  }
+
+  async specifyFinalSettingsOpen(): Promise<void> {
+    this.specifyFinalSettings = true;
+  }
+
+  async specifyFinalSettingsClose(): Promise<void> {
+    this.specifyFinalSettings = false;
+    this.refresh();
+  }
+
+  async specifyFinalSettingsError(message: string): Promise<void> {
+    this.error = message;
+  }
+
 
 }
