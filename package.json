@@ -1,10 +1,11 @@
 {
   "name": "centaur-scores-ui",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "startlan": "ng serve --host 192.168.50.244 --port 4200",
+    "startctr": "ng serve --host 192.168.50.54 --port 4200",
     "startssl": "ng serve --ssl",
     "build": "ng build --verbose",
     "build-cs": "ng build --base-href /cs/ --verbose",
