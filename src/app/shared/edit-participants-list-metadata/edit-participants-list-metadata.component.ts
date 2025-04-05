@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthorizationService } from '../../services/authorization.service';
+import { Router } from '@angular/router';
+import { ActiveListService } from '../../services/active-list.service';
 
 @Component({
   selector: 'app-edit-participants-list-metadata',
@@ -19,7 +21,7 @@ export class EditParticipantsListMetadataComponent implements OnChanges, OnInit 
 
   public list?: ParticipantsListModel;
 
-  constructor(public apiService: ApiService, public authorizationService: AuthorizationService) { }
+  constructor(public apiService: ApiService, public authorizationService: AuthorizationService, public router: Router, public activeListService: ActiveListService) { }
 
   async ngOnInit(): Promise<void> {
   }
@@ -61,7 +63,9 @@ export class EditParticipantsListMetadataComponent implements OnChanges, OnInit 
     if (this.list) {
       if (this.list.id <= 0) {
         try {
-          await this.apiService.addParticipantsList(this.list);
+          const model = await this.apiService.addParticipantsList(this.list);
+          await this.activeListService.setActiveList(model?.id);
+          this.router.navigate(['/'], { info: {reload: true}});
         } catch (err) {
           this.onError.emit(`Kon nieuwe lijst niet toevoegen.`);
         }

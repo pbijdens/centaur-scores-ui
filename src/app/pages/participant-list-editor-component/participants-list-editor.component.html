@@ -8,13 +8,6 @@
                         toevoegen</button>
                 </li>
                 <li>
-                    <button [routerLink]="['pbl']" class="cs-button" aria-current="page">PR lijsten</button>
-                </li>
-                <li>
-                    <button [routerLink]="['personalbest']" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe PRs
-                        berekenen</button>
-                </li>
-                <li>
                     <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Lijst
                         aanpassen</button>
                 </li>
