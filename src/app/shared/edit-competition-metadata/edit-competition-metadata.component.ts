@@ -7,6 +7,7 @@ import { SelectRulesetGroupComponent } from '../select-ruleset-group/select-rule
 import { SelectParticipantsListComponent } from '../select-participants-list/select-participants-list.component';
 import { AuthorizationService } from '../../services/authorization.service';
 import { ActiveListService } from '../../services/active-list.service';
+import { RulesetParametersModel } from '../../models/ruleset-parameters-model';
 
 @Component({
   selector: 'app-edit-competition-metadata',
@@ -21,6 +22,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
   @Output() onClose = new EventEmitter<void>();
 
   public selectedCompetition?: CompetitionModel;
+  public rulesetParameters? : RulesetParametersModel;
 
   constructor(public apiService: ApiService, public authorizationService: AuthorizationService, public activelistService: ActiveListService) { }
 
@@ -47,6 +49,10 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
           endDate: codeEnd,
           participantsList: list
         };
+        this.rulesetParameters = <RulesetParametersModel> {
+          Scoring: 'default',
+          ScoringMatches: '5'
+        };
         if (!list) {
           this.onError.emit(`Voordat je een competitie aan kan maken moet je eerst een actieve lijst kiezen.`);
           this.onClose.emit();
@@ -57,6 +63,16 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
         if (!this.selectedCompetition) {
           this.onError.emit('Competition load failed.');
           this.onClose.emit();
+        } else {
+          this.rulesetParameters = JSON.parse(this.selectedCompetition.rulesetParametersJSON ?? "{}");
+          if (!this.rulesetParameters) {
+            this.rulesetParameters = <RulesetParametersModel> {
+              Scoring: 'default',
+              ScoringMatches: '5'
+            };
+          }
+          if (!this.rulesetParameters.Scoring) this.rulesetParameters.Scoring = 'default';
+          if (!this.rulesetParameters.ScoringMatches) this.rulesetParameters.ScoringMatches = '5';
         }
       }
     }
@@ -83,6 +99,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
     if (this.selectedCompetition) {
       if (this.selectedCompetition.id <= 0) {
         try {
+          this.selectedCompetition.rulesetParametersJSON = JSON.stringify(this.rulesetParameters);
           await this.apiService.addCompetition(this.selectedCompetition);
         } catch (err) {
           this.onError.emit(`Kon nieuwe competitie niet toevoegen.`);
@@ -91,6 +108,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
       }
       else {
         try {
+          this.selectedCompetition.rulesetParametersJSON = JSON.stringify(this.rulesetParameters);
           await this.apiService.updateCompetition(this.selectedCompetition);
         } catch (err) {
           this.onError.emit(`Kon de competitie niet aanpassen.`);

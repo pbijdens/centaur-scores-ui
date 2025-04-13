@@ -1,4 +1,4 @@
-<ng-container *ngIf="selectedCompetition">
+<ng-container *ngIf="selectedCompetition && rulesetParameters">
     <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="selectedCompetition.id <= 0">Nieuwe competitie</div>
         <div class="cs-heading h2 flex-grow" *ngIf="selectedCompetition.id > 0">Competitie aanpassen</div>
@@ -43,6 +43,22 @@
         <app-select-participants-list [currentList]="selectedCompetition.participantsList" [disabled]="true"
             (listSelected)="setParticipantsList($event)"></app-select-participants-list>
     </div>
+    <div class="cs-input-block">
+        <label for="weeksName">
+            Tellende weken
+        </label>
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="weeksName" type="text" 
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+            placeholder="Naam van de competitie" [(ngModel)]="rulesetParameters.ScoringMatches">
+    </div>
+    <div class="cs-input-block">
+        <label for="scoringType">
+            Scoring (F1 of default)
+        </label>
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="scoringType" type="text" 
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+            placeholder="Naam van de competitie" [(ngModel)]="rulesetParameters.Scoring">
+    </div>    
 
     <div class="cs-action-block">
         <div>

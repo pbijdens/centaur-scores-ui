@@ -9,4 +9,5 @@ export interface CompetitionModel {
     endDate?: string;
     participantsList?: ParticipantListMetadataModel;
     matches?: MatchMetadataModel[];
+    rulesetParametersJSON?: string;
 }
