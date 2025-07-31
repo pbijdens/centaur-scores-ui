@@ -26,6 +26,7 @@ Create a file ```/etc/apache2/conf-available/centaurscores.conf``` with these co
 ```conf
 <IfModule alias_module>
     Alias /cs /var/www/centaurscoresui
+    Alias /assets /var/www/centaurscoresui/assets
 </IfModule>
 
 <Directory "/var/www/centaurscoresui">
@@ -43,6 +44,9 @@ Create a file ```/etc/apache2/conf-available/centaurscores.conf``` with these co
 <Location "/cs/">
     Require all granted
 </Location>
+<Location "/assets/">
+    Require all granted
+</Location>
 ```
 
 The rewrite engine configuration is required because of angular's internal routing, where for most routes no target file exists. All those routes are internally redirected to the index file.
@@ -56,6 +60,8 @@ sudo apache2ctl restart
 ```
 
 You should now be able to reach the UI at http://<your-ip>/cs
+
+You can map assets to any folder so you can start overriding configurations and logos.
 
 ## Scripts
 
