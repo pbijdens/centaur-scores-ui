@@ -30,7 +30,7 @@ export class SelectParticipantsListComponent {
 
   async ngOnInit(): Promise<void> {
     this.options = [];
-    this.options = await this.apiService.getParticipantsLists(); 
+    this.options = await this.apiService.getParticipantsLists(false); 
     this.selectedEntry = this.options.find(x => x.id === this.currentList?.id);
   }
 

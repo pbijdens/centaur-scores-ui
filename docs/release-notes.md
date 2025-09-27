@@ -1,5 +1,9 @@
 # Release notes
 
+## Version 1.1.23
+
+Added support fordeactivating participant lists.
+
 ## Version 1.1.11
 
 Date: 2/17/2025

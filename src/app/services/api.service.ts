@@ -135,8 +135,8 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
 
-  async getParticipantsLists(): Promise<ParticipantsListModel[]> {
-    const data = await fetch(`${await this.url()}/participantlists`, {
+  async getParticipantsLists(showInactive: boolean): Promise<ParticipantsListModel[]> {
+    const data = await fetch(`${await this.url()}/participantlists?inactive=${showInactive}`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });

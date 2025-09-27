@@ -29,7 +29,7 @@ export class ParticipantsListsComponent implements OnInit {
 
   async refresh(): Promise<void> {
     try {
-      this.participantsLists = await this.apiService.getParticipantsLists();
+      this.participantsLists = await this.apiService.getParticipantsLists(this.showInactive);
     }
     catch (err) {
       this.errorMessage = `Er is iets niet goed gegaan: ${err}`;
@@ -57,6 +57,12 @@ export class ParticipantsListsComponent implements OnInit {
 
   async editListMetadataClose(): Promise<void> {
     delete this.selectedList;
+    await this.refresh();
+  }
+
+  showInactive = false;
+  async toggleInactive() {
+    this.showInactive = !this.showInactive;
     await this.refresh();
   }
 

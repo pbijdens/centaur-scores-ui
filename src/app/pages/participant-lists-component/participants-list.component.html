@@ -6,7 +6,16 @@
                 <li>
                     <button (click)="newParticipantsList()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe lijst
                         maken</button>
-                </li>                       
+                </li>    
+                <li>
+                    @if (showInactive) {
+                    <button (click)="toggleInactive()" class="cs-button secondary" aria-current="page" *ngIf="authorizationService.user$ | async">Inactieve lijsten 
+                        verbergen</button>
+                    } @else {
+                    <button (click)="toggleInactive()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Inactieve lijsten 
+                        tonen</button>
+                    }
+                </li>                                       
             </ul>
         </div>
     </div>
@@ -30,7 +39,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let participantsList of participantsLists">
+            <tr *ngFor="let participantsList of participantsLists" [ngClass]="{ 'bg-slate-300': participantsList.isInactive }">
                 <td class="cursor-pointer" [routerLink]="[participantsList.id]">
                     {{participantsList.name}}</td>
                 <td class="dropdown-row">

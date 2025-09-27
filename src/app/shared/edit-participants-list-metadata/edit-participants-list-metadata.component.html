@@ -15,9 +15,18 @@
         <label for="listName">
             Naam
         </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="listName" type="text"
-            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-            placeholder="Naam van de lijst" [(ngModel)]="list.name">
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="listName" type="text" autocomplete="off"
+            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Naam van de lijst"
+            [(ngModel)]="list.name">
+        @if (list.id > 0) {
+        <label class="mt-2" for="isInactive">Opties</label>
+        <label for="isInactive">
+            <input [disabled]="false" [ngModelOptions]="{standalone: true}" autocomplete="off" spellcheck="false"
+                autocorrect="off" autocapitalize="off" id="isInactive" type="checkbox" class="w-4 h-8"
+                placeholder="Markeer deze lijst als inactief" [(ngModel)]="list.isInactive">
+            Markeer deze lijst als inactief
+        </label>
+        }
     </div>
     <div class="cs-action-block" *ngIf="authorizationService.user$ | async">
         <div>
@@ -32,8 +41,7 @@
                         <button (click)="saveModel()" class="cs-button default" aria-current="page">Opslaan</button>
                     </li>
                     <li *ngIf="list.id <= 0">
-                        <button (click)="saveModel()" class="cs-button" aria-current="page"
-                            [disabled]="!list.name"
+                        <button (click)="saveModel()" class="cs-button" aria-current="page" [disabled]="!list.name"
                             [ngClass]="{'green': list.name, 'disabled': !list.name}">Toevoegen</button>
                     </li>
                 </ul>

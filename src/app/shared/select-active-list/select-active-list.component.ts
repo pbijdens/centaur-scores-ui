@@ -26,7 +26,7 @@ export class SelectActiveListComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.activeListService.activeList$.subscribe(async listId => {
-      this.allLists = await this.apiService.getParticipantsLists();
+      this.allLists = await this.apiService.getParticipantsLists(false);
       this.activeList = this.allLists.find(l => l.id === listId);
       this.activeListTitle = this.activeList?.name ?? 'Actieve lijst';
     });
