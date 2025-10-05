@@ -15,50 +15,82 @@
         <label for="competitionName">
             Naam
         </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="competitionName" type="text" 
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="competitionName" type="text"
             autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
             placeholder="Naam van de competitie" [(ngModel)]="selectedCompetition.name">
     </div>
-    <div class="cs-input-block">
-        <label for="startDate">
-            Aanvangsdatum
-        </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-date" id="startDate" type="date" autocomplete="off"
-            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Kies een datum..."
-            [(ngModel)]="selectedCompetition.startDate">
+
+    <div class="cs-tab-box">
+        <div class="cs-tab-buttons">
+            <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Algemeen</button>
+            <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Opties</button>
+            <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Geavanceerd</button>
+        </div>
+        <div class="cs-tab-content">
+            <ng-container [ngSwitch]="tab">
+                <div class="cs-tab-body-x" *ngSwitchCase="0">
+                    <div class="cs-input-block">
+                        <label for="startDate">
+                            Aanvangsdatum
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-date" id="startDate" type="date"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Kies een datum..." [(ngModel)]="selectedCompetition.startDate">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="endDate">
+                            Einddatum
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-date" id="startDate" type="date"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Kies een datum..." [(ngModel)]="selectedCompetition.endDate">
+                    </div>
+                    <div class="cs-input-block">
+                        <app-select-ruleset-group [currentGroup]="selectedCompetition.rulesetGroupName"
+                            (groupSelected)="setRuleset($event)"></app-select-ruleset-group>
+                    </div>
+                </div>
+                <div class="cs-tab-body-x" *ngSwitchCase="1">
+                    <div class="cs-input-block">
+                        <label for="weeksName">
+                            Maximaal aantal tellende weken
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="weeksName" type="text"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Naam van de competitie" [(ngModel)]="rulesetParameters.ScoringMatches">
+                    </div>
+                    <div class="cs-input-block">
+                        <label for="scoringType">
+                            Berekening van de competitiescores
+                        </label>
+                        <select id="scoringType" title="Kies een type" [(ngModel)]="rulesetParameters.Scoring"
+                            [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                            placeholder="Kies hoe de competitie beoordeeld wordt">
+                            <option [ngValue]="'default'">Tel de scores per geschoten wedstrijd op en bewaar de hoogste
+                            </option>
+                            <option [ngValue]="'F1'">Deelnemers verdienen per geschoten wedstrijd rankingpunten</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cs-tab-body-x" *ngSwitchCase="2">
+                    <div class="cs-input-block">
+                        <label class="mt-2" for="isInactive">Opties</label>
+                        <label for="isInactive">
+                            <input [disabled]="!selectedCompetition || selectedCompetition.id <= 0"
+                                [ngModelOptions]="{standalone: true}" autocomplete="off" spellcheck="false"
+                                autocorrect="off" autocapitalize="off" id="isInactive" type="checkbox" class="w-4 h-8"
+                                placeholder="Markeer deze lijst als inactief"
+                                [(ngModel)]="selectedCompetition.isInactive">
+                            Markeer deze competitie als inactief
+                        </label>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
     </div>
-    <div class="cs-input-block">
-        <label for="endDate">
-            Einddatum
-        </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-date" id="startDate" type="date" autocomplete="off"
-            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Kies een datum..."
-            [(ngModel)]="selectedCompetition.endDate">
-    </div>
-    <div class="cs-input-block">
-        <app-select-ruleset-group [currentGroup]="selectedCompetition.rulesetGroupName"
-            (groupSelected)="setRuleset($event)"></app-select-ruleset-group>
-    </div>
-    <div class="cs-input-block">
-        <app-select-participants-list [currentList]="selectedCompetition.participantsList" [disabled]="true"
-            (listSelected)="setParticipantsList($event)"></app-select-participants-list>
-    </div>
-    <div class="cs-input-block">
-        <label for="weeksName">
-            Tellende weken
-        </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="weeksName" type="text" 
-            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-            placeholder="Naam van de competitie" [(ngModel)]="rulesetParameters.ScoringMatches">
-    </div>
-    <div class="cs-input-block">
-        <label for="scoringType">
-            Scoring (F1 of default)
-        </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="scoringType" type="text" 
-            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-            placeholder="Naam van de competitie" [(ngModel)]="rulesetParameters.Scoring">
-    </div>    
 
     <div class="cs-action-block">
         <div>

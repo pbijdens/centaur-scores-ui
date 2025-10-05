@@ -12,27 +12,22 @@ import { ControlUpButtonComponent } from "../../shared/control-up-button/control
 import { AuthorizationService } from '../../services/authorization.service';
 import { CompetitionResultsComponent } from "../competition-results/competition-results.component";
 import { ErrorComponent } from "../../shared/error/error.component";
+import { EditParticipantListEntryComponent } from "../../shared/edit-participant-list-entry/edit-participant-list-entry.component";
 
 @Component({
   selector: 'app-participants-list-editor',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent, CompetitionResultsComponent, ErrorComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EditParticipantsListMetadataComponent, ControlDropdownButtonComponent, ControlUpButtonComponent, CompetitionResultsComponent, ErrorComponent, EditParticipantListEntryComponent],
   templateUrl: './participants-list-editor.component.html',
   styleUrl: './participants-list-editor.component.less'
 })
 export class ParticipantsListEditorComponent implements OnInit {
-  public participant: ParticipantsListMember = { id: -1, name: '', group: '', subgroup: '', similarity: 0, personalBests: [], isDeactivated: false };
+  public participant: ParticipantsListMember = { id: -1, name: '', group: '', subgroup: '', similarity: 0, personalBests: [], isDeactivated: false, competitionFormatDisciplineDivisionMap: [] };
   public participants: ParticipantsListMember[] = [];
   public metadata?: ParticipantsListModel;
   public listId: number = -1;
   public id: number = -1;
   public errorMessage?: string;
-
-  public selectedClass?: any;
-  public selectedSubclass?: any;
-
-  public classes = [{ name: 'Recurve' }, { name: 'Compound' }, { name: 'Hout' }, { name: 'Barebow' }];
-  public subclasses = [{ name: 'Aspiranten' }, { name: 'Jeugd' }, { name: 'Junioren' }, { name: 'Senioren' }, { name: 'Masters' }];
 
   public editorOpen = false;
 
@@ -52,17 +47,17 @@ export class ParticipantsListEditorComponent implements OnInit {
       this.participants = await this.apiService.getParticipantsListMembers(this.listId);
       if (this.id > 0) {
         this.participant = await this.apiService.getParticipantsListMember(this.listId, this.id);
-        this.selectedClass = this.classes.find(x => x.name === this.participant.group);
-        this.selectedSubclass = this.subclasses.find(x => x.name === this.participant.subgroup);
       } else {
         this.participant = <ParticipantsListMember>{
           id: -1,
           name: '',
           group: '',
-          subgroup: ''
+          subgroup: '',
+          isDeactivated: false,
+          personalBests: [],
+          similarity: 0,
+          competitionFormatDisciplineDivisionMap: [],
         }
-        delete this.selectedClass;
-        delete this.selectedSubclass;
       }
     } catch (err) {
       this.errorMessage = `Laden is mislukt.`;
@@ -100,8 +95,6 @@ export class ParticipantsListEditorComponent implements OnInit {
         this.participant = await this.apiService.addParticipantsListMember(this.listId, this.participant);
         if (this.participant && this.participant.id >= 0) {
           this.id = this.participant.id;
-          this.selectedClass = this.classes.find(x => x.name === this.participant.group);
-          this.selectedSubclass = this.subclasses.find(x => x.name === this.participant.subgroup);
           this.participants = await this.apiService.getParticipantsListMembers(this.listId);
           this.editorOpen = false;
         } else {
@@ -125,7 +118,7 @@ export class ParticipantsListEditorComponent implements OnInit {
         try {
           await this.apiService.deleteParticipantsListMember(this.listId, this.id);
           this.id = -1;
-          await this.refresh();          
+          await this.refresh();
           this.editorOpen = false;
         } catch (err) {
           this.errorMessage = `Verwijderen is mislukt.`;
@@ -141,19 +134,13 @@ export class ParticipantsListEditorComponent implements OnInit {
       id: -1,
       name: '',
       group: '',
-      subgroup: ''
+      subgroup: '',
+      isDeactivated: false,
+      personalBests: [],
+      similarity: 0,
+      competitionFormatDisciplineDivisionMap: [],
     }
-    delete this.selectedClass;
-    delete this.selectedSubclass;
     this.editorOpen = true;
-  }
-
-  async classChanged(event: any, value: any): Promise<void> {
-    this.participant.group = this.selectedClass.name;
-  }
-
-  async subclassChanged(event: any, value: any): Promise<void> {
-    this.participant.subgroup = this.selectedSubclass.name;
   }
 
   async editListMetadataOpen(): Promise<void> {

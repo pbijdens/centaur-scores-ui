@@ -1,7 +1,7 @@
 <ng-container *ngIf="list">
     <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="list.id <= 0">Nieuwe lijst</div>
-        <div class="cs-heading h2 flex-grow" *ngIf="list.id > 0">Lijst aanpassen</div>
+        <div class="cs-heading h2 flex-grow" *ngIf="list.id > 0">Lijst aanpassen {{list.name}}</div>
         <button (click)="close()" type="button" class="close-button">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -11,23 +11,202 @@
         </button>
     </div>
 
-    <div class="cs-input-block">
-        <label for="listName">
-            Naam
-        </label>
-        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="listName" type="text" autocomplete="off"
-            spellcheck="false" autocorrect="off" autocapitalize="off" placeholder="Naam van de lijst"
-            [(ngModel)]="list.name">
-        @if (list.id > 0) {
-        <label class="mt-2" for="isInactive">Opties</label>
-        <label for="isInactive">
-            <input [disabled]="false" [ngModelOptions]="{standalone: true}" autocomplete="off" spellcheck="false"
-                autocorrect="off" autocapitalize="off" id="isInactive" type="checkbox" class="w-4 h-8"
-                placeholder="Markeer deze lijst als inactief" [(ngModel)]="list.isInactive">
-            Markeer deze lijst als inactief
-        </label>
-        }
+    <div class="cs-tab-box">
+        <div class="cs-tab-buttons">
+            <button (click)="tab=0" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 0, 'inactive': tab != 0}">Algemeen</button>
+            @if (list.id > 0) {
+            <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Wedstrijd types</button>
+            <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Disciplines</button>
+            <button (click)="tab=3" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 3, 'inactive': tab != 3}">Klasses</button>
+            <button (click)="tab=4" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 4, 'inactive': tab != 4}">Blazoenen</button>
+            }
+        </div>
+        <div class="cs-tab-content">
+            <ng-container [ngSwitch]="tab">
+                <div class="cs-tab-body-x" *ngSwitchCase="0">
+                    <div class="cs-input-block">
+                        <label for="listName">
+                            Naam
+                        </label>
+                        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="listName" type="text"
+                            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+                            placeholder="Naam van de lijst" [(ngModel)]="list.name">
+                        @if (list.id > 0) {
+                        <label class="mt-2" for="isInactive">Opties</label>
+                        <label for="isInactive">
+                            <input [disabled]="false" [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                spellcheck="false" autocorrect="off" autocapitalize="off" id="isInactive"
+                                type="checkbox" class="w-4 h-8" placeholder="Markeer deze lijst als inactief"
+                                [(ngModel)]="list.isInactive">
+                            Markeer deze lijst als inactief
+                        </label>
+                        }
+                    </div>
+                </div>
+                @if (list.id >= 0 && list.configuration) {
+                <div class="cs-tab-body-x" *ngSwitchCase="1"><!--Competitie types-->
+                    <div class="cs-input-block">
+                        <label class="mt-2" for="isInactive">Welke wedstrijd-types moeten worden ondersteund?</label>
+
+                        <div class="max-h-96 overflow-auto">
+                            @for (format of allCompetitionsFormats; track $index) {
+                            <label for="lt-{{$index}}">
+                                <input [disabled]="false" autocomplete="off" spellcheck="false" autocorrect="off"
+                                    autocapitalize="off" id="lt-{{$index}}" type="checkbox" class="w-4 h-8"
+                                    placeholder="{{format}}" (change)="toggleCompetitionFormat(format)"
+                                    [checked]="this.list.configuration.competitionFormats.indexOf(format) >= 0">
+                                {{format}}
+                            </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="cs-tab-body-x" *ngSwitchCase="2"><!--Disciplines-->
+                    <label class="mt-2" for="isInactive">Welke disciplines moeten worden ondersteund?</label>
+                    <div class="max-h-96 overflow-auto">
+                        <table class="cs-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Naam</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody> @for (discipline of list.configuration.disciplines; track $index) {
+                                <tr>
+                                    <td class="min-w-32">{{discipline.code}}</td>
+                                    <td class="w-full">{{discipline.label}}</td>
+                                    <td><button (click)="deleteDiscipline(discipline)"
+                                            class="cs-button secondary">Verwijderen</button></td>
+                                </tr>
+                                }
+                                <tr>
+                                    <td> <input [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                                            id="disciplineCode" type="text" autocomplete="off" spellcheck="false"
+                                            autocorrect="off" autocapitalize="off" placeholder="Code"
+                                            [(ngModel)]="newDisciplineCode"></td>
+                                    <td> <input [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                                            id="disciplineName" type="text" autocomplete="off" spellcheck="false"
+                                            autocorrect="off" autocapitalize="off" placeholder="Label"
+                                            [(ngModel)]="newDisciplineLabel"></td>
+                                    <td><button (click)="addDisciplineRow()" class="cs-button"
+                                            [disabled]="!newDisciplineCode || !newDisciplineLabel">Toevoegen</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cs-tab-body-x" *ngSwitchCase="3"><!--Klasses-->
+                    <label class="mt-2" for="isInactive">Welke klasses moeten worden ondersteund?</label>
+                    <div class="max-h-96 overflow-auto">
+                        <table class="cs-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Naam</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody> @for (division of list.configuration.divisions; track $index) {
+                                <tr>
+                                    <td class="min-w-32">{{division.code}}</td>
+                                    <td class="w-full">{{division.label}}</td>
+                                    <td><button (click)="deleteDivision(division)"
+                                            class="cs-button secondary">Verwijderen</button></td>
+                                </tr>
+                                }
+                                <tr>
+                                    <td> <input [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                                            id="divisionCode" type="text" autocomplete="off" spellcheck="false"
+                                            autocorrect="off" autocapitalize="off" placeholder="Code"
+                                            [(ngModel)]="newDivisionCode"></td>
+                                    <td> <input [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                                            id="divisionName" type="text" autocomplete="off" spellcheck="false"
+                                            autocorrect="off" autocapitalize="off" placeholder="Label"
+                                            [(ngModel)]="newDivisionLabel"></td>
+                                    <td><button (click)="addDivisionRow()" class="cs-button"
+                                            [disabled]="!newDivisionCode || !newDivisionLabel">Toevoegen</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="cs-tab-body-x" *ngSwitchCase="4"><!--Blazoenen--> <label class="mt-2" for="isInactive">Welke
+                        blazoenen moeten worden ondersteund?</label>
+                    <div class="max-h-96 overflow-auto">
+                        <table class="cs-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Naam</th>
+                                    <th>Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody> @for (target of list.configuration.targets; track $index; let targetIndex = $index)
+                                {
+                                <tr>
+                                    <td class="min-w-32">{{target.code}}</td>
+                                    <td class="w-full">
+                                        <div class="w-full">{{target.label}}</div>
+                                        <div class="w-full mt-2 mb-2 flex flex-wrap flex-row">
+                                            @for (key of target.keyboard; track $index; let keyIndex = $index) {
+                                            <div class="border border-slate-700 p-1 flex flex-row bg-slate-200">
+                                                <input [ngModelOptions]="{standalone: true}" class="cs-input-key wide"
+                                                    id="key-{{keyIndex}}-{{targetIndex}}" type="text" autocomplete="off"
+                                                    spellcheck="false" autocorrect="off" autocapitalize="off"
+                                                    placeholder="Code" [(ngModel)]="key.label">
+                                                <input [ngModelOptions]="{standalone: true}" class="cs-input-key"
+                                                    id="keymap-{{keyIndex}}-{{targetIndex}}" type="number"
+                                                    autocomplete="off" spellcheck="false" autocorrect="off"
+                                                    autocapitalize="off" placeholder="Score" [(ngModel)]="key.value">
+                                                <button (click)="deleteKey(target, key)" type="button"
+                                                    class="ml-1 w-4 h-4 flex items-center justify-center align-middle text-xxs text-white bg-red-500 rounded-full hover:bg-red-600 focus:outline-none pb-1">
+                                                    x
+                                                </button>
+                                            </div>
+                                            }
+                                            <div class="border border-slate-700 p-1 flex flex-row bg-slate-200">
+                                                <button (click)="addKey(target)" type="button"
+                                                    class="ml-1 w-6 h-6 flex items-center justify-center align-middle text-xxs text-white bg-green-500 rounded-full hover:bg-green-600 focus:outline-none pb-1">
+                                                    +
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                    <td><button (click)="deleteTarget(target)"
+                                            class="cs-button secondary">Verwijderen</button></td>
+                                </tr>
+                                }
+                                <tr>
+                                    <td> <input [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                                            id="targetCode" type="text" autocomplete="off" spellcheck="false"
+                                            autocorrect="off" autocapitalize="off" placeholder="Code"
+                                            [(ngModel)]="newTargetCode"></td>
+                                    <td> <input [ngModelOptions]="{standalone: true}" class="cs-input-text"
+                                            id="targetName" type="text" autocomplete="off" spellcheck="false"
+                                            autocorrect="off" autocapitalize="off" placeholder="Label"
+                                            [(ngModel)]="newTargetLabel"></td>
+                                    <td><button (click)="addTargetRow()" class="cs-button"
+                                            [disabled]="!newTargetCode || !newTargetLabel">Toevoegen</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                }
+            </ng-container>
+        </div>
     </div>
+
     <div class="cs-action-block" *ngIf="authorizationService.user$ | async">
         <div>
             <div class="cs-action-bar">

@@ -1,0 +1,105 @@
+@if (participant) {
+<ng-container>
+    <div class="modal-dialog-header">
+        <div class="cs-heading h2 flex-grow" *ngIf="participant.id <= 0">Nieuwe deelnemer</div>
+        <div class="cs-heading h2 flex-grow" *ngIf="participant.id > 0">Gegevens aanpassen</div>
+        <button (click)="closeEntry()" type="button" class="close-button">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+
+    <div class="cs-input-block">
+        <label for="memberName">
+            Naam
+        </label>
+        <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="memberName" type="text"
+            autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
+            placeholder="Naam van de schutter" [(ngModel)]="participant!.name">
+    </div>
+
+    <div class="cs-tab-box">
+        <div class="cs-tab-buttons">
+            @if (participant.id > 0) {
+            <button (click)="tab=1" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 1, 'inactive': tab != 1}">Klasses</button>
+            <button (click)="tab=2" class="cs-tab-button" aria-current="page"
+                [ngClass]="{'active': tab == 2, 'inactive': tab != 2}">Persoonlijke records</button>
+            }
+        </div>
+        <div class="cs-tab-content">
+            <ng-container [ngSwitch]="tab">
+                <div class="cs-tab-body-x h-64 max-h-64 overflow-y-auto" *ngSwitchCase="1"> <!--Klasses-->
+                    @if (participantList && participantList.configuration) {
+                    <table class="cs-table">
+                        @for (cle of participant.competitionFormatDisciplineDivisionMap; track $index) {
+                        <tr>
+                            <td>{{cle.competitionFormat}}</td>
+                            <td>{{cle.disciplineCode | getGroupName:participantList.configuration.disciplines}}</td>
+                            <td>
+                                @if (authorizationService.user$ | async) {
+                                <select id="ruleset" title="Kies een klasse" [(ngModel)]="cle.divisionCode"
+                                    [ngModelOptions]="{standalone: true}" class="cs-input"
+                                    placeholder="Kies een klasse">
+                                    <option [ngValue]="null">-</option>
+                                    @for (klasse of participantList.configuration.divisions; track klasse.code) {
+                                    <option [ngValue]="klasse.code">{{klasse.label}}</option>
+                                    }
+                                </select>
+                                } @else {
+                                <span>{{cle.divisionCode | getGroupName:participantList.configuration.divisions}}</span>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </table>
+                    } @else {
+                    <div>Bezig met laden...</div>
+                    }
+                </div>
+
+                <div class="cs-tab-body-x h-64 max-h-64 overflow-y-auto" *ngSwitchCase="2"> <!--PRs-->
+                    <div class="cs-input-block">
+                        <table class="cs-table">
+                            @for (entry of participant!.personalBests; track entry) {
+                            <tr>
+                                <td>{{entry.achieved}}</td>
+                                <td>{{entry.listName}}</td>
+                                <td>{{entry.discipline}}</td>
+                                <td>{{entry.score}}</td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="cs-action-block">
+        <div>
+            <div class="cs-action-bar">
+                <ul>
+                    <li *ngIf="participant.id > 0">
+                        <button (click)="deleteEntry()" class="cs-button danger" aria-current="page"
+                            *ngIf="authorizationService.user$ | async">Verwijderen</button>
+                    </li>
+                    <li class="flex-grow"></li>
+                    <li *ngIf="participant.id > 0">
+                        <button (click)="saveEntry()" class="cs-button default" aria-current="page"
+                            *ngIf="authorizationService.user$ | async">Opslaan</button>
+                    </li>
+                    <li *ngIf="participant.id <= 0">
+                        <button (click)="saveEntry()" class="cs-button" aria-current="page"
+                            [disabled]="!participant.name"
+                            [ngClass]="{'green': participant.name, 'disabled': !participant.name}"
+                            *ngIf="authorizationService.user$ | async">Toevoegen</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-container>
+}

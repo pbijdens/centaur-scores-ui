@@ -10,4 +10,11 @@ export interface ParticipantsListMember {
     // calculated
     similarity: number;
     label?: string;
+    competitionFormatDisciplineDivisionMap: CompetitionFormatDisciplineDivisionMapModel[];
+}
+
+export interface CompetitionFormatDisciplineDivisionMapModel {
+    competitionFormat: string;
+    disciplineCode: string;
+    divisionCode: string;
 }

@@ -4,11 +4,13 @@
             <ul>
                 <app-control-up-button></app-control-up-button>
                 <li>
-                    <button (click)="new()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Nieuwe schutter
+                    <button (click)="new()" class="cs-button" aria-current="page"
+                        *ngIf="authorizationService.user$ | async">Nieuwe schutter
                         toevoegen</button>
                 </li>
                 <li>
-                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Lijst
+                    <button (click)="editListMetadataOpen()" class="cs-button" aria-current="page"
+                        *ngIf="authorizationService.user$ | async">Lijst
                         aanpassen</button>
                 </li>
             </ul>
@@ -28,79 +30,8 @@
 
 <form class="cs-modal-dialog" [ngClass]="{'modal-dialog-open': editorOpen, 'modal-dialog-closed': !editorOpen}">
     <div>
-        <div class="modal-dialog-header">
-            <div class="cs-heading h2 flex-grow" *ngIf="id <= 0">Nieuwe deelnemer</div>
-            <div class="cs-heading h2 flex-grow" *ngIf="id > 0">Gegevens aanpassen</div>
-            <button (click)="close()" type="button" class="close-button">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-            </button>
-        </div>
-
-        <div class="cs-input-block">
-            <label for="memberName">
-                Naam
-            </label>
-            <input [ngModelOptions]="{standalone: true}" class="cs-input-text" id="memberName" type="text"
-                autocomplete="off" spellcheck="false" autocorrect="off" autocapitalize="off"
-                placeholder="Naam van de schutter" [(ngModel)]="participant!.name">
-        </div>
-        <div class="cs-input-block">
-            <label for="classTemplate">
-                Voorkeursdiscipline
-            </label>
-            <select id="classTemplate" title="Kies een discipline" #classTemplate
-                (change)="classChanged($event, classTemplate.value)" [(ngModel)]="selectedClass"
-                [ngModelOptions]="{standalone: true}" class="cs-input-text" placeholder="Kies een discipline">
-                <option *ngFor="let c of classes" [ngValue]="c">{{c.name}}</option>
-            </select>
-        </div>
-        <div class="cs-input-block">
-            <label for="subclassTemplate">
-                Leeftijdsklasse
-            </label>
-            <select id="subclassTemplate" title="Kies een klasse" #subclassTemplate
-                (change)="subclassChanged($event, subclassTemplate.value)" [(ngModel)]="selectedSubclass"
-                [ngModelOptions]="{standalone: true}" class="cs-input-text" placeholder="Kies een klasse">
-                <option *ngFor="let c of subclasses" [ngValue]="c">{{c.name}}</option>
-            </select>
-        </div>
-        <div class="cs-input-block">
-            <div class="cs-heading h3">Persoonlijke records</div>
-            <table class="cs-table">
-                @for (entry of participant!.personalBests; track entry) {
-                <tr>
-                    <td>{{entry.achieved}}</td>
-                    <td>{{entry.listName}}</td>
-                    <td>{{entry.discipline}}</td>
-                    <td>{{entry.score}}</td>
-                </tr>
-                }
-            </table>
-        </div>
-        <div class="cs-action-block">
-            <div>
-                <div class="cs-action-bar">
-                    <ul>
-                        <li *ngIf="id > 0">
-                            <button (click)="delete()" class="cs-button danger" aria-current="page" *ngIf="authorizationService.user$ | async">Verwijderen</button>
-                        </li>
-                        <li class="flex-grow"></li>
-                        <li *ngIf="id > 0">
-                            <button (click)="save()" class="cs-button default" aria-current="page" *ngIf="authorizationService.user$ | async">Opslaan</button>
-                        </li>
-                        <li *ngIf="id <= 0">
-                            <button (click)="save()" class="cs-button" aria-current="page"
-                                [disabled]="!participant.name"
-                                [ngClass]="{'green': participant.name, 'disabled': !participant.name}" *ngIf="authorizationService.user$ | async">Toevoegen</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <app-edit-participant-list-entry [listId]="listId" [participant]="participant" (save)="save()"
+            (close)="close()"></app-edit-participant-list-entry>
     </div>
 </form>
 
@@ -109,16 +40,12 @@
         <thead>
             <tr>
                 <th>Naam</th>
-                <th class="w-32">Discipline</th>
-                <th class="w-32">Klasse</th>
-                <th>Acties</th>
+                <th class="w-24">Acties</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let part of participants">
                 <td class="flex-grow" (click)="select(part)" class="cursor-pointer">{{part.name}}</td>
-                <td class="w-32" (click)="select(part)" class="cursor-pointer">{{part.group}}</td>
-                <td class="w-32" (click)="select(part)" class="cursor-pointer">{{part.subgroup}}</td>
                 <td class="dropdown-row">
                     <app-control-dropdown-button>
                         <button (click)="select(part)" class="cs-button">Gegevens
