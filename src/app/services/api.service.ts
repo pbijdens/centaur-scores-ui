@@ -126,8 +126,8 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
 
-  async getCompetitions(): Promise<CompetitionModel[]> {
-    const data = await fetch(this.activeListService.activeList >= 0 ? `${await this.url()}/list/${this.activeListService.activeList}/competitions` : `${await this.url()}/competitions`, {
+  async getCompetitions(showInactive: boolean): Promise<CompetitionModel[]> {
+    const data = await fetch(this.activeListService.activeList >= 0 ? `${await this.url()}/list/${this.activeListService.activeList}/competitions?inactive=${showInactive}` : `${await this.url()}/competitions`, {
       method: 'GET',
       headers: await this.defaultHeaders(),
     });
@@ -211,7 +211,7 @@ export class ApiService {
     return (await data.json()) ?? [];
   }
 
-  async updateParticipantsList(list: ParticipantsListModel): Promise<ParticipantModel> {
+  async updateParticipantsList(list: ParticipantsListModel): Promise<ParticipantsListModel> {
     const data = await fetch(`${await this.url()}/participantlists/${list.id}`, {
       method: 'PUT',
       body: JSON.stringify(list),
@@ -259,6 +259,15 @@ export class ApiService {
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
+
+  async getAllAvailableRulesets(): Promise<RulesetModel[]> {
+    const data = await fetch(`${await this.url()}/rulesets`, {
+      method: 'GET',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status != 200) throw "API Failure";
+    return (await data.json()) ?? [];
+  }  
 
   async getCompetition(id: number): Promise<CompetitionModel | undefined> {
     const data = await fetch(`${await this.url()}/competitions/${id}`, {

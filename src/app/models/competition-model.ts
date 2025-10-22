@@ -10,4 +10,6 @@ export interface CompetitionModel {
     participantsList?: ParticipantListMetadataModel;
     matches?: MatchMetadataModel[];
     rulesetParametersJSON?: string;
+    isInactive: boolean;
+    configurationJSON: string;
 }

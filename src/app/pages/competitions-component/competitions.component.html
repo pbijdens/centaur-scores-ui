@@ -6,6 +6,15 @@
                 <li *ngIf="authorizationService.user$ | async">
                     <button (click)="newCompetition()" class="cs-button" aria-current="page">Nieuwe competitie</button>
                 </li>
+                <li>
+                    @if (showInactive) {
+                    <button (click)="toggleInactive()" class="cs-button secondary" aria-current="page" *ngIf="authorizationService.user$ | async">Inactieve competities 
+                        verbergen</button>
+                    } @else {
+                    <button (click)="toggleInactive()" class="cs-button" aria-current="page" *ngIf="authorizationService.user$ | async">Inactieve competities 
+                        tonen</button>
+                    }
+                </li>                  
             </ul>
         </div>
     </div>
@@ -34,7 +43,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let competition of competitions">
+            <tr *ngFor="let competition of competitions" [ngClass]="{ 'bg-slate-300': competition.isInactive }">
                 <td class="flex-grow  cursor-pointer" [routerLink]="[competition.id]">
                     {{competition.name}}</td>
                 <td class="w-24">{{competition.startDate}}</td>

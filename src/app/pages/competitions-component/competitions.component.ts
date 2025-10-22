@@ -29,7 +29,7 @@ export class CompetitionsComponent implements OnInit {
 
   async refresh(): Promise<void> {
     try {
-      this.competitions = await this.apiService.getCompetitions();
+      this.competitions = await this.apiService.getCompetitions(this.showInactive);
     } catch (err) {
       this.errorMessage = `Laden mislukt: ${err}`;
     }
@@ -56,6 +56,12 @@ export class CompetitionsComponent implements OnInit {
 
   async onClose() {
     delete this.selectedCompetition;
+    await this.refresh();
+  }
+
+  showInactive = false;
+  async toggleInactive() {
+    this.showInactive = !this.showInactive;
     await this.refresh();
   }
 }

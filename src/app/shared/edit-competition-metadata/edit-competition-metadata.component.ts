@@ -21,6 +21,7 @@ export class EditCompetitionMetadataComponent implements OnChanges, OnInit {
   @Output() onError = new EventEmitter<string>();
   @Output() onClose = new EventEmitter<void>();
 
+  public tab = 0;
   public selectedCompetition?: CompetitionModel;
   public rulesetParameters? : RulesetParametersModel;
 
