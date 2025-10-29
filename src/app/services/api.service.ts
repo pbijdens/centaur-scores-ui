@@ -16,6 +16,7 @@ import { UserModel } from '../models/user-model';
 import { UserACLModel } from '../models/user-acl-model';
 import { ActiveListService } from './active-list.service';
 import { MatchFinalDefinition } from '../models/match-final-definition';
+import { ParticipantReport } from '../models/participant-report-model';
 
 export interface IConfig {
   apiUrl: string;
@@ -134,6 +135,15 @@ export class ApiService {
     if (data.status != 200) throw "API Failure";
     return (await data.json()) ?? [];
   }
+
+   async getCompetitionsForList(listId: number): Promise<CompetitionModel[]> {
+    const data = await fetch(`${await this.url()}/list/${listId}/competitions?inactivetrue`, {
+      method: 'GET',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status != 200) throw "API Failure";
+    return (await data.json()) ?? [];
+  } 
 
   async getParticipantsLists(showInactive: boolean): Promise<ParticipantsListModel[]> {
     const data = await fetch(`${await this.url()}/participantlists?inactive=${showInactive}`, {
@@ -377,7 +387,7 @@ export class ApiService {
       headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
-    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+    return (await data.json()) ?? {};
   }
 
   async getPersonalBestLists(listId: number): Promise<PersonalBestListModel[]> {
@@ -386,7 +396,7 @@ export class ApiService {
       headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
-    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+    return (await data.json()) ?? {};
   }
 
   async updatePersonalBestListEntry(listId: number, list: PersonalBestListModel, entry: PersonalBestListEntryModel) {
@@ -433,7 +443,16 @@ export class ApiService {
       headers: await this.defaultHeaders(),
     });
     if (data.status != 200) throw "API Failure";
-    return data.status == 200 ? ((await data.json()) ?? {}) : undefined;
+    return data.status == 200 ? ((await data.json()) ?? {}) : [];
+  }
+
+  async getParticipantReportForList(listId: number): Promise<ParticipantReport[]> {
+    const data = await fetch(`${await this.url()}/participantlists/${listId}/report`, {
+      method: 'GET',
+      headers: await this.defaultHeaders(),
+    });
+    if (data.status != 200) throw "API Failure";
+    return data.status == 200 ? ((await data.json()) ?? {}) : [];
   }
 
   async getLoggedInUser(): Promise<WhoAmIResponse | undefined> {

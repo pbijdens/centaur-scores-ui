@@ -1,0 +1,42 @@
+<nav class="cs-page-header">
+    <div>
+        <div class="navbar-default">
+            <ul>
+                <app-control-up-button></app-control-up-button>
+            </ul>
+        </div>
+    </div>
+</nav>
+@if (report) {
+@for (disciplineReport of report; track $index) {
+<div class="cs-card">
+    <h2 class="cs-heading h2">Klassering voor de {{ disciplineReport.discipline }} discipline</h2>
+
+    <table class="cs-table">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                @for(competitie of disciplineReport.activeCompetitions; track $index) {
+                    <th>{{ competitie }}</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let part of disciplineReport.participants">
+                <td >{{part.name}}</td>
+                @for(competitie of part.competitions; track $index) {
+                    @if (competitie) {
+                    <td>{{ competitie.perArrowAverage | number: '1.2-2' }} / {{ competitie.matchesPlayed }} / {{ competitie.division }}</td>
+                    } @else {
+                        <td>- / - / -</td>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+}
+}
+@else {
+<p>Bezig klasseindeling op te halen...</p>
+}

@@ -14,7 +14,7 @@ export interface ParticipantsListMember {
 }
 
 export interface CompetitionFormatDisciplineDivisionMapModel {
-    competitionFormat: string;
+    competitionID: number;
     disciplineCode: string;
     divisionCode: string;
 }

@@ -13,6 +13,10 @@
                         *ngIf="authorizationService.user$ | async">Lijst
                         aanpassen</button>
                 </li>
+                <li>
+                    <button [routerLink]="['report']" class="cs-button" aria-current="page"
+                        *ngIf="authorizationService.user$ | async">Klasseindeling</button>
+                </li>                
             </ul>
         </div>
     </div>

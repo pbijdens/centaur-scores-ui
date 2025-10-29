@@ -26,6 +26,7 @@ export const routes: Routes = [
     { path: 'participantlists/:listId/pbl', loadComponent: () => import('./pages/personal-best-lists/personal-best-lists.component').then(mod => mod.PersonalBestListsComponent) },
     { path: 'participantlists/:listId/pbl/:pblId', loadComponent: () => import('./pages/personal-best-list-editor/personal-best-list-editor.component').then(mod => mod.PersonalBestListEditorComponent) },
     { path: 'participantlists/:listId/personalbest', loadComponent: () => import('./pages/personal-best-suggestions/personal-best-suggestions.component').then(mod => mod.PersonalBestSuggestionsComponent) },
+    { path: 'participantlists/:listId/report', loadComponent: () => import('./pages/participant-performance-report/participant-performance-report.component').then(mod => mod.ParticipantPerformanceReportComponent) },
 
     { path: 'auth', redirectTo: '/auth/user', pathMatch: 'full' },
     { path: 'auth/user', loadComponent: () => import('./pages/user-list/user-list.component').then(mod => mod.UserListComponent) }, // component: UserListComponent) },

@@ -1,4 +1,4 @@
-@if (participant) {
+@if (participant && competitions && participantList) {
 <ng-container>
     <div class="modal-dialog-header">
         <div class="cs-heading h2 flex-grow" *ngIf="participant.id <= 0">Nieuwe deelnemer</div>
@@ -37,7 +37,7 @@
                     <table class="cs-table">
                         @for (cle of participant.competitionFormatDisciplineDivisionMap; track $index) {
                         <tr>
-                            <td>{{cle.competitionFormat}}</td>
+                            <td>{{cle.competitionID | getCompetitionName:competitions}}</td>
                             <td>{{cle.disciplineCode | getGroupName:participantList.configuration.disciplines}}</td>
                             <td>
                                 @if (authorizationService.user$ | async) {
